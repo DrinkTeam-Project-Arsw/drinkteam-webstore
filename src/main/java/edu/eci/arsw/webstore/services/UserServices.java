@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.webstore.services;
 
+import edu.eci.arsw.webstore.model.User;
 import org.springframework.stereotype.Service;
 /**
  *
@@ -12,5 +13,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServices {
-    
+    private User user;
 }

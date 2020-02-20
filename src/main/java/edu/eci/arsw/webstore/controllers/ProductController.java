@@ -5,10 +5,16 @@
  */
 package edu.eci.arsw.webstore.controllers;
 
+import edu.eci.arsw.webstore.services.ProductServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  *
  * @author jmvillatei
  */
+@RestController
 public class ProductController {
-    
+    @Autowired
+    ProductServices productService;
 }

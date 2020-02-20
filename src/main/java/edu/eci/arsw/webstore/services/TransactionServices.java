@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.webstore.services;
 
+import edu.eci.arsw.webstore.model.Transaction;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,5 +14,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TransactionServices {
-    
+    private Transaction transaction;
 }

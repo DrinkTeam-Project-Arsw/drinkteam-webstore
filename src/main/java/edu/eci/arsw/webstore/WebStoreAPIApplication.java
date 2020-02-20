@@ -15,8 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebStoreAPIApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebStoreAPIApplication.class, args);
-	}
-    
+    public static void main(String[] args) {
+        SpringApplication.run(WebStoreAPIApplication.class, args);
+    }
+
 }
