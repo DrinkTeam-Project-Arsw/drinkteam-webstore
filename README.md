@@ -25,6 +25,6 @@
 **Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com/login)
 
 ## Integrantes
-  - Juan david Navarro
-  - Eduardo Ocampo 
-  - Juan M Villate
+  - Juan David Navarro Jimenez
+  - Eduardo Ocampo Arellano
+  - Juan Manuel Villate Isaza
