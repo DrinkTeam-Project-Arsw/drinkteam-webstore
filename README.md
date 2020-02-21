@@ -15,8 +15,12 @@
 
 ![caso](https://user-images.githubusercontent.com/44879884/74989135-99364480-540d-11ea-9d76-4ef2299c4e1f.PNG)
 
-## Despliegue continuo
+### Mockup
 
+![Capture](https://user-images.githubusercontent.com/53972469/75044637-fd99e800-548f-11ea-8c26-4d4f74d427ce.PNG)
+
+
+## Despliegue continuo
 
 [![CircleCI](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore.svg?style=svg)](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore)
 
