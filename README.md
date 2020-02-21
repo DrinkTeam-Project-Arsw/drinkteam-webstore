@@ -17,8 +17,14 @@
 
 ## Despliegue continuo
 
+
 [![CircleCI](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore.svg?style=svg)](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore)
 
+## Codacy
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ad2af9350d84404d80b3aee9064be5fe)](https://www.codacy.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DrinkTeam-Project-Arsw/drinkteam-webstore&amp;utm_campaign=Badge_Grade)
+
+## Heroku
 
 [![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://project-arsw-webstore.herokuapp.com/login)
 
