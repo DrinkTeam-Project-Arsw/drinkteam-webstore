@@ -17,6 +17,7 @@
 
 ## Despliegue continuo
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/99f05629151b4e80a9264e760f9d92ac)](https://app.codacy.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore?utm_source=github.com&utm_medium=referral&utm_content=DrinkTeam-Project-Arsw/drinkteam-webstore&utm_campaign=Badge_Grade_Dashboard)
 [![CircleCI](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore.svg?style=svg)](https://circleci.com/gh/DrinkTeam-Project-Arsw/drinkteam-webstore)
 
 
