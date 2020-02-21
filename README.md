@@ -19,6 +19,8 @@
 
 ![Capture](https://user-images.githubusercontent.com/53972469/75044637-fd99e800-548f-11ea-8c26-4d4f74d427ce.PNG)
 
+## Taiga
+**Enlace:**[Taiga](https://tree.taiga.io/project/villate13-drinkteam-arsw/timeline)
 
 ## Despliegue continuo
 
