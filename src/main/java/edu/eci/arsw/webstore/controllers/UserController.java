@@ -18,6 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.http.HttpStatus;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -42,6 +48,62 @@ public class UserController {
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar los usuarios", HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, path = "users")
+    public ResponseEntity<?> createNewUser(@RequestBody String user) {
+        //Formato de json {"0"{"emailUser":email,"passwordUser":password,"username":username}}
+        try {
+            System.out.println(user);
+
+            //Pasar el String JSON a un Map
+            Type listType = new TypeToken<Map<Integer, User>>() {
+            }.getType();
+            Map<String, User> result = new Gson().fromJson(user, listType);
+
+            //Obtener las llaves del Map
+            Object[] nameKeys = result.keySet().toArray();
+
+            User us = result.get(nameKeys[0]);
+
+            uService.createNewUser(us);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = {"users/{username}"})
+    public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
+        try {
+            Map<String, User> user = new HashMap<>();
+
+            User consulUser = uService.getUserByUsername(username);
+
+            user.put(consulUser.getUsername(), consulUser);
+
+            String data = new Gson().toJson(consulUser);
+
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido retornar el usuario con nickname: " + username, HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, path = {"users/{username}"})
+    public ResponseEntity<?> deleteUserByUsername(@PathVariable("username") String username) {
+        try {
+            uService.deleteUserByUsername(username);
+
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido eliminar el usuario con nickname: " + username,
+                    HttpStatus.FORBIDDEN);
         }
     }
 }
