@@ -28,27 +28,27 @@ public class UserServicesStub implements UserServices{
 
     @Override
     public void createNewUser(User us) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        uPersistence.createNewUser(us);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return uPersistence.getUserByUsername(username);
     }
 
     @Override
     public void deleteUserByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        uPersistence.deleteUserByUsername(username);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return uPersistence.getUserByEmail(email);
     }
 
     @Override
     public void deleteUserByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        uPersistence.deleteUserByEmail(email);
     }
 
         
