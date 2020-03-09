@@ -69,7 +69,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ## Heroku
 
-[![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://project-arsw-webstore.herokuapp.com/webstoreUser/users)
+[![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://project-arsw-webstore.herokuapp.com/index.html)
 
 **Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com/webstoreUser/users)
 
