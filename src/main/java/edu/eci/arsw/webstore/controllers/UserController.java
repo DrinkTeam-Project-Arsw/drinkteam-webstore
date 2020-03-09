@@ -29,19 +29,18 @@ import org.springframework.web.bind.annotation.RequestBody;
  *
  * @author jmvillatei
  */
-
 @RestController
-@RequestMapping( value = "/webstoreUser")
+@RequestMapping(value = "/webstoreUser")
 public class UserController {
-    
+
     @Autowired
     UserServices uService;
-    
-     @RequestMapping(method = RequestMethod.GET, path = "users")
+
+    @RequestMapping(method = RequestMethod.GET, path = "users")
     public ResponseEntity<?> getAllUsers() {
         try {
             List<User> users = new ArrayList<>();
-            
+
             String data = new Gson().toJson(uService.getAllUsers());
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
@@ -50,7 +49,7 @@ public class UserController {
             return new ResponseEntity<>("No se ha podido retornar los usuarios", HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, path = "users")
     public ResponseEntity<?> createNewUser(@RequestBody String user) {
         //Formato de json {"0"{"emailUser":email,"passwordUser":password,"username":username}}
@@ -75,7 +74,7 @@ public class UserController {
             return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
         }
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, path = {"users/{username}"})
     public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
         try {
@@ -93,7 +92,7 @@ public class UserController {
             return new ResponseEntity<>("No se ha podido retornar el usuario con nickname: " + username, HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @RequestMapping(method = RequestMethod.DELETE, path = {"users/{username}"})
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("username") String username) {
         try {
