@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>User Profile</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/pricing.css" rel="stylesheet">
+
+    </head>
+
+    <body onload="loadProfile()">
+
+        <!-- Strat Header -->
+        <!-- agregar header -->
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+            <h5 class="my-0 mr-md-auto font-weight-normal">WebStore</h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="dashboard.html">Dashboard</a>
+            </nav>
+            <a onclick="cerrarSesion()" class="btn btn-outline-primary" href="index.html">Cerrar sesion</a>
+        </div>
+        <!-- End Header -->
+
+        <div class="container-fluid">
+            <div class="row content">
+                <div class="col-sm-4 sidenav" >
+                    <div style="position: fixed;max-width: 32%;width: 1000px; ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Your Details:
+                            </div>
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    <a class="list-group-item"><h4><b>Username: </b><span class="label label-success" id="usernameP"></span></h4></a>
+                                    <a  class="list-group-item"><h4><b>Email: </b><span class="label label-success" id="emailP"></span></h4></a>
+                                    <a  class="list-group-item"><h4><b>Balance: </b><span class="label label-success" >$ <span id="balanceP"></span> USD</span></h4></a>
+                                    <a class="list-group-item"><h4><b>FeedBack: </b><span class="label label-success" id="feedbackP"></span></h4></a>
+                                </div>
+                                <hr>
+                                <div class="btn-group">
+                                    <a href="añadirSaldo.html" class="btn btn-warning">AÑADIR SALDO</a>
+                                    <a href="registrarProducto.html" class="btn btn-warning">VENDER</a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><h3>Your account is online. You are ready to buy or sell products</h3></div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#comprar">Your Ads</a></li>
+                                <li><a data-toggle="tab" href="#proceso">In Process</a></li>
+                                <li><a data-toggle="tab" href="#historial">History</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="comprar" class="tab-pane fade in active">
+
+                                    <table id="TablaProducto" class="table table-condensed table-hover" style="text-align:center"></table>
+                                </div>
+                                <div id="proceso" class="tab-pane fade">
+
+                                    <table id="tablaTransaccionesEnCurso" class="table table-condensed table-hover"></table>
+
+                                </div>
+                                <div id="historial" class="tab-pane fade">
+                                    <table id="tbodyTablaHitorial" class="table table-condensed table-hover" style="text-align:center"></table>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Do you want to sell another product? Poblish it:</div>
+                        <div class="panel-body">
+                            <form role="form">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="well">
+                        <p><span class="badge">2</span> Comments:</p><br>
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                                <img src="img/admin1.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+                            </div>
+                            <div class="col-sm-10">
+                                <h4>Anja <small>Sep 29, 2015, 9:12 PM</small></h4>
+                                <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> 
+                                <br>
+                            </div>
+                            <div class="col-sm-2 text-center">
+                                <img src="img/admin0.jpeg" class="img-circle" height="65" width="65" alt="Avatar">
+                            </div>
+                            <div class="col-sm-10">
+                                <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
+                                <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <br>
+                                <p><span class="badge">1</span> Comment:</p><br>
+                                <div class="row">
+                                    <div class="col-sm-2 text-center">
+                                        <img src="img/admin2.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <h4>Nested Bro <small>Sep 25, 2015, 8:28 PM</small></h4>
+                                        <p>Me too! WOW!</p>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Agregar Pie de pagina -->
+        <footer class="mastfoot mt-auto" style="text-align: center; background-color: #555; color: white; padding: 15px;">
+            <div class="inner">
+                <p>@2020 | Todos los derechos reservados - by NaOcVi.</p>
+            </div>
+        </footer>
+        <!-- ---FIN---- -->
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="js/jquery.js"></script>
+
+        <script src="js/userController.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
+</html>

@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -50,23 +51,12 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "users")
-    public ResponseEntity<?> createNewUser(@RequestBody String user) {
+    @RequestMapping(method = RequestMethod.POST, path = "users", consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<?> createNewUser(@RequestBody User user) {
         //Formato de json {"0"{"emailUser":email,"passwordUser":password,"username":username}}
         try {
-            System.out.println(user);
 
-            //Pasar el String JSON a un Map
-            Type listType = new TypeToken<Map<Integer, User>>() {
-            }.getType();
-            Map<String, User> result = new Gson().fromJson(user, listType);
-
-            //Obtener las llaves del Map
-            Object[] nameKeys = result.keySet().toArray();
-
-            User us = result.get(nameKeys[0]);
-
-            uService.createNewUser(us);
+            uService.createNewUser(user);
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception ex) {
