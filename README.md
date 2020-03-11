@@ -71,7 +71,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 [![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://project-arsw-webstore.herokuapp.com/index.html)
 
-**Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com/webstoreUser/users)
+**Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com)
 
 ## DataBaseInfo
 - Host: ec2-34-200-116-132.compute-1.amazonaws.com
