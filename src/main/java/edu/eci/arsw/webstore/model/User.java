@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.webstore.model;
 
+import java.util.List;
+
 /**
  *
  * @author jmvillatei
@@ -12,27 +14,27 @@ package edu.eci.arsw.webstore.model;
 public class User {
     
     private String idUser;
-    private String nameUser;
-    private String lastnameUser;
-    private String emailUser;
-    private String passwordUser;
-    private String imageUser;
+    
+    private String userName;
+    private String userLastName;
+    private String userEmail;
+    private String userPassword;
+    private String userImage;
     private String username;
     private String codeCountry;
-    private int phoneUser;
-    private double balanceUser;
-    private int feedbackUser;
+    private int userPhone;
+    private double userBalance;
+    private int userFeedback;
     
+    private List products;
 
-    public User(String emailUser, String passwordUser, String username) {
-        this.emailUser = emailUser;
-        this.passwordUser = passwordUser;
+    public User(String userEmail, String userPassword, String username) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
         this.username = username;
         
-        
-        this.balanceUser = 0.0;
-        this.feedbackUser = 0;
-        
+        this.userBalance = 0.0;
+        this.userFeedback = 0;
     }
 
     public String getIdUser() {
@@ -43,44 +45,44 @@ public class User {
         this.idUser = idUser;
     }
 
-    public String getNameUser() {
-        return nameUser;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastnameUser() {
-        return lastnameUser;
+    public String getUserLastName() {
+        return userLastName;
     }
 
-    public void setLastnameUser(String lastnameUser) {
-        this.lastnameUser = lastnameUser;
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
     }
 
-    public String getEmailUser() {
-        return emailUser;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setEmailUser(String emailUser) {
-        this.emailUser = emailUser;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getPasswordUser() {
-        return passwordUser;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setPasswordUser(String passwordUser) {
-        this.passwordUser = passwordUser;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public String getImageUser() {
-        return imageUser;
+    public String getUserImage() {
+        return userImage;
     }
 
-    public void setImageUser(String imageUser) {
-        this.imageUser = imageUser;
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public String getUsername() {
@@ -99,29 +101,41 @@ public class User {
         this.codeCountry = codeCountry;
     }
 
-    public int getPhoneUser() {
-        return phoneUser;
+    public int getUserPhone() {
+        return userPhone;
     }
 
-    public void setPhoneUser(int phoneUser) {
-        this.phoneUser = phoneUser;
+    public void setUserPhone(int userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public double getBalanceUser() {
-        return balanceUser;
+    public double getUserBalance() {
+        return userBalance;
     }
 
-    public void setBalanceUser(double balanceUser) {
-        this.balanceUser = balanceUser;
+    public void setUserBalance(double userBalance) {
+        this.userBalance = userBalance;
     }
 
-    public int getFeedbackUser() {
-        return feedbackUser;
+    public int getUserFeedback() {
+        return userFeedback;
     }
 
-    public void setFeedbackUser(int feedbackUser) {
-        this.feedbackUser = feedbackUser;
+    public void setUserFeedback(int userFeedback) {
+        this.userFeedback = userFeedback;
     }
+
+    public List getProducts() {
+        return products;
+    }
+
+    public void setProducts(List products) {
+        this.products = products;
+    }
+    
+    
+
+   
 
     
 }

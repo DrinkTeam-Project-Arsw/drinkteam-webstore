@@ -10,27 +10,53 @@ package edu.eci.arsw.webstore.model;
  * @author jmvillatei
  */
 public class Product {
-    private String name;
-    private int id;
     
-    public Product(String name,int id){
-        this.name=name;
-        this.id=id;
+    
+    private int productID;
+    private String productName;
+    private String productDescription;
+    private double productPrice;
+
+    public Product(int productID, String productName, String productDescription, double productPrice) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productPrice = productPrice;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
     
-    public String getName(){
-        return name;
-    }
     
-    public void setName(String name){
-        this.name=name;
-    }
     
-    public int getId(){
-        return id;
-    }
     
-    public void setId(int id){
-        this.id=id;
-    }
 }

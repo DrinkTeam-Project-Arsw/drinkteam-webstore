@@ -6,7 +6,7 @@
 package edu.eci.arsw.webstore.controllers;
 
 import edu.eci.arsw.webstore.model.User;
-import edu.eci.arsw.webstore.services.UserServices;
+import edu.eci.arsw.webstore.services.user.UserServices;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
