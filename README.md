@@ -81,15 +81,6 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 **Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com)
 
-## DataBaseInfo
-- Host: ec2-34-200-116-132.compute-1.amazonaws.com
-- Database: dc5qsgdq0jgp20
-- User: gpyoydzjumspiy
-- Port: 5432
-- Password: a92e5891a1f575b00c5319227c7f2acbadf68c4ef2dc9e1d35e76aab02c4a277
-- URI: postgres://gpyoydzjumspiy:a92e5891a1f575b00c5319227c7f2acbadf68c4ef2dc9e1d35e76aab02c4a277@ec2-34-200-116-132.compute-1.amazonaws.com:5432/dc5qsgdq0jgp20
-- Heroku CLI: heroku pg:psql postgresql-horizontal-84837 --app project-arsw-webstore
-
 ## Integrantes
   - Juan David Navarro Jimenez
   - Eduardo Ocampo Arellano
