@@ -6,7 +6,7 @@
 package edu.eci.arsw.webstore.controllers;
 
 import edu.eci.arsw.webstore.model.User;
-import edu.eci.arsw.webstore.services.UserServices;
+import edu.eci.arsw.webstore.services.user.UserServices;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,14 +51,28 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "users", consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<?> createNewUser(@RequestBody User user) {
-        //Formato de json {"0"{"emailUser":email,"passwordUser":password,"username":username}}
+    @RequestMapping(method = RequestMethod.POST, path = "users")
+    public ResponseEntity<?> createNewUser(@RequestBody String user) {
+        //Formato de json {"emailUser":email,"passwordUser":password,"username":username}
         try {
+            //System.out.println("controller: "+user.getUserNickname());
+            //uService.createNewUser(user);
 
-            uService.createNewUser(user);
+            //Pasar el String JSON a un Map
+            Type listType = new TypeToken<Map<Integer, User>>() {
+            }.getType();
+            Map<String, User> result = new Gson().fromJson(user, listType);
 
+            //Obtener las llaves del Map
+            Object[] nameKeys = result.keySet().toArray();
+
+            User ur = result.get(nameKeys[0]);
+            
+            uService.createNewUser(ur);
+               
+            
             return new ResponseEntity<>(HttpStatus.CREATED);
+            
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
@@ -72,7 +86,7 @@ public class UserController {
 
             User consulUser = uService.getUserByUsername(username);
 
-            user.put(consulUser.getUsername(), consulUser);
+            user.put(consulUser.getUserNickname(), consulUser);
 
             String data = new Gson().toJson(consulUser);
 

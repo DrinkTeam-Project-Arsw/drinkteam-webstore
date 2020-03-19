@@ -59,11 +59,13 @@ public class InMemoryUserPersistence implements UserPersistence{
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getEmailUser().equals(us.getEmailUser())){
+                if(u.getUserEmail().equals(us.getUserEmail())){
                     exitingUser = true;
+                    break;
                 }
-                if(u.getUsername().equals(us.getUsername())){
+                if(u.getUserNickname().equals(us.getUserNickname())){
                     exitingUser = true;
+                    break;
                 }
             }
             
@@ -71,6 +73,7 @@ public class InMemoryUserPersistence implements UserPersistence{
                 users.add(us);
             }else{
                 System.out.println("Usuario Existente");
+                
             }
             
         } catch (Exception ex){
@@ -88,7 +91,7 @@ public class InMemoryUserPersistence implements UserPersistence{
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getUsername().equals(username)){
+                if(u.getUserNickname().equals(username)){
                     exitingUser = true;
                     newUser = u;
                 }
@@ -117,7 +120,7 @@ public class InMemoryUserPersistence implements UserPersistence{
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getUsername().equals(username)){
+                if(u.getUserNickname().equals(username)){
                     exitingUser = true;
                     deleteUser = u;
                     break;
