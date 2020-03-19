@@ -30,9 +30,26 @@ public class InMemoryUserPersistence implements UserPersistence{
         User usr02 = new User("ocampo@hotmail.com", "123", "Ocampo");
         User usr03 = new User("villate@hotmail.com", "123", "Villate");
         
+        List<Integer> products1 = new ArrayList<>(); 
+        List<Integer> products2 = new ArrayList<>(); 
+        List<Integer> products3 = new ArrayList<>(); 
+        
+        products1.add(1);
+        products1.add(3);
+        products2.add(2);
+        products3.add(4);
+        
+        usr01.setProducts(products1);
+        
+        usr02.setProducts(products2);
+        
+        usr03.setProducts(products3);
+        
         users.add(usr01);
         users.add(usr02);
         users.add(usr03);
+        
+        
     }
     
     
