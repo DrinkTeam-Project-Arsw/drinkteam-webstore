@@ -5,7 +5,7 @@
  */
 package edu.eci.arsw.webstore.controllers;
 
-import edu.eci.arsw.webstore.services.TransactionServices;
+import edu.eci.arsw.webstore.services.transaction.TransactionServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
