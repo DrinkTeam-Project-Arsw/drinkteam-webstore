@@ -35,7 +35,7 @@ function iniciarSesion() {
         axios.get('/webstoreUser/users/' + document.getElementById("inUsername").value)
                 .then(function (response) {
                     
-                    if (response.data['userPassword'] === document.getElementById("inPassword").value) {
+                    if (response.data["userPassword"] === document.getElementById("inPassword").value) {
                         iniciarLocalStorageUser(document.getElementById("inUsername").value);
                         location.href = "profile.html";
 
@@ -119,18 +119,18 @@ function registrarUsuario() {
 }
 
 function cerrarSesion() {
-    cerrarLocalStorageUsuario()
+    cerrarLocalStorageUsuario();
     location.href = "index.html";
 }
 
 function loadProfile() {
     axios.get('/webstoreUser/users/' + localStorage.getItem('Actual'))
             .then(function (response) {
-                document.getElementById("usernameP").innerHTML = response.data['userNickname'];
+                document.getElementById("usernameP").innerHTML = response.data["userNickname"];
                 
-                document.getElementById("emailP").innerHTML = response.data['userEmail'];
-                document.getElementById("balanceP").innerHTML = response.data['userBalance'];
-                document.getElementById("feedbackP").innerHTML = response.data['userFeedback'];
+                document.getElementById("emailP").innerHTML = response.data["userEmail"];
+                document.getElementById("balanceP").innerHTML = response.data["userBalance"];
+                document.getElementById("feedbackP").innerHTML = response.data["userFeedback"];
 
             })
             .catch(function (error) {
