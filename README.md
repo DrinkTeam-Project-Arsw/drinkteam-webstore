@@ -54,7 +54,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ### Diagrama de componentes
 
-![Componentes](https://user-images.githubusercontent.com/44879884/76483735-cf039300-63e5-11ea-9b34-2e2686e5b647.PNG)
+![cc](https://user-images.githubusercontent.com/44879884/77028130-08984900-6966-11ea-81c9-4cf2c30d1f1d.PNG)
 
 ### Diagrama de despliegue
 
