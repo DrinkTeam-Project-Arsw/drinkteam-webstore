@@ -65,7 +65,7 @@ public class UserController {
 
             //Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
-
+            
             User ur = result.get(nameKeys[0]);
             
             uService.createNewUser(ur);
@@ -86,7 +86,7 @@ public class UserController {
 
             User consulUser = uService.getUserByUsername(username);
 
-            user.put(consulUser.getUserNickName(), consulUser); 
+            user.put(consulUser.getUserNickname(), consulUser); 
 
             String data = new Gson().toJson(consulUser);
 

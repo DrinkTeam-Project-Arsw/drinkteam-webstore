@@ -126,7 +126,7 @@ function cerrarSesion() {
 function loadProfile() {
     axios.get('/webstoreUser/users/' + localStorage.getItem('Actual'))
             .then(function (response) {
-                document.getElementById("usernameP").innerHTML = response.data["userNickName"];
+                document.getElementById("usernameP").innerHTML = response.data["userNickname"];
                 
                 document.getElementById("emailP").innerHTML = response.data["userEmail"];
                 document.getElementById("balanceP").innerHTML = response.data["userBalance"];

@@ -67,8 +67,13 @@ public class WebStoreDB {
             System.out.println(us.getUserEmail()+ " <--UserEmail");
             System.out.println(us.getUserPassword()+ " <--UserPassword");
             System.out.println(us.getUserName() + " <--UserName");
+            System.out.println(us.getUserImage() + " <--UserImage");
+            System.out.println(us.getUserNickname() + " <--UserNickName");
+            System.out.println(us.getUserPhone() + " <--UserPhone()");
+            System.out.println(us.getUserBalance() + " <--UserBalance()");
+            System.out.println(us.getUserFeedback() + " <--UserFeedback()");
             String sql = "INSERT INTO usr (userid,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
-                    + "VALUES ('10','"+us.getUserName()+"','"+us.getUserLastName()+"','"+us.getUserEmail()+"','"+us.getUserPassword()+"','"+us.getUserImage()+"','"+us.getUserNickName()+"','123','"+us.getUserPhone()+"','"+us.getUserBalance()+"','"+us.getUserFeedback()+"');";
+                    + "VALUES ('10','"+us.getUserName()+"','"+us.getUserLastName()+"','"+us.getUserEmail()+"','"+us.getUserPassword()+"','"+us.getUserImage()+"','"+us.getUserNickname()+"','123','"+us.getUserPhone()+"','"+us.getUserBalance()+"','"+us.getUserFeedback()+"');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();

@@ -20,7 +20,7 @@ public class User {
     private String userEmail;
     private String userPassword;
     private String userImage;
-    private String userNickName;
+    private String userNickname;
     private String countryCode;
     private int userPhone;
     private double userBalance;
@@ -28,10 +28,10 @@ public class User {
     
     private List products;
 
-    public User(String userEmail, String userPassword, String userNickName) {
+    public User(String userEmail, String userPassword, String userNickname) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userNickName = userNickName;
+        this.userNickname = userNickname;
         
         this.userBalance = 0.0;
         this.userFeedback = 0;
@@ -93,12 +93,12 @@ public class User {
         this.userImage = userImage;
     }
 
-    public String getUserNickName() {
-        return userNickName;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
     public String getCountryCode() {

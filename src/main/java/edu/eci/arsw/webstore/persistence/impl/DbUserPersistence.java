@@ -69,6 +69,9 @@ public class DbUserPersistence implements UserPersistence {
     @Override
     public void createNewUser(User us) {
         
+        wsdb.createNewUser(us);
+        
+        /**
         try{
             
             Boolean exitingUser = false;
@@ -95,7 +98,7 @@ public class DbUserPersistence implements UserPersistence {
             
         } catch (Exception ex){
             System.out.println("Error: No se ha podido crear este usuario");
-        }
+        }**/
     }
 
     @Override
@@ -139,7 +142,7 @@ public class DbUserPersistence implements UserPersistence {
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getUserNickName().equals(username)){
+                if(u.getUserNickname().equals(username)){
                     exitingUser = true;
                     deleteUser = u;
                     break;
