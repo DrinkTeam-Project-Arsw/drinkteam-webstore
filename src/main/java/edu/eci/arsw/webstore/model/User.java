@@ -28,10 +28,10 @@ public class User {
     
     private List products;
 
-    public User(String userEmail, String userPassword, String username) {
+    public User(String userEmail, String userPassword, String userNickName) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userName = username;
+        this.userNickName = userNickName;
         
         this.userBalance = 0.0;
         this.userFeedback = 0;

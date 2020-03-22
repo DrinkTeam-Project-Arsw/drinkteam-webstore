@@ -25,9 +25,9 @@ public class DbUserPersistence implements UserPersistence {
     
     public DbUserPersistence (){
         //Base de datos local (volatil)
-        User usr01 = new User("navarro@hotmail.com", "123", "NAVARRO");
-        User usr02 = new User("ocampo@hotmail.com", "123", "OCAMPO");
-        User usr03 = new User("villate@hotmail.com", "123", "VILLATE");
+        User usr01 = new User("navarro@hotmail.com", "123", "navarro");
+        User usr02 = new User("ocampo@hotmail.com", "123", "Ocampo");
+        User usr03 = new User("villate@hotmail.com", "123", "Villate");
         
         List<Integer> products1 = new ArrayList<>(); 
         List<Integer> products2 = new ArrayList<>(); 
@@ -55,14 +55,15 @@ public class DbUserPersistence implements UserPersistence {
     
     @Override
     public List<User> getAllUsers() {
-        
+        return wsdb.getAllUsers();
+        /**
         try {
             //Codigo para consultar en la base de datos
             return users;
         } catch (Exception ex) {
             System.out.println("No se han podido obtener los usuarios");
             return users;
-        }
+        }**/
     }
 
     @Override
