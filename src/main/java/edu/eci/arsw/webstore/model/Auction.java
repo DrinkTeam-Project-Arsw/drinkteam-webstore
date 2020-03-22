@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.webstore.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,22 +15,23 @@ import java.util.List;
  */
 public class Auction {
     private int auctionId;
-    private int sellerId;
-    private List buyers;
-    private int productoId;
+    
     private double auctionInitPrice;
     private double auctionCurrentPrice;
     private double auctionFinalPrice;
     private Date auctionDate;
     private Date auctionDateFinal;
     private int auctionTimeToWait;
-    private String AuctionType;
+    private String AuctionType; 
+    private ArrayList<User> buyers;    
+    private User seller;   
+    private Product product;
 
-    public Auction(int auctionId, int sellerId, List buyers, int productoId, double auctionInitPrice, Date auctionDate, String AuctionType) {
+    public Auction(int auctionId, User seller, ArrayList<User> buyers, Product product, double auctionInitPrice, Date auctionDate, String AuctionType) {
         this.auctionId = auctionId;
-        this.sellerId = sellerId;
+        this.seller = seller;
         this.buyers = buyers;
-        this.productoId = productoId;
+        this.product = product;
         this.auctionInitPrice = auctionInitPrice;
         this.auctionDate = auctionDate;
         this.AuctionType = AuctionType;
@@ -43,28 +45,28 @@ public class Auction {
         this.auctionId = auctionId;
     }
 
-    public int getSellerId() {
-        return sellerId;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellerId(int sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
     public List getBuyers() {
         return buyers;
     }
 
-    public void setBuyers(List buyers) {
+    public void setBuyers(ArrayList<User> buyers) {
         this.buyers = buyers;
     }
 
-    public int getProductoId() {
-        return productoId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public double getAuctionInitPrice() {

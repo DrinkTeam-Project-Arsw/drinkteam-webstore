@@ -86,7 +86,7 @@ public class UserController {
 
             User consulUser = uService.getUserByUsername(username);
 
-            user.put(consulUser.getUserNickname(), consulUser);
+            user.put(consulUser.getUserNickName(), consulUser); 
 
             String data = new Gson().toJson(consulUser);
 

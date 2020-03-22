@@ -64,8 +64,8 @@ public class InMemoryProductPersistence implements ProductPersistence{
             
             for(int idProduct : idProductListUser){
                 for (Product prd : products){
-                    System.out.println("Comparacion: "+idProduct+"=="+prd.getProductID());
-                    if(idProduct==prd.getProductID()){
+                    System.out.println("Comparacion: "+idProduct+"=="+prd.getProductId());
+                    if(idProduct==prd.getProductId()){
                         productListUser.add(prd);
                     }
                 }

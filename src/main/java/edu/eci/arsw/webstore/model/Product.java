@@ -9,27 +9,29 @@ package edu.eci.arsw.webstore.model;
  *
  * @author jmvillatei
  */
-public class Product {
+public class Product {   
+    private int productId;
     
-    
-    private int productID;
     private String productName;
     private String productDescription;
     private double productPrice;
+    private User productUser;
+    private Auction productAuction;
 
-    public Product(int productID, String productName, String productDescription, double productPrice) {
-        this.productID = productID;
+    public Product(int productId, String productName, String productDescription, double productPrice) {
+        this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
+        this.productAuction = null;
     }
 
-    public int getProductID() {
-        return productID;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -56,7 +58,11 @@ public class Product {
         this.productPrice = productPrice;
     }
     
-    
-    
-    
+    public User getProductUser() {
+        return productUser;
+    }
+
+    public void setProductUser(User productUser) {
+        this.productUser = productUser;
+    }    
 }

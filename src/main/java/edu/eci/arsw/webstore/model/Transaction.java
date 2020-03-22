@@ -11,24 +11,24 @@ import java.util.Date;
  *
  * @author jmvillatei
  */
-public class Transaction {
-    
+public class Transaction {    
     private int transactionId;
-    private int sellerId;
-    private int buyerId;
-    private int productoId;
+    
     private int transactionPrice;
     private Date transactionDate;
     private Date transactionDateEnd;
+    private User buyer;
+    private User seller;
+    private Product product;
     
 
-    public Transaction(int transactionId, int sellerId, int buyerId, int transactionPrice, Date transactionDate, Date transactionDateEnd) {
+    public Transaction(int transactionId, int transactionPrice, Date transactionDate, Date transactionDateEnd, User seller, User buyer) {
         this.transactionId = transactionId;
-        this.sellerId = sellerId;
-        this.buyerId = buyerId;
         this.transactionPrice = transactionPrice;
         this.transactionDate = transactionDate;
         this.transactionDateEnd = transactionDateEnd;
+        this.buyer = buyer;
+        this.seller = seller;
     }
 
     public int getTransactionId() {
@@ -38,23 +38,7 @@ public class Transaction {
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
-
-    public int getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(int sellerID) {
-        this.sellerId = sellerID;
-    }
-
-    public int getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(int buyerId) {
-        this.buyerId = buyerId;
-    }
-
+    
     public int getTransactionPrice() {
         return transactionPrice;
     }
@@ -78,7 +62,28 @@ public class Transaction {
     public void setTransactionDateEnd(Date transactionDateEnd) {
         this.transactionDateEnd = transactionDateEnd;
     }
+
+    public User getBuyerId() {
+        return buyer;
+    }
+
+    public void setBuyerId(User buyer) {
+        this.buyer = buyer;
+    }
     
+    public User getSellerId() {
+        return seller;
+    }
+
+    public void setSellerId(User seller) {
+        this.seller = seller;
+    }
     
-    
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProductId(Product product) {
+        this.product = product;
+    }   
 }

@@ -80,7 +80,7 @@ public class InMemoryUserPersistence implements UserPersistence{
                     exitingUser = true;
                     break;
                 }
-                if(u.getUserNickname().equals(us.getUserNickname())){
+                if(u.getUserNickName().equals(us.getUserNickName())){
                     exitingUser = true;
                     break;
                 }
@@ -108,7 +108,7 @@ public class InMemoryUserPersistence implements UserPersistence{
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getUserNickname().equals(username)){
+                if(u.getUserNickName().equals(username)){
                     exitingUser = true;
                     newUser = u;
                 }
@@ -137,7 +137,7 @@ public class InMemoryUserPersistence implements UserPersistence{
             //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
             usersList = getAllUsers();
             for(User u : usersList){
-                if(u.getUserNickname().equals(username)){
+                if(u.getUserNickName().equals(username)){
                     exitingUser = true;
                     deleteUser = u;
                     break;

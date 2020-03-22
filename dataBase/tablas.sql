@@ -1,56 +1,59 @@
-CREATE TABLE USUARIO
-(nombre VARCHAR(50) NOT NULL ,
-correo VARCHAR(50) NOT NULL,
-passw VARCHAR(100) NOT NULL,
-tipo VARCHAR(50) NOT NULL,
-carnet integer NOT NULL,
-celular integer NOT NULL,
-PRIMARY KEY (carnet)
+CREATE TABLE USR
+(userId integer NOT NULL,
+userType VARCHAR(50) NOT NULL,
+userName VARCHAR(50) NOT NULL,
+userLastName VARCHAR(50) NOT NULL,
+userEmail VARCHAR(100) NOT NULL,
+usserPassword VARCHAR(50) NOT NULL,
+usserImage VARCHAR(50) NOT NULL,
+usserNickName VARCHAR(50) NOT NULL,
+usserCode VARCHAR(50) NOT NULL,
+userPhone integer NOT NULL,
+userBalance NUMERIC NOT NULL,
+userFeedBack integer NOT NULL,
+PRIMARY KEY (userId)
 );
 
-create sequence SUS_TRANSACCION_seq
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
 
-CREATE TABLE TRANSACCION
-(id integer NOT NULL DEFAULT NEXTVAL('SUS_TRANSACCION_seq'),
-valor integer NOT NULL,
-fecha TIMESTAMP NOT NULL,
-origen integer NOT NULL,
-destino integer NOT NULL,
-producto integer NOT NULL,
-PRIMARY KEY (id)
+CREATE TABLE PRODUCT
+(productId integer NOT NULL,
+productName VARCHAR(50) NOT NULL,
+productDescription VARCHAR(50) NOT NULL,
+productPrice integer NOT NULL,
+productUser integer NOT NULL,
+productAuction integer,
+PRIMARY KEY (productId)
 );
 
-create sequence SUS_PRODUCTO_seq
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
 
-CREATE TABLE PRODUCTO
-(identificador integer NOT NULL DEFAULT NEXTVAL('SUS_PRODUCTO_seq'),
-nombre VARCHAR(50) NOT NULL,
-descripcion VARCHAR(50) NOT NULL,
-precio integer NOT NULL,
-estado VARCHAR(50) NOT NULL,
-subasta integer,
-PRIMARY KEY (identificador)
+CREATE TABLE TRANSACTION
+(transactionId integer NOT NULL,
+transactionPrice integer NOT NULL,
+transactionDate TIMESTAMP NOT NULL,
+transactionDateEnd TIMESTAMP NOT NULL,
+buyer integer NOT NULL,
+seller integer NOT NULL,
+product integer NOT NULL,
+PRIMARY KEY (transactionId)
 );
 
-CREATE SEQUENCE SUS_SUBASTA_seq
-  start with 1
-  increment by 1
-  maxvalue 99999999
-  minvalue 1;
 
-CREATE TABLE SUBASTA
-(id integer NOT NULL DEFAULT NEXTVAL('SUS_SUBASTA_seq'),
-fecha_ini TIMESTAMP NOT NULL,
-fecha_fin TIMESTAMP NOT NULL,
-precio integer NOT NULL,
-usuario integer NOT NULL,
-PRIMARY KEY (id)
+CREATE TABLE AUCTION
+(auctionId integer NOT NULL,
+auctionInitPrice NUMERIC NOT NULL,
+auctionCurrentPrice NUMERIC NOT NULL,
+auctionFinalPrice NUMERIC NOT NULL,
+auctionDate TIMESTAMP NOT NULL,
+auctionDateFinal TIMESTAMP NOT NULL,
+auctionTimeToWait integer NOT NULL,
+auctionType integer NOT NULL,
+seller integer NOT NULL,
+product integer NOT NULL,
+PRIMARY KEY (auctionId)
 );
+
+CREATE TABLE BUYERS
+(auction integer NOT NULL,
+buyer integer NOT NULL,
+PRIMARY KEY (auction, buyer)
+)

@@ -11,38 +11,46 @@ import java.util.List;
  *
  * @author jmvillatei
  */
-public class User {
+public class User {    
+    private int userId;
     
-    private String idUser;
-    
+    private String userType;
     private String userName;
     private String userLastName;
     private String userEmail;
     private String userPassword;
     private String userImage;
-    private String userNickname;
-    private String codeCountry;
+    private String userNickName;
+    private String countryCode;
     private int userPhone;
     private double userBalance;
     private int userFeedback;
     
     private List products;
 
-    public User(String userEmail, String userPassword, String userNickname) {
+    public User(String userEmail, String userPassword, String username) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userNickname = userNickname;
+        this.userName = username;
         
-        userBalance = 0.0;
-        userFeedback = 0;
+        this.userBalance = 0.0;
+        this.userFeedback = 0;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getUserName() {
@@ -85,20 +93,20 @@ public class User {
         this.userImage = userImage;
     }
 
-    public String getUserNickname() {
-        return userNickname;
+    public String getUserNickName() {
+        return userNickName;
     }
 
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
     }
 
-    public String getCodeCountry() {
-        return codeCountry;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCodeCountry(String codeCountry) {
-        this.codeCountry = codeCountry;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public int getUserPhone() {
@@ -131,11 +139,5 @@ public class User {
 
     public void setProducts(List products) {
         this.products = products;
-    }
-    
-    
-
-   
-
-    
+    }    
 }
