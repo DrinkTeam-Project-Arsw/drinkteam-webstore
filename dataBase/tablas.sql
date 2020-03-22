@@ -53,7 +53,7 @@ PRIMARY KEY (auctionId)
 );
 
 CREATE TABLE BUYERS
-(auction integer NOT NULL,
-buyer integer NOT NULL,
+(auction integer REFERENCES AUCTION,
+buyer integer REFERENCES USR,
 PRIMARY KEY (auction, buyer)
-)
+);
