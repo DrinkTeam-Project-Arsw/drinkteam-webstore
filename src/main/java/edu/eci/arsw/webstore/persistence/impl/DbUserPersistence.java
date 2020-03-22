@@ -7,28 +7,27 @@ package edu.eci.arsw.webstore.persistence.impl;
 
 import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.persistence.UserPersistence;
+import edu.eci.arsw.webstore.persistence.WebStoreDB;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.springframework.stereotype.Service;
 
 /**
  *
- * @author jmvillatei
+ * @author Juan David
  */
-//@Service
-public class InMemoryUserPersistence implements UserPersistence{
-
+@Service
+public class DbUserPersistence implements UserPersistence {
+    
+    //Atributos
+    WebStoreDB wsdb = new WebStoreDB();
     private List<User> users = new ArrayList<>();
     
-    public InMemoryUserPersistence(){
+    public DbUserPersistence (){
         //Base de datos local (volatil)
-        User usr01 = new User("navarro@hotmail.com", "123", "navarro");
-        User usr02 = new User("ocampo@hotmail.com", "123", "Ocampo");
-        User usr03 = new User("villate@hotmail.com", "123", "Villate");
+        User usr01 = new User("navarro@hotmail.com", "123", "NAVARRO");
+        User usr02 = new User("ocampo@hotmail.com", "123", "OCAMPO");
+        User usr03 = new User("villate@hotmail.com", "123", "VILLATE");
         
         List<Integer> products1 = new ArrayList<>(); 
         List<Integer> products2 = new ArrayList<>(); 
@@ -100,6 +99,8 @@ public class InMemoryUserPersistence implements UserPersistence{
 
     @Override
     public User getUserByUsername(String username) {
+        return wsdb.getUserByUsername(username);
+        /**
         User newUser = null;
         try{
             
@@ -124,7 +125,7 @@ public class InMemoryUserPersistence implements UserPersistence{
         } catch (Exception ex){
             System.out.println("Error: No se ha podido encontrar este usuario");
             return newUser;
-        }
+        }**/
     }
 
     @Override
