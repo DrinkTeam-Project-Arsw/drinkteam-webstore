@@ -70,7 +70,6 @@ public class UserController {
             
             uService.createNewUser(ur);
                
-            
             return new ResponseEntity<>(HttpStatus.CREATED);
             
         } catch (Exception ex) {
@@ -100,6 +99,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.DELETE, path = {"users/{username}"})
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("username") String username) {
         try {
+            System.out.println(username);
             uService.deleteUserByUsername(username);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

@@ -25,9 +25,9 @@ public class DbUserPersistence implements UserPersistence {
     
     public DbUserPersistence (){
         //Base de datos local (volatil)
-        User usr01 = new User("navarro@hotmail.com", "123", "NAVARRO");
-        User usr02 = new User("ocampo@hotmail.com", "123", "OCAMPO");
-        User usr03 = new User("villate@hotmail.com", "123", "VILLATE");
+        User usr01 = new User("navarro@hotmail.com", "123", "navarro");
+        User usr02 = new User("ocampo@hotmail.com", "123", "Ocampo");
+        User usr03 = new User("villate@hotmail.com", "123", "Villate");
         
         List<Integer> products1 = new ArrayList<>(); 
         List<Integer> products2 = new ArrayList<>(); 
@@ -55,18 +55,12 @@ public class DbUserPersistence implements UserPersistence {
     
     @Override
     public List<User> getAllUsers() {
-        
-        try {
-            //Codigo para consultar en la base de datos
-            return users;
-        } catch (Exception ex) {
-            System.out.println("No se han podido obtener los usuarios");
-            return users;
-        }
+        return wsdb.getAllUsers();
     }
 
     @Override
     public void createNewUser(User us) {
+        //wsdb.createNewUser(us);
         
         try{
             
@@ -130,30 +124,7 @@ public class DbUserPersistence implements UserPersistence {
 
     @Override
     public void deleteUserByUsername(String username) {
-        User deleteUser = null;
-        try{
-            
-            Boolean exitingUser = false;
-            List<User> usersList = new ArrayList<>();
-            //en la variable usersList se debe guardar lo que haga en la base de datos de usuarios (actualmente esta en local)
-            usersList = getAllUsers();
-            for(User u : usersList){
-                if(u.getUserNickname().equals(username)){
-                    exitingUser = true;
-                    deleteUser = u;
-                    break;
-                }
-            }
-            
-            if(exitingUser){
-                users.remove(deleteUser);
-            }else{ 
-                System.out.println("Usuario No existente");
-            }
-            
-        } catch (Exception ex){
-            System.out.println("Error: No se ha podido encontrar este usuario");
-        }
+        wsdb.deleteUserByUsername(username);
     }
 
     @Override
