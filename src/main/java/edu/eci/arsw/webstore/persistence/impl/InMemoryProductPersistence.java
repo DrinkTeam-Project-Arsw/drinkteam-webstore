@@ -9,6 +9,7 @@ import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.persistence.ProductPersistence;
 import edu.eci.arsw.webstore.persistence.UserPersistence;
+import edu.eci.arsw.webstore.persistence.WebStoreDB;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class InMemoryProductPersistence implements ProductPersistence{
     
     private List<Product> products = new ArrayList<>();
     UserPersistence uPersistence;
+    WebStoreDB wsdb = new WebStoreDB();
     
     public InMemoryProductPersistence() {
         
@@ -39,17 +41,23 @@ public class InMemoryProductPersistence implements ProductPersistence{
     
     @Override
     public List<Product> getAllProducts() {
+        return wsdb.getAllProducts();
+        /**
         try {
             //Codigo para consultar en la base de datos
             return products;
         } catch (Exception ex) {
             System.out.println("No se han podido obtener los productos");
             return products;
-        }
+        }**/
+        
+        
     }
 
     @Override
     public List<Product> getAllProductsOfUser(String username) {
+        return wsdb.getAllProductsOfUser(username);
+        /**
         List<Product> productListUser = new ArrayList<>();
         try {
             
@@ -76,7 +84,7 @@ public class InMemoryProductPersistence implements ProductPersistence{
         } catch (Exception ex) {
             System.out.println("No se han podido obtener los productos del usuario");
             return productListUser;
-        }
+        }**/
     }
 
     @Override

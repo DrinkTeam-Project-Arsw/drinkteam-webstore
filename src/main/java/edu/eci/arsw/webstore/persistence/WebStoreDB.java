@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.webstore.persistence;
 
+import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +33,7 @@ public class WebStoreDB {
         }
     }
 
+    //Consultas de Usuario
     public List<User> getAllUsers(){
         List<User> allUsers = new ArrayList<User>();
         Statement stmt = null;
@@ -89,6 +91,7 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+            u.setIdUser(rs.getString("userid"));
             c.close();
             pstmt.close();
             rs.close();
@@ -111,5 +114,53 @@ public class WebStoreDB {
             c.close();
         } catch (Exception e) {
         }
+    }
+    
+    //Consultas de Producto
+    
+    public List<Product> getAllProducts(){
+        List<Product> allProduct = new ArrayList<Product>();
+        Statement stmt = null;
+        Product p = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
+            while ( rs.next() ) {
+                p = new Product(rs.getInt("productid"), rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                allProduct.add(p);
+            }
+            c.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception e) {
+        }
+        return allProduct;
+    }
+    
+    public List<Product> getAllProductsOfUser(String username){
+        String SQL = "SELECT * FROM product WHERE productuser = ?";
+        List<Product> allProductUser = new ArrayList<Product>();
+        Product p = null;
+        try {
+            User u = getUserByUsername(username);
+            int idUser = Integer.parseInt(u.getIdUser());
+            getConnection();
+            PreparedStatement pstmt = c.prepareStatement(SQL,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setInt(1,idUser);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                p = new Product(rs.getInt("productid"), rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                allProductUser.add(p);
+            }
+            c.close();
+            pstmt.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allProductUser;
     }
 }
