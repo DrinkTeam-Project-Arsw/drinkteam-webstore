@@ -56,24 +56,19 @@ public class WebStoreDB {
     
     public void createNewUser(User us) {
         Statement stmt = null;
+        PreparedStatement pstmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            System.out.println(us);
-            System.out.println(us.getUserName() + " <--UserName");
-            System.out.println(us.getUserLastName()+ " <--UserLastName");
-            System.out.println(us.getUserEmail()+ " <--UserEmail");
-            System.out.println(us.getUserPassword()+ " <--UserPassword");
-            System.out.println(us.getUserName() + " <--UserName");
-            System.out.println(us.getUserImage() + " <--UserImage");
-            System.out.println(us.getUserNickname() + " <--UserNickName");
-            System.out.println(us.getUserPhone() + " <--UserPhone()");
-            System.out.println(us.getUserBalance() + " <--UserBalance()");
-            System.out.println(us.getUserFeedback() + " <--UserFeedback()");
-            String sql = "INSERT INTO usr (userid,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
-                    + "VALUES ('10','"+us.getUserName()+"','"+us.getUserLastName()+"','"+us.getUserEmail()+"','"+us.getUserPassword()+"','"+us.getUserImage()+"','"+us.getUserNickname()+"','123','"+us.getUserPhone()+"','"+us.getUserBalance()+"','"+us.getUserFeedback()+"');";
+            String sql1 = "SELECT MAX(userid) FROM usr";
+            pstmt = c.prepareStatement(sql1, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            int newid = rs.getInt("max")+1;
+            String sql = "INSERT INTO usr (userid,usertype,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
+                    + "VALUES ('"+newid+"','2','null','null','"+us.getUserEmail()+"','"+us.getUserPassword()+"','null','"+us.getUserNickname()+"','123','0','0','0');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -104,19 +99,16 @@ public class WebStoreDB {
     }
     
     public void deleteUserByUsername(String username) {
-        PreparedStatement pstmt = null;
+        Statement stmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
-            String sql = "DELETE FROM usr WHERE ussernickname = ?";
-            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
+            String sql1 = "DELETE FROM usr WHERE ussernickname = '" + username + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
             c.close();
-            pstmt.close();
-            rs.close();
         } catch (Exception e) {
         }
     }

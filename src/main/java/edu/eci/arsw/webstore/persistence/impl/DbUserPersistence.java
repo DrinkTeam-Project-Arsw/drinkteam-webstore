@@ -70,7 +70,6 @@ public class DbUserPersistence implements UserPersistence {
     public void createNewUser(User us) {
         
         wsdb.createNewUser(us);
-        
         /**
         try{
             
@@ -83,7 +82,7 @@ public class DbUserPersistence implements UserPersistence {
                     exitingUser = true;
                     break;
                 }
-                if(u.getUserNickName().equals(us.getUserNickName())){ 
+                if(u.getUserNickname().equals(us.getUserNickname())){ 
                     exitingUser = true;
                     break;
                 }
@@ -134,6 +133,8 @@ public class DbUserPersistence implements UserPersistence {
 
     @Override
     public void deleteUserByUsername(String username) {
+        wsdb.deleteUserByUsername(username);
+        /**
         User deleteUser = null;
         try{
             
@@ -157,7 +158,7 @@ public class DbUserPersistence implements UserPersistence {
             
         } catch (Exception ex){
             System.out.println("Error: No se ha podido encontrar este usuario");
-        }
+        }**/
     }
 
     @Override

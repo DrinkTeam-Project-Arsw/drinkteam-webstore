@@ -62,15 +62,14 @@ public class UserController {
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
-
+            
             //Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
             
-            User ur = result.get(nameKeys[0]);
+            User us = result.get(nameKeys[0]);
             
-            uService.createNewUser(ur);
+            uService.createNewUser(us);
                
-            
             return new ResponseEntity<>(HttpStatus.CREATED);
             
         } catch (Exception ex) {

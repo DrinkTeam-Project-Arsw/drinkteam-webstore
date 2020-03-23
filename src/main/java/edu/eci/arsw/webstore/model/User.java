@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package edu.eci.arsw.webstore.model;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -11,17 +12,18 @@ import java.util.List;
  *
  * @author jmvillatei
  */
-public class User {    
-    private int userId;
+public class User {
     
-    private String userType;
+    @Id
+    public String idUser;
+    
     private String userName;
     private String userLastName;
     private String userEmail;
     private String userPassword;
     private String userImage;
     private String userNickname;
-    private String countryCode;
+    private String codeCountry;
     private int userPhone;
     private double userBalance;
     private int userFeedback;
@@ -33,24 +35,16 @@ public class User {
         this.userPassword = userPassword;
         this.userNickname = userNickname;
         
-        this.userBalance = 0.0;
-        this.userFeedback = 0;
+        userBalance = 0.0;
+        userFeedback = 0;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-    
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public String getUserName() {
@@ -101,12 +95,12 @@ public class User {
         this.userNickname = userNickname;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCodeCountry() {
+        return codeCountry;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCodeCountry(String codeCountry) {
+        this.codeCountry = codeCountry;
     }
 
     public int getUserPhone() {
