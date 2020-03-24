@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Dashboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="css/pricing.css" rel="stylesheet">
+
+    </head>
+
+    <body onload="loadDashboard()">
+
+        <!-- Strat Header -->
+        <!-- agregar header -->
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+            <h5 class="my-0 mr-md-auto font-weight-normal">WebStore</h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="profile.html">Profile</a>
+            </nav>
+            <a onclick="cerrarSesion()" class="btn btn-outline-primary" href="index.html">Cerrar sesion</a>
+        </div>
+        <!-- End Header -->
+
+        <div class="container-fluid">
+            <div class="row content">
+                <div class="col-sm-3 sidenav" >
+                    <div style="position: fixed;max-width: 22%;width: 1000px; ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Your Details:
+                            </div>
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    <a class="list-group-item"><h4><b>Username: </b><span class="label label-success" id="usernameD"></span></h4></a>
+                                    <a  class="list-group-item"><h4><b>Email: </b><span class="label label-success" id="emailD"></span></h4></a>
+                                    <a  class="list-group-item"><h4><b>Balance: </b><span class="label label-success" >$ <span id="balanceD"></span> USD</span></h4></a>
+                                    <a class="list-group-item"><h4><b>FeedBack: </b><span class="label label-success" id="feedbackD"></span></h4></a>
+                                </div>
+                                <hr>
+                                <div class="btn-group">
+                                    <a href="añadirSaldo.html" class="btn btn-warning">AÑADIR SALDO</a>
+                                    <a href="registrarProducto.html" class="btn btn-warning">VENDER</a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading"><h3>Here you can see the products of other users. if you want to buy one, just press buy</h3></div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#allProducts">Products</a></li>
+                                <li><a data-toggle="tab" href="#inProcess">In Process</a></li>
+                                <li><a data-toggle="tab" href="#history">History</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="allProducts" class="tab-pane fade in active">
+
+                                    <table id="tableAllProducts" class="table table-condensed table-hover" style="text-align:center"></table>
+                                </div>
+                                <div id="inProcess" class="tab-pane fade">
+
+                                    <table id="tablaTransaccionesEnCurso" class="table table-condensed table-hover"></table>
+
+                                </div>
+                                <div id="history" class="tab-pane fade">
+                                    <table id="tbodyTablaHitorial" class="table table-condensed table-hover" style="text-align:center"></table>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Agregar Pie de pagina -->
+        <footer class="mastfoot mt-auto" style="text-align: center; background-color: #555; color: white; padding: 15px;">
+            <div class="inner">
+                <p>@2020 | Todos los derechos reservados - by NaOcVi.</p>
+            </div>
+        </footer>
+        <!-- ---FIN---- -->
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="js/jquery.js"></script>
+
+        <script src="js/dashboardController.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
+</html>
