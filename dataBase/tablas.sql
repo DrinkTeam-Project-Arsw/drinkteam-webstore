@@ -1,5 +1,5 @@
 CREATE TABLE USR
-(userId integer NOT NULL,
+(userId VARCHAR(50) NOT NULL,
 userType VARCHAR(50) NOT NULL,
 userName VARCHAR(50) NOT NULL,
 userLastName VARCHAR(50) NOT NULL,
@@ -16,30 +16,30 @@ PRIMARY KEY (userId)
 
 
 CREATE TABLE PRODUCT
-(productId integer NOT NULL,
+(productId VARCHAR(50) NOT NULL,
 productName VARCHAR(50) NOT NULL,
 productDescription VARCHAR(50) NOT NULL,
 productPrice integer NOT NULL,
-productUser integer NOT NULL,
-productAuction integer,
+productUser VARCHAR(50) NOT NULL,
+productAuction VARCHAR(50),
 PRIMARY KEY (productId)
 );
 
 
 CREATE TABLE TRANSACTION
-(transactionId integer NOT NULL,
+(transactionId VARCHAR(50) NOT NULL,
 transactionPrice integer NOT NULL,
 transactionDate TIMESTAMP NOT NULL,
 transactionDateEnd TIMESTAMP NOT NULL,
-buyer integer NOT NULL,
-seller integer NOT NULL,
-product integer NOT NULL,
+buyer VARCHAR(50) NOT NULL,
+seller VARCHAR(50) NOT NULL,
+product VARCHAR(50) NOT NULL,
 PRIMARY KEY (transactionId)
 );
 
 
 CREATE TABLE AUCTION
-(auctionId integer NOT NULL,
+(auctionId VARCHAR(50) NOT NULL,
 auctionInitPrice NUMERIC NOT NULL,
 auctionCurrentPrice NUMERIC NOT NULL,
 auctionFinalPrice NUMERIC NOT NULL,
@@ -47,13 +47,13 @@ auctionDate TIMESTAMP NOT NULL,
 auctionDateFinal TIMESTAMP NOT NULL,
 auctionTimeToWait integer NOT NULL,
 auctionType integer NOT NULL,
-seller integer NOT NULL,
-product integer NOT NULL,
+seller VARCHAR(50) NOT NULL,
+product VARCHAR(50) NOT NULL,
 PRIMARY KEY (auctionId)
 );
 
 CREATE TABLE BUYERS
-(auction integer REFERENCES AUCTION,
-buyer integer REFERENCES USR,
+(auction VARCHAR(50) REFERENCES AUCTION,
+buyer VARCHAR(50) REFERENCES USR,
 PRIMARY KEY (auction, buyer)
 );

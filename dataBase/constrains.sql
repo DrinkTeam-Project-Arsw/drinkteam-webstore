@@ -39,10 +39,3 @@ add constraint FK_AUCTION_PRODUCT
 foreign key(product) 
 references PRODUCT(productId)
 ON DELETE CASCADE;
-
-alter table BUYERS 
-add constraint FK_BUYERS_USR_AUCTION
-foreign key(auction, buyer) 
-references AUCTION, USR
-ON DELETE CASCADE;
-
