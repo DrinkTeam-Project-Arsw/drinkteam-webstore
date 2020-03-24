@@ -32,7 +32,7 @@ function iniciarSesion() {
     }
     if (!nullAlert) {
 
-        axios.get('/webstoreUser/users/' + document.getElementById("inUsername").value)
+        axios.get('/api/v1/users/' + document.getElementById("inUsername").value)
                 .then(function (response) {
                     
                     if (response.data["userPassword"] === document.getElementById("inPassword").value) {
@@ -92,7 +92,7 @@ function registrarUsuario() {
     }
 
     if (!nullAlert) {
-        axios.post('/webstoreUser/users/', {
+        axios.post('/api/v1/users/', {
             "1": {
                 userEmail: document.getElementById("upEmail").value,
                 userPassword: document.getElementById("upPassword").value,
@@ -123,21 +123,61 @@ function cerrarSesion() {
     location.href = "index.html";
 }
 
+
+
+/// funciones para cargar datos del front profile
+
+
 function loadProfile() {
-    axios.get('/webstoreUser/users/' + localStorage.getItem('Actual'))
+    axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
             .then(function (response) {
                 document.getElementById("usernameP").innerHTML = response.data["userNickname"];
                 
                 document.getElementById("emailP").innerHTML = response.data["userEmail"];
                 document.getElementById("balanceP").innerHTML = response.data["userBalance"];
                 document.getElementById("feedbackP").innerHTML = response.data["userFeedback"];
-
+                
+                //llamar otras funciones
+                updateAds();
             })
             .catch(function (error) {
                 alert("Error, No se pudo cargar usuario");
             })
 
 }
+
+function updateAds(){
+    var tabla = document.getElementById("tableYourAds");
+    tabla.innerHTML = "<th>#</th><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th></th>" +
+            "<tbody id='tbodyTableAds'></tbody>";
+    
+    var tbody = document.getElementById("tbodyTableAds");
+    
+    axios.get('/api/v1/products/'+ localStorage.getItem('Actual'))
+            .then(function (response){
+                
+                for(var x in response.data){
+                    //alert(response.data[x]['productName']);
+                    var filatr = document.createElement("tr");
+                    
+                    var productId = "'" + String(response.data[x]["productId"]) + "'";
+                    var numeroFila = parseInt(x) + 1;
+                    filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="productId' + response.data[x]["productId"] + '">'+ response.data[x]["productId"] +'</td>' +
+                            '<td>' + response.data[x]["productName"] + '</td>' +
+                            '<td>' + response.data[x]["productDescription"] + '</td>' +
+                            '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
+                            '<td> <button onclick="editPrody=uct(' + productId +
+                            ',' + localStorage.getItem('Actual') +
+                            ')" class="btn btn-primary">EDIT</button> </td>';
+                    tbody.appendChild(filatr);
+                }
+    })
+}
+
+
+
+/// Funcion para llamar las alertas de alertify
 
 function callAlert(text, web){
     if(web!==null){

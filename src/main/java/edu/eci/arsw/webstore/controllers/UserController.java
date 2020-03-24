@@ -20,8 +20,10 @@ import org.springframework.http.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.bson.types.ObjectId;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author jmvillatei
  */
 @RestController
-@RequestMapping(value = "/webstoreUser")
+@RequestMapping(value = "/api/v1")
 public class UserController {
 
     @Autowired
@@ -67,6 +69,10 @@ public class UserController {
             Object[] nameKeys = result.keySet().toArray();
             
             User us = result.get(nameKeys[0]);
+            ObjectId newObjectIdUser = new ObjectId(new Date());
+            us.setIdUser(newObjectIdUser.toHexString());
+            System.out.println("usuario: "+us.getUserNickname());
+            System.out.println("id: "+us.getIdUser());
             
             uService.createNewUser(us);
                

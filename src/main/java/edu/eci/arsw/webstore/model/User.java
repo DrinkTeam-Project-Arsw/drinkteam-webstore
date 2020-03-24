@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package edu.eci.arsw.webstore.model;
+
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
@@ -39,14 +41,9 @@ public class User {
         this.userFeedback = 0;
     }
     
-    public User(String idUser){
-        this.idUser = idUser;
-    }
-
     public String getIdUser() {
         return idUser;
     }
-
     public void setIdUser(String idUser) {
         this.idUser = idUser;
     }

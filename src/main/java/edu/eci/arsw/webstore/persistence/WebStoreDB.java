@@ -9,6 +9,7 @@ import edu.eci.arsw.webstore.model.Auction;
 import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.Transaction;
 import edu.eci.arsw.webstore.model.User;
+import edu.eci.arsw.webstore.persistence.impl.InMemoryUserPersistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.bson.types.ObjectId;
 
 /**
  * Clase WebStoreDB que permite realizar consultas sobre la base de datos.
@@ -87,11 +92,12 @@ public class WebStoreDB {
             rs.next();
             int newid = rs.getInt("max")+1;
             String sql = "INSERT INTO usr (userid,usertype,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
-                    + "VALUES ('"+newid+"','2','null','null','"+us.getUserEmail()+"','"+us.getUserPassword()+"','null','"+us.getUserNickname()+"','123','0','0','0');";
+                    + "VALUES ('"+us.getIdUser()+"','2','null','null','"+us.getUserEmail()+"','"+us.getUserPassword()+"','null','"+us.getUserNickname()+"','123','0','0','0');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -113,6 +119,7 @@ public class WebStoreDB {
             rs.next();
             u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
             u.setIdUser(rs.getString("userid"));
+            
             u.setUserType(rs.getString("usertype"));
             u.setUserName(rs.getString("username"));
             u.setUserLastName(rs.getString("userlastname"));
@@ -126,7 +133,8 @@ public class WebStoreDB {
             pstmt.close();
             rs.close();
             return u;
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -148,6 +156,7 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+            //u.setIdUser(rs.getString("userid"));
             u.setIdUser(rs.getString("userid"));
             u.setUserType(rs.getString("usertype"));
             u.setUserName(rs.getString("username"));
@@ -162,7 +171,8 @@ public class WebStoreDB {
             pstmt.close();
             rs.close();
             return u;
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -182,7 +192,8 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -208,7 +219,8 @@ public class WebStoreDB {
             c.close();
             stmt.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allProduct;
     }
@@ -239,8 +251,8 @@ public class WebStoreDB {
             c.close();
             pstmt.close();
             rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allProductUser;
     }
