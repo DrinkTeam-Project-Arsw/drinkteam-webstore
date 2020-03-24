@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bson.types.ObjectId;
 
 /**
  * Clase WebStoreDB que permite realizar consultas sobre la base de datos.
@@ -69,7 +68,8 @@ public class WebStoreDB {
             c.close();
             stmt.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allUsers;
     }

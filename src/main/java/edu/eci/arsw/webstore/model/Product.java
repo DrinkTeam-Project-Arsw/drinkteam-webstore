@@ -15,7 +15,7 @@ public class Product {
     private String productName;
     private String productDescription;
     private double productPrice;
-    private User productUser;
+    private String productUser;
     private Auction productAuction;
 
     public Product(int productId, String productName, String productDescription, double productPrice) {
@@ -58,11 +58,11 @@ public class Product {
         this.productPrice = productPrice;
     }
     
-    public User getProductUser() {
+    public String getProductUser() {
         return productUser;
     }
 
-    public void setProductUser(User productUser) {
+    public void setProductUser(String productUser) {
         this.productUser = productUser;
     }    
 }
