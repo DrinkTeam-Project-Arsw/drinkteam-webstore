@@ -78,12 +78,12 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"users/{username}"})
-    public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
+    @RequestMapping(method = RequestMethod.GET, path = {"users/{userNickname}"})
+    public ResponseEntity<?> getUserByUsername(@PathVariable("userNickname") String username) {
         try {
             Map<String, User> user = new HashMap<>();
 
-            User consulUser = uService.getUserByUsername(username);
+            User consulUser = uService.getUserByUserNickname(username);
 
             user.put(consulUser.getUserNickname(), consulUser); 
 
@@ -96,10 +96,10 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = {"users/{username}"})
-    public ResponseEntity<?> deleteUserByUsername(@PathVariable("username") String username) {
+    @RequestMapping(method = RequestMethod.DELETE, path = {"users/{userNickname}"})
+    public ResponseEntity<?> deleteUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            uService.deleteUserByUsername(username);
+            uService.deleteUserByUserNickname(username);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {

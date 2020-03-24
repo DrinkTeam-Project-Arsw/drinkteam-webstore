@@ -25,35 +25,35 @@ public interface ProductServices {
     /**
      * Este metodo permite obtener todos los productos de un usuario
      *
-     * @param username nickname del usuario
+     * @param userNickname nickname del usuario
      * @return  Una lista con todos los productos
      */
-    public List<Product> getAllProductsOfUser(String username);
+    public List<Product> getAllProductsOfUserNickname(String userNickname);
     
     /**
      * este metodo permite crear un producto de un usuario especifico
      * 
      * @param pr
-     * @param username 
+     * @param userNickname 
      */
-    public void createNewProduct(Product pr, String username);
+    public void createNewProduct(Product pr, String userNickname);
 
     /**
      * Este metodo permite obtener un producto por id de un usuario
      *
      * @param id id del producto a obtener
-     * @param username nickname del usuario
+     * @param userNickname nickname del usuario
      * @return El producto que pertenece a ese usuario
      */
-    public Product getProductByIdOfUser(int id, String username);
+    public Product getProductByIdOfUserNickname(int id, String userNickname);
 
     /**
      * Este metodo permite eliminar un producto de un usuario
      *
      * @param id
-     * @param username
+     * @param userNickname
      */
-    public void deleteProductByIdOfUser(int id, String username);
+    public void deleteProductByIdOfUserNickname(int id, String userNickname);
     
     
     

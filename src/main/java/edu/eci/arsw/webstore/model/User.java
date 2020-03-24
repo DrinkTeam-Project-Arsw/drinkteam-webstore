@@ -17,6 +17,7 @@ public class User {
     @Id
     public String idUser;
     
+    private String userType;
     private String userName;
     private String userLastName;
     private String userEmail;
@@ -34,9 +35,12 @@ public class User {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userNickname = userNickname;
-        
-        userBalance = 0.0;
-        userFeedback = 0;
+        this.userBalance = 0.0;
+        this.userFeedback = 0;
+    }
+    
+    public User(String idUser){
+        this.idUser = idUser;
     }
 
     public String getIdUser() {
@@ -45,6 +49,14 @@ public class User {
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
+    }
+    
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getUserName() {

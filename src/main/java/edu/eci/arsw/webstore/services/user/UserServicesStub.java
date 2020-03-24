@@ -32,13 +32,13 @@ public class UserServicesStub implements UserServices{
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return uPersistence.getUserByUsername(username);
+    public User getUserByUserNickname(String userNickname) {
+        return uPersistence.getUserByUserNickname(userNickname);
     }
 
     @Override
-    public void deleteUserByUsername(String username) {
-        uPersistence.deleteUserByUsername(username);
+    public void deleteUserByUserNickname(String userNickname) {
+        uPersistence.deleteUserByUserNickname(userNickname);
     }
 
     @Override

@@ -6,7 +6,6 @@
 package edu.eci.arsw.webstore.services.product;
 
 import edu.eci.arsw.webstore.model.Product;
-import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.persistence.ProductPersistence;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +27,23 @@ public class ProductServicesStub implements ProductServices{
     }
 
     @Override
-    public List<Product> getAllProductsOfUser(String username) {
-        return pPersistence.getAllProductsOfUser(username);
+    public List<Product> getAllProductsOfUserNickname(String userNickname) {
+        return pPersistence.getAllProductsOfUserNickname(userNickname);
     }
 
     @Override
-    public void createNewProduct(Product pr, String username) {
-        pPersistence.createNewProduct(pr, username);
+    public void createNewProduct(Product pr, String userNickname) {
+        pPersistence.createNewProduct(pr, userNickname);
     }
 
     @Override
-    public Product getProductByIdOfUser(int id, String username) {
-        return pPersistence.getProductByIdOfUser(id, username);
+    public Product getProductByIdOfUserNickname(int id, String userNickname) {
+        return pPersistence.getProductByIdOfUserNickname(id, userNickname);
     }
 
     @Override
-    public void deleteProductByIdOfUser(int id, String username) {
-        pPersistence.deleteProductByIdOfUser(id, username);
+    public void deleteProductByIdOfUserNickname(int id, String userNickname) {
+        pPersistence.deleteProductByIdOfUserNickname(id, userNickname);
     }
     
     

@@ -46,12 +46,12 @@ public class ProductController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = {"products/{username}"})
-    public ResponseEntity<?> getUserByUsername(@PathVariable("username") String username) {
+    @RequestMapping(method = RequestMethod.GET, path = {"products/{usernickName}"})
+    public ResponseEntity<?> getUserByUsername(@PathVariable("usernickName") String username) {
         try {
             List<Product> products = new ArrayList<>();
 
-            products = pService.getAllProductsOfUser(username);
+            products = pService.getAllProductsOfUserNickname(username);
 
             
 
@@ -60,7 +60,7 @@ public class ProductController {
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("No se ha podido retornar los productos del usuario: " + username, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No se ha podido retornar los productos del usuario con nickname: " + username, HttpStatus.NOT_FOUND);
         }
     }
 }
