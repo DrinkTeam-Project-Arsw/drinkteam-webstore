@@ -79,16 +79,11 @@ public class WebStoreDB {
      */
     public void createNewUser(User us) {
         Statement stmt = null;
-        PreparedStatement pstmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql1 = "SELECT MAX(userid) FROM usr";
-            pstmt = c.prepareStatement(sql1, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
             String sql = "INSERT INTO usr (userid,usertype,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
                     + "VALUES ('"+us.getIdUser()+"','user','null','null','"+us.getUserEmail()+"','"+us.getUserPassword()+"','null','"+us.getUserNickname()+"','+57','0','0','0');";
             stmt.executeUpdate(sql);
@@ -277,6 +272,23 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allProductUser;
+    }
+    
+    public void createNewProduct(Product pd, String userNickname) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO product (productid,productname,productdescription,productprice,productuser,productauction) "
+			+ "VALUES ('"+pd.getProductId()+"','"+pd.getProductName()+"','"+pd.getProductDescription()+"','"+pd.getProductPrice()+"','"+userNickname+"',null);";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void deleteAllProductByIdOfUserNickname(String idUser) {
