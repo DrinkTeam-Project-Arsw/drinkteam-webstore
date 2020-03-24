@@ -42,11 +42,11 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 #### Diagrama de clases
 
-![diagramaClases](https://user-images.githubusercontent.com/44879884/74988712-8c652100-540c-11ea-86bf-850ddb667c97.PNG)
+![image](https://user-images.githubusercontent.com/53972469/77471383-2d664380-6de0-11ea-9901-1e01c0d5f926.png)
 
 #### Modelo E-R.
 
-![image](https://user-images.githubusercontent.com/53972469/77257873-f7d92300-6c44-11ea-8d36-b06163e22978.png)
+![image](https://user-images.githubusercontent.com/53972469/77471471-58509780-6de0-11ea-8204-d56b96b56b03.png)
 
 #### Caso de uso
 
@@ -54,7 +54,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ### Diagrama de componentes
 
-![cc](https://user-images.githubusercontent.com/44879884/77028130-08984900-6966-11ea-81c9-4cf2c30d1f1d.PNG)
+![image](https://user-images.githubusercontent.com/53972469/77471219-e5472100-6ddf-11ea-855e-6d73d2744b0c.png)
 
 ### Diagrama de despliegue
 
