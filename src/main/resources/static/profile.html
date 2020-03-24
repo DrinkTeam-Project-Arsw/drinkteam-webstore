@@ -61,21 +61,21 @@
                         <div class="panel-heading"><h3>Your account is online. You are ready to buy or sell products</h3></div>
                         <div class="panel-body">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#comprar">Your Ads</a></li>
-                                <li><a data-toggle="tab" href="#proceso">In Process</a></li>
-                                <li><a data-toggle="tab" href="#historial">History</a></li>
+                                <li class="active"><a data-toggle="tab" href="#yourAds">Your Ads</a></li>
+                                <li><a data-toggle="tab" href="#inProcess">In Process</a></li>
+                                <li><a data-toggle="tab" href="#history">History</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div id="comprar" class="tab-pane fade in active">
+                                <div id="yourAds" class="tab-pane fade in active">
 
-                                    <table id="TablaProducto" class="table table-condensed table-hover" style="text-align:center"></table>
+                                    <table id="tableYourAds" class="table table-condensed table-hover" style="text-align:center"></table>
                                 </div>
-                                <div id="proceso" class="tab-pane fade">
+                                <div id="inProcess" class="tab-pane fade">
 
                                     <table id="tablaTransaccionesEnCurso" class="table table-condensed table-hover"></table>
 
                                 </div>
-                                <div id="historial" class="tab-pane fade">
+                                <div id="history" class="tab-pane fade">
                                     <table id="tbodyTablaHitorial" class="table table-condensed table-hover" style="text-align:center"></table>
 
 
@@ -88,12 +88,42 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Do you want to sell another product? Poblish it:</div>
                         <div class="panel-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="3" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </form>
+                            
+                                <form onsubmit="registrarProducto(); return false" id="regForm">
+
+
+                                    <div style="display: flex;  align-items: center;">
+                                        <div class="input-group mb-3 " style="width: 40%">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon3" >Product Name</span>
+                                            </div>
+                                            <input type="text" required class="form-control" id="upProductName" aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex;  align-items: center;">
+                                        <div class="input-group mb-3 " style="width: 100%">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon3" >Description</span>
+                                            </div>
+                                            <textarea class="form-control" rows="3" id="upDescription" required aria-describedby="basic-addon3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;  align-items: center;">
+                                        <div class="input-group mb-3 " style="width: 25%">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon3" >Price</span>
+                                            </div>
+                                            <input type="number" required class="form-control" id="upPrice" aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>            
+                                                
+                                    <div style="display: flex;  align-items: center;">
+                                        <button type="submit" class="btn btn-secondary" style="width: 30%" value="registrarproducto">Publish</button>
+                                    </div>
+                                </form>
+                            
+
                         </div>
                     </div>
 
