@@ -9,6 +9,8 @@ import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.persistence.ProductPersistence;
 import edu.eci.arsw.webstore.persistence.WebStoreDB;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,14 +18,14 @@ import org.springframework.stereotype.Service;
  * @author jmvillatei
  */
 @Service
-public class InMemoryProductPersistence implements ProductPersistence{
-    
+public class InMemoryProductPersistence implements ProductPersistence {
+
     WebStoreDB wsdb;
-    
-    private void newDb(){
+
+    private void newDb() {
         wsdb = new WebStoreDB();
     }
-    
+
     @Override
     public List<Product> getAllProducts() {
         newDb();
@@ -37,9 +39,16 @@ public class InMemoryProductPersistence implements ProductPersistence{
     }
 
     @Override
-    public void createNewProduct(Product pr, String userNickname) {
+    public void createNewProduct(Product pr) {
         newDb();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        try {
+            wsdb.createNewProduct(pr);
+
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryProductPersistence.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
     }
 
     @Override
@@ -53,5 +62,5 @@ public class InMemoryProductPersistence implements ProductPersistence{
         newDb();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
