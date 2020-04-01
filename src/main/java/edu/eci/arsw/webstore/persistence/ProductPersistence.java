@@ -33,9 +33,8 @@ public interface ProductPersistence {
      * este metodo permite crear un producto de un usuario especifico
      * 
      * @param pr
-     * @param userNickname 
      */
-    public void createNewProduct(Product pr, String userNickname);
+    public void createNewProduct(Product pr);
 
     /**
      * Este metodo permite obtener un producto por id de un usuario

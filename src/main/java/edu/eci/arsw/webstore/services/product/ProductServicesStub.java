@@ -32,8 +32,8 @@ public class ProductServicesStub implements ProductServices{
     }
 
     @Override
-    public void createNewProduct(Product pr, String userNickname) {
-        pPersistence.createNewProduct(pr, userNickname);
+    public void createNewProduct(Product pr) {
+        pPersistence.createNewProduct(pr);
     }
 
     @Override

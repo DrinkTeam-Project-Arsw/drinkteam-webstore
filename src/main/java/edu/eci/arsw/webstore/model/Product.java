@@ -5,12 +5,17 @@
  */
 package edu.eci.arsw.webstore.model;
 
+import org.springframework.data.annotation.Id;
+
 /**
  *
  * @author jmvillatei
  */
 public class Product {   
-    private int productId;
+    
+    
+    @Id
+    public String productId;
     
     private String productName;
     private String productDescription;
@@ -18,19 +23,19 @@ public class Product {
     private String productUser;
     private Auction productAuction;
 
-    public Product(int productId, String productName, String productDescription, double productPrice) {
-        this.productId = productId;
+    public Product( String productName, String productDescription, double productPrice) {
+        
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
         this.productAuction = null;
     }
 
-    public int getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 

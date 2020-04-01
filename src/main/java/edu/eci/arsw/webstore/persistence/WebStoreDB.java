@@ -230,9 +230,11 @@ public class WebStoreDB {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
             while ( rs.next() ) {
-                p = new Product(rs.getInt("productid"), rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
-                allProduct.add(p);
+                p = new Product( rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                p.setProductUser(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
+                allProduct.add(p);
+                
             }
             c.close();
             stmt.close();
@@ -260,7 +262,9 @@ public class WebStoreDB {
             pstmt.setString(1,u.getIdUser());
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
-                p = new Product(rs.getInt("productid"), rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                p = new Product(rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                p.setProductId(rs.getString("productid"));
+                
                 allProductUser.add(p);
             }
             //Se Agregan todos los productos al usuario.
@@ -274,7 +278,7 @@ public class WebStoreDB {
         return allProductUser;
     }
     
-    public void createNewProduct(Product pd, String userNickname) {
+    public void createNewProduct(Product pd) {
         Statement stmt = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -282,7 +286,7 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO product (productid,productname,productdescription,productprice,productuser,productauction) "
-			+ "VALUES ('"+pd.getProductId()+"','"+pd.getProductName()+"','"+pd.getProductDescription()+"','"+pd.getProductPrice()+"','"+userNickname+"',null);";
+			+ "VALUES ('"+pd.getProductId()+"','"+pd.getProductName()+"','"+pd.getProductDescription()+"','"+pd.getProductPrice()+"','"+pd.getProductUser()+"',null);";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
