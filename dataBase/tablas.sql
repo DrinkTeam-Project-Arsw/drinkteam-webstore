@@ -19,7 +19,7 @@ CREATE TABLE PRODUCT
 (productId VARCHAR(50) NOT NULL,
 productName VARCHAR(50) NOT NULL,
 productDescription VARCHAR(50) NOT NULL,
-productPrice integer NOT NULL,
+productPrice NUMERIC NOT NULL,
 productUser VARCHAR(50) NOT NULL,
 productAuction VARCHAR(50),
 PRIMARY KEY (productId)
