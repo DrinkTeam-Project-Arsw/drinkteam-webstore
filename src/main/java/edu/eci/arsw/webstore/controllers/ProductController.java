@@ -91,13 +91,16 @@ public class ProductController {
             
             Product pd = result.get(nameKeys[0]);
             
-            
+            User idUser = uService.getUserByUserNickname(pd.getProductUser());
             
             ObjectId newObjectIdProduct = new ObjectId(new Date());
             pd.setProductId(newObjectIdProduct.toHexString());
             //pd.setProductUser(user);
+            pd.setProductUser(idUser.getIdUser());
+            
             System.out.println("Nombre producto: "+pd.getProductName());
-            System.out.println("vendedor: "+pd.getProductUser());
+            System.out.println("vendedor: "+ idUser.getUserNickname() );
+            System.out.println("id vendedor: "+ pd.getProductUser() );
             System.out.println("id: "+pd.getProductId());
             
             pService.createNewProduct(pd);
