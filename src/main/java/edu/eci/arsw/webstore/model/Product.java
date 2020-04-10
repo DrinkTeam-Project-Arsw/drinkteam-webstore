@@ -28,7 +28,6 @@ public class Product {
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
-        this.productAuction = null;
     }
 
     public String getProductId() {

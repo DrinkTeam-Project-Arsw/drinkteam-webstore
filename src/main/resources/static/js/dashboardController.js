@@ -30,7 +30,7 @@ function cerrarSesion() {
 
 
 function loadDashboard() {
-    axios.get('/api/v1/users/' + document.getElementById("inCountry").value)
+    axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
             .then(function (response) {
                 document.getElementById("usernameD").innerHTML = response.data["userNickname"];
                 
