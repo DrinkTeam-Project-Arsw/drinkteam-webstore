@@ -7,6 +7,14 @@ html {
   }
 }
 
+
+body {
+  background-color: whitesmoke;
+  background-image: url("https://www.transparenttextures.com/patterns/lyonnette.png");
+  border-bottom: 0px solid black;
+  
+}
+
 .container {
   max-width: 960px;
 }

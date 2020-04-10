@@ -57,7 +57,7 @@ public class ProductController {
     }
     
     @RequestMapping(method = RequestMethod.GET, path = {"products/{usernickName}"})
-    public ResponseEntity<?> getUserByUsername(@PathVariable("usernickName") String username) {
+    public ResponseEntity<?> getProductByUsername(@PathVariable("usernickName") String username) {
         try {
             List<Product> products = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class ProductController {
     }
     
     @RequestMapping(method = RequestMethod.POST, path = "products")
-    public ResponseEntity<?> createNewUser(@RequestBody String product ) {
+    public ResponseEntity<?> createNewProduct(@RequestBody String product ) {
         //Formato de json {"emailUser":email,"passwordUser":password,"username":username}
         try {
             //System.out.println("controller: "+user.getUserNickname());

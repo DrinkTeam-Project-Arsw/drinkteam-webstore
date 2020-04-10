@@ -1,4 +1,10 @@
 
+
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+
 /**
  * @param {username} nickname del usuraio actual 
  * @returns {undefined}
@@ -175,6 +181,77 @@ function updateAds(){
     })
 }
 
+function  registrarProducto(){
+    var nullAlert = false;
+    //document.getElementById("alertDiv").innerHTML = "";
+    var alerta;
+    if (document.getElementById("upProductName").value === '') {
+        nullAlert = true;
+        
+        alerta = ' Enter the Product Name.';
+        alertify.error(alerta);
+        //document.getElementById("alertDiv").innerHTML += divAlerta(alerta);
+    }
+    if (document.getElementById("upDescription").value === '') {
+        nullAlert = true;
+        alerta = ' Enter the Product Description.';
+        alertify.error(alerta);
+
+    }
+    if (document.getElementById("upPrice").value === '') {
+        nullAlert = true;
+        alerta = ' Enter the Product Price.';
+        alertify.error(alerta);
+    }
+
+    if (document.getElementById("upMainImage").value === '') {
+        nullAlert = true;
+        alerta = ' Please, Select at least one image .';
+        alertify.error(alerta);
+
+    }
+    
+    console.log("UsuARIO: "+localStorage.getItem('Actual'));
+    console.log("producto: "+document.getElementById("upProductName").value);
+    console.log("descripcion: "+document.getElementById("upDescription").value);
+    console.log("precio: "+document.getElementById("upPrice").value);
+    console.log("Imagen Principal: "+document.getElementById("upMainImage").value);
+    
+    if(document.getElementById("upSecondImage").value !== ''){
+        console.log("Imagen 2: "+document.getElementById("upSecondImage").value);
+    }
+    if(document.getElementById("upThirdImage").value !== ''){
+        console.log("Imagen 3: "+document.getElementById("upThirdImage").value);
+    }
+    
+    
+
+    if (!nullAlert) {
+        axios.post('/api/v1/products/', {
+            "1": {
+                productName: document.getElementById("upProductName").value,
+                productDescription: document.getElementById("upDescription").value,
+                productPrice: document.getElementById("upPrice").value,
+                productUser: localStorage.getItem('Actual')
+            }
+            
+
+        })
+                .then(function (response) {
+                    console.log(response.data);
+                    var text = ["Success","Registered Product"];
+                    var web = "profile.html";
+                    //alertify.success(text[0]);
+                    //alert(text[1]);
+                    alertify.alert(text[0],text[1]).set('label', 'OK');
+                    alert(text[1]);
+                    callAlert(text, web);
+                    
+                })
+    } else {
+        alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
+    }
+}
 
 
 /// Funcion para llamar las alertas de alertify
