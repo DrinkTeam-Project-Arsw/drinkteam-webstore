@@ -37,13 +37,13 @@ public class ProductServicesStub implements ProductServices{
     }
 
     @Override
-    public Product getProductByIdOfUserNickname(int id, String userNickname) {
-        return pPersistence.getProductByIdOfUserNickname(id, userNickname);
+    public Product getProductByIdOfUserNickname(String id, String idUser) {
+        return pPersistence.getProductByIdOfUserNickname(id, idUser);
     }
 
     @Override
-    public void deleteProductByIdOfUserNickname(int id, String userNickname) {
-        pPersistence.deleteProductByIdOfUserNickname(id, userNickname);
+    public void deleteProductByIdOfUserNickname(String id, String idUser) {
+        pPersistence.deleteProductByIdOfUserNickname(id, idUser);
     }
     
     

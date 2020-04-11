@@ -52,15 +52,15 @@ public class InMemoryProductPersistence implements ProductPersistence {
     }
 
     @Override
-    public Product getProductByIdOfUserNickname(int id, String userNickname) {
+    public Product getProductByIdOfUserNickname(String id, String idUser) {
         newDb();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void deleteProductByIdOfUserNickname(int id, String userNickname) {
+    public void deleteProductByIdOfUserNickname(String id, String idUser) {
         newDb();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        wsdb.deleteProductByIdOfUserNickname(id, idUser);
     }
 
 }

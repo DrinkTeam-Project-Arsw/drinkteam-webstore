@@ -63,8 +63,6 @@ public class ProductController {
 
             products = pService.getAllProductsOfUserNickname(username);
 
-            
-
             String data = new Gson().toJson(products);
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
@@ -110,6 +108,22 @@ public class ProductController {
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, path = {"products/{productId}"})
+    public ResponseEntity<?> deleteUserByUsername(@PathVariable("productId") String productId, String idUser) {
+        try {
+            //idUser = "2";
+            //System.out.println(productId);
+            //System.out.println(idUser);
+            pService.deleteProductByIdOfUserNickname(productId, idUser);
+
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido eliminar el producto con el id: " + productId,
+                    HttpStatus.FORBIDDEN);
         }
     }
 }

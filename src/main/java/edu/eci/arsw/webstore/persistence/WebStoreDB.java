@@ -278,6 +278,11 @@ public class WebStoreDB {
         return allProductUser;
     }
     
+    /**
+     * Metodo que permite registrar un nuevo producto en la base de datos. 
+     * @param pd    Es el producto que se agregara a la base de datos.
+     * 
+     */
     public void createNewProduct(Product pd) {
         Statement stmt = null;
         try {
@@ -295,6 +300,31 @@ public class WebStoreDB {
         }
     }
     
+    /**
+     * Metodo que elimina un producto asociado al usuario.
+     * @param id    Id del producto
+     * @param idUser    Id del usuario.
+     */
+    public void deleteProductByIdOfUserNickname(String id, String idUser) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "DELETE FROM product WHERE productuser = '" + idUser + "' AND productid = '" + id + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Metodo que elimina todos los productos cuando un usuario es eliminado.
+     * @param idUser    Es el id del usuario
+     */
     private void deleteAllProductByIdOfUserNickname(String idUser) {
         Statement stmt = null;
         try {
