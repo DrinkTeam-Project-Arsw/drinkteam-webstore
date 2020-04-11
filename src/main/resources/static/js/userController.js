@@ -5,6 +5,7 @@ $(".custom-file-input").on("change", function() {
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
+
 /**
  * @param {username} nickname del usuraio actual 
  * @returns {undefined}
@@ -240,12 +241,9 @@ function  registrarProducto(){
                 .then(function (response) {
                     console.log(response.data);
                     var text = ["Success","Registered Product"];
-                    var web = "profile.html";
-                    //alertify.success(text[0]);
-                    //alert(text[1]);
-                    alertify.alert(text[0],text[1]).set('label', 'OK');
-                    alert(text[1]);
-                    callAlert(text, web);
+                    var web = "#sectionList";
+                    alertify.success(text);
+
                     
                 })
     } else {
