@@ -45,6 +45,11 @@ public class ProductServicesStub implements ProductServices{
     public void deleteProductByIdOfUserNickname(String id, String idUser) {
         pPersistence.deleteProductByIdOfUserNickname(id, idUser);
     }
+
+    @Override
+    public void editProductById(String productId, Product pd) {
+        pPersistence.editProductById(productId, pd);
+    }
     
     
 }

@@ -63,4 +63,10 @@ public class InMemoryProductPersistence implements ProductPersistence {
         wsdb.deleteProductByIdOfUserNickname(id, idUser);
     }
 
+    @Override
+    public void editProductById(String productId, Product pd) {
+        newDb();
+        wsdb.editProductById(productId, pd);
+    }
+
 }

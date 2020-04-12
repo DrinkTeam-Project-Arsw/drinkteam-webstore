@@ -111,8 +111,26 @@ public class ProductController {
         }
     }
     
+    @RequestMapping(method = RequestMethod.PUT, path = {"products/{productId}"})
+    public ResponseEntity<?> editProductById(@PathVariable("productId") String productId) {
+        try {
+            
+            // OJO -----> Se debe crear un producto con los datos Nuevos.
+            // Producto Fake para realizar pruebas con postman.
+            Product pd = new Product("PruebaPostman", "Esta es la prueba del metodo PUT del producto", 5.500);
+            
+            pService.editProductById(productId, pd);
+
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido editar el producto con el id: " + productId,
+                    HttpStatus.FORBIDDEN);
+        }
+    }
+    
     @RequestMapping(method = RequestMethod.DELETE, path = {"products/{productId}"})
-    public ResponseEntity<?> deleteUserByUsername(@PathVariable("productId") String productId, String idUser) {
+    public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId, String idUser) {
         try {
             //idUser = "2";
             //System.out.println(productId);

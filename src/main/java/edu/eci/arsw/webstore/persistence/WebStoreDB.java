@@ -301,6 +301,27 @@ public class WebStoreDB {
     }
     
     /**
+     * Metodo que edita un producto asociado al usuario.
+     * @param productId    Id del producto
+     * @param pd    Es el producto.
+     */
+    public void editProductById(String productId, Product pd) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "UPDATE product SET productname = '" + pd.getProductName() + "', productdescription = '" + pd.getProductDescription() + "' , productprice = " + pd.getProductPrice() + " WHERE productid = '" + productId + "' ";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
      * Metodo que elimina un producto asociado al usuario.
      * @param id    Id del producto
      * @param idUser    Id del usuario.

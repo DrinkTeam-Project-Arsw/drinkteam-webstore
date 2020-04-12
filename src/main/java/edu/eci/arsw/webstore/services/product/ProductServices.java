@@ -54,6 +54,12 @@ public interface ProductServices {
      */
     public void deleteProductByIdOfUserNickname(String id, String idUser);
     
+    /**
+     * Este metodo permite modificar un producto del usuario.
+     * @param productId
+     * @param pd
+     */
+    public void editProductById(String productId, Product pd);
     
     
 }
