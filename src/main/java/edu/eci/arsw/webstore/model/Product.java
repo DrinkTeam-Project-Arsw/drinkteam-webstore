@@ -22,12 +22,14 @@ public class Product {
     private double productPrice;
     private String productUser;
     private Auction productAuction;
+    private String productImage;
 
-    public Product( String productName, String productDescription, double productPrice) {
+    public Product( String productName, String productDescription, double productPrice, String productImage) {
         
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
+        this.productImage = productImage;
     }
 
     public String getProductId() {
@@ -68,5 +70,13 @@ public class Product {
 
     public void setProductUser(String productUser) {
         this.productUser = productUser;
+    }    
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }    
 }
