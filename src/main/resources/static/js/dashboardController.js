@@ -72,7 +72,7 @@ function updateProducts() {
                         '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
                         '<td> <button onclick="comprarProducto(' + productId +
                         ',' + localStorage.getItem('Actual') +
-                        ')" class="btn btn-primary">Comprar</button> </td>';
+                        ')" class="btn btn-primary">Buy</button> </td>';
                     tbody.appendChild(filatr);
                 }
 
