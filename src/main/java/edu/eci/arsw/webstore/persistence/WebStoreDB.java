@@ -159,37 +159,20 @@ public class WebStoreDB {
      * @param email Es el email del usuario.
      * @return  Retorna el usuario correspondiente al email.
      */
-    public User getUserByEmail(String email){
-        PreparedStatement pstmt = null;
+    public void updateUser(User user){
+        Statement stmt  = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
-            String sql = "Select * from usr where useremail = ?";
-            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-            u.setIdUser(rs.getString("userid"));
-            u.setIdUser(rs.getString("userid"));
-            u.setUserType(rs.getString("usertype"));
-            u.setUserName(rs.getString("username"));
-            u.setUserLastName(rs.getString("userlastname"));
-            u.setUserImage(rs.getString("usserimage"));
-            u.setCodeCountry(rs.getString("ussercode"));
-            u.setUserPhone(rs.getInt("userphone"));
-            u.setUserBalance(rs.getDouble("userbalance"));
-            u.setUserFeedback(rs.getInt("userfeedback"));
-            getAllProductsOfUserNickname(rs.getString("ussernickname"));
+            String sql1 = "UPDATE usr SET userBalance = " + user.getUserBalance() + " WHERE userid = '" + user.getIdUser() + "' ";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
             c.close();
-            pstmt.close();
-            rs.close();
-            return u;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
     }
     
     /**
