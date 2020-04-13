@@ -11,6 +11,8 @@ import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.services.product.ProductServices;
 import edu.eci.arsw.webstore.services.user.UserServices;
+
+import java.io.Console;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -129,13 +131,12 @@ public class ProductController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.DELETE, path = {"products/{productId}"})
-    public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId, String idUser) {
+    @RequestMapping(method = RequestMethod.DELETE, path = {"products/{usernickName}/{productId}"})
+    public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId, @PathVariable("usernickName") String username) {
         try {
-            //idUser = "2";
-            //System.out.println(productId);
-            //System.out.println(idUser);
-            pService.deleteProductByIdOfUserNickname(productId, idUser);
+            User us = uService.getUserByUserNickname(username);
+
+            pService.deleteProductByIdOfUserNickname(productId, us.getIdUser());
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
