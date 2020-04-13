@@ -213,7 +213,7 @@ public class WebStoreDB {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
             while ( rs.next() ) {
-                p = new Product( rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                p = new Product( rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductUser(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
                 allProduct.add(p);
@@ -245,7 +245,7 @@ public class WebStoreDB {
             pstmt.setString(1,u.getIdUser());
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"));
+                p = new Product(rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
                 
                 allProductUser.add(p);
@@ -273,8 +273,8 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO product (productid,productname,productdescription,productprice,productuser,productauction) "
-			+ "VALUES ('"+pd.getProductId()+"','"+pd.getProductName()+"','"+pd.getProductDescription()+"','"+pd.getProductPrice()+"','"+pd.getProductUser()+"',null);";
+            String sql = "INSERT INTO product (productid,productname,productdescription,productprice,productuser,productauction,productImage) "
+			+ "VALUES ('"+pd.getProductId()+"','"+pd.getProductName()+"','"+pd.getProductDescription()+"','"+pd.getProductPrice()+"','"+pd.getProductUser()+"',null,'"+pd.getProductImage()+"');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -294,7 +294,7 @@ public class WebStoreDB {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
-            String sql1 = "UPDATE product SET productname = '" + pd.getProductName() + "', productdescription = '" + pd.getProductDescription() + "' , productprice = " + pd.getProductPrice() + " WHERE productid = '" + productId + "' ";
+            String sql1 = "UPDATE product SET productname = '" + pd.getProductName() + "', productdescription = '" + pd.getProductDescription() + "' , productprice = " + pd.getProductPrice() + "' , productImage = " + pd.getProductImage() + " WHERE productid = '" + productId + "' ";
             stmt = c.createStatement();
             stmt.executeUpdate(sql1);
             c.commit();

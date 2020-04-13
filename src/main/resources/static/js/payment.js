@@ -75,7 +75,7 @@ async function cargarSaldo() {
 
                 })
                 .catch(function (error) {
-                    alerta = ' Username No encontrado.';
+                    var alerta = ' Username No encontrado.';
                     alertify.error(alerta);
                     verificado = false
 
@@ -90,7 +90,7 @@ async function cargarSaldo() {
                     alertify.success(text);
                 })
                 .catch(function (error) {
-                    alerta = ' error, no se hizo .';
+                    var alerta = ' error, no se hizo .';
                     console.log(error);
                     alertify.error(alerta);
                     verificado = false
