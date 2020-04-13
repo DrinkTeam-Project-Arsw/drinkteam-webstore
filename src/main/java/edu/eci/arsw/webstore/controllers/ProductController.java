@@ -117,7 +117,7 @@ public class ProductController {
             
             // OJO -----> Se debe crear un producto con los datos Nuevos.
             // Producto Fake para realizar pruebas con postman.
-            Product pd = new Product("PruebaPostman", "Esta es la prueba del metodo PUT del producto", 5.500);
+            Product pd = new Product("PruebaPostman", "Esta es la prueba del metodo PUT del producto", 5.500, "1586761913/zs3opsk3zujqjjoym2z4.jpg");
             
             pService.editProductById(productId, pd);
 
