@@ -139,7 +139,7 @@ function loadProfile() {
     axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
         .then(function (response) {
             
-            document.getElementById("usernameP").innerHTML = response.data["userNickname"];
+            document.getElementById("usernameP").innerHTML = "Hi, "+response.data["userNickname"];
 
             document.getElementById("emailP").innerHTML = response.data["userEmail"];
             document.getElementById("balanceP").innerHTML = response.data["userBalance"];
@@ -162,7 +162,7 @@ function loadProfile() {
             var feedback = response.data["userFeedback"];
             for (var i = 0; i < feedback; i++) {
                 var li = document.createElement("li");
-                var star = '<a href="#"><img src="./img/star.png" style="width: 50px; top: -7px; position: relative; filter: drop-shadow(2px 2px 6px #444);"></i></a>';
+                var star = '<a href="#"><img src="./img/star.png" style="width: 100%; top: -7px; position: relative; filter: drop-shadow(2px 2px 6px #444);"></i></a>';
                 li.innerHTML = star;
                 ul.appendChild(li);
             }
@@ -201,8 +201,8 @@ function updateAds() {
                     '<td>' + response.data[x]["productName"] + '</td>' +
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
-                    '<td> <button onclick="editarProducto(' + productId + ')" class="btn btn-primary">EDIT</button> '+
-                    ' <button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger">DELETE</button> </td>';
+                    '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> '+
+                    ' <button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
                 tbody.appendChild(filatr);
             }
         })
