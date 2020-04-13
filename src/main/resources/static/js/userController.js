@@ -201,9 +201,8 @@ function updateAds() {
                     '<td>' + response.data[x]["productName"] + '</td>' +
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
-                    '<td> <button onclick="editPrody=uct(' + productId +
-                    ',' + localStorage.getItem('Actual') +
-                    ')" class="btn btn-primary">EDIT</button> </td>';
+                    '<td> <button onclick="editarProducto(' + productId + ')" class="btn btn-primary">EDIT</button> '+
+                    ' <button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger">DELETE</button> </td>';
                 tbody.appendChild(filatr);
             }
         })
@@ -280,6 +279,14 @@ function registrarProducto() {
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
+}
+
+async function eliminarProducto(productId){
+    await axios.delete('api/v1/products/'+localStorage.getItem('Actual')+'/'+productId)
+        .then(function(response){
+            var text = "Success, Product Delete";
+            alertify.success(text);
+        })
 }
 
 
