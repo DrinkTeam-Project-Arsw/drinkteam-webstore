@@ -60,9 +60,9 @@ public class InMemoryUserPersistence implements UserPersistence{
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public void updateUser(User user) {
         newDb();
-        wsdb.getUserByEmail(email);
+        wsdb.updateUser(user);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

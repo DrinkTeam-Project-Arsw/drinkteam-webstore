@@ -1,124 +1,117 @@
-var $form = $('#payment-form');
-$form.on('submit', payWithStripe);
-
-/* If you're using Stripe for payments */
-function payWithStripe(e) {
-    e.preventDefault();
-
-    /* Visual feedback */
-    $form.find('[type=submit]').html('Validating <i class="fa fa-spinner fa-pulse"></i>');
-
-    var PublishableKey = 'pk_test_b1qXXwATmiaA1VDJ1mOVVO1p'; // Replace with your API publishable key
-    Stripe.setPublishableKey(PublishableKey);
-    
-    /* Create token */
-    var expiry = $form.find('[name=cardExpiry]').payment('cardExpiryVal');
-    var ccData = {
-        number: $form.find('[name=cardNumber]').val().replace(/\s/g,''),
-        cvc: $form.find('[name=cardCVC]').val(),
-        exp_month: expiry.month, 
-        exp_year: expiry.year
-    };
-    
-    Stripe.card.createToken(ccData, function stripeResponseHandler(status, response) {
-        if (response.error) {
-            /* Visual feedback */
-            $form.find('[type=submit]').html('Try again');
-            /* Show Stripe errors on the form */
-            $form.find('.payment-errors').text(response.error.message);
-            $form.find('.payment-errors').closest('.row').show();
-        } else {
-            /* Visual feedback */
-            $form.find('[type=submit]').html('Processing <i class="fa fa-spinner fa-pulse"></i>');
-            /* Hide Stripe errors on the form */
-            $form.find('.payment-errors').closest('.row').hide();
-            $form.find('.payment-errors').text("");
-            // response contains id and card, which contains additional card details            
-            console.log(response.id);
-            console.log(response.card);
-            var token = response.id;
-            // AJAX - you would send 'token' to your server here.
-            $.post('/account/stripe_card_token', {
-                    token: token
-                })
-                // Assign handlers immediately after making the request,
-                .done(function(data, textStatus, jqXHR) {
-                    $form.find('[type=submit]').html('Payment successful <i class="fa fa-check"></i>').prop('disabled', true);
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    $form.find('[type=submit]').html('There was a problem').removeClass('success').addClass('error');
-                    /* Show Stripe errors on the form */
-                    $form.find('.payment-errors').text('Try refreshing the page and trying again.');
-                    $form.find('.payment-errors').closest('.row').show();
-                });
-        }
-    });
-}
-/* Fancy restrictive input formatting via jQuery.payment library*/
-$('input[name=cardNumber]').payment('formatCardNumber');
-$('input[name=cardCVC]').payment('formatCardCVC');
-$('input[name=cardExpiry').payment('formatCardExpiry');
-
-/* Form validation using Stripe client-side validation helpers */
-jQuery.validator.addMethod("cardNumber", function(value, element) {
-    return this.optional(element) || Stripe.card.validateCardNumber(value);
-}, "Please specify a valid credit card number.");
-
-jQuery.validator.addMethod("cardExpiry", function(value, element) {    
-    /* Parsing month/year uses jQuery.payment library */
-    value = $.payment.cardExpiryVal(value);
-    return this.optional(element) || Stripe.card.validateExpiry(value.month, value.year);
-}, "Invalid expiration date.");
-
-jQuery.validator.addMethod("cardCVC", function(value, element) {
-    return this.optional(element) || Stripe.card.validateCVC(value);
-}, "Invalid CVC.");
-
-validator = $form.validate({
-    rules: {
-        cardNumber: {
-            required: true,
-            cardNumber: true            
-        },
-        cardExpiry: {
-            required: true,
-            cardExpiry: true
-        },
-        cardCVC: {
-            required: true,
-            cardCVC: true
-        }
-    },
-    highlight: function(element) {
-        $(element).closest('.form-control').removeClass('success').addClass('error');
-    },
-    unhighlight: function(element) {
-        $(element).closest('.form-control').removeClass('error').addClass('success');
-    },
-    errorPlacement: function(error, element) {
-        $(element).closest('.form-group').append(error);
-    }
-});
-
-paymentFormReady = function() {
-    if ($form.find('[name=cardNumber]').hasClass("success") &&
-        $form.find('[name=cardExpiry]').hasClass("success") &&
-        $form.find('[name=cardCVC]').val().length > 1) {
-        return true;
-    } else {
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
-    }
+
+    return true;
 }
 
-$form.find('[type=submit]').prop('disabled', true);
-var readyInterval = setInterval(function() {
-    if (paymentFormReady()) {
-        $form.find('[type=submit]').prop('disabled', false);
-        clearInterval(readyInterval);
+async function cargarSaldo() {
+
+    var american = /^(?:3[47][0-9]{13})$/;
+    var visa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+    var master = /^(?:5[1-5][0-9]{14})$/;
+    var discover = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+
+    var cardNumber = document.getElementById("upCardNumber");
+
+    var verificado = false;
+
+    if (cardNumber.value.match(american)) {
+        //starting with 34 or 37, length 15 digits.
+        alertify.success("American");
+        verificado = true;
     }
-}, 250);
+    else if(cardNumber.value.match(visa)){
+        //starting with 4, length 13 or 16 digits.
+        alertify.success("Visa");
+        verificado = true;
+    }
+    else if(cardNumber.value.match(master)){
+        //starting with 51 through 55, length 16 digits.
+        alertify.success("MAstercard");
+        verificado = true;
+    }
+    else if(cardNumber.value.match(discover)){
+        //starting with 6011, length 16 digits or starting with 5, length 15 digits.
+        alertify.success("Discover");
+        verificado = true;
+    }
+    else {
+        alertify.error("<b>It is not a valid credit card number!</b>");
+        alertify.error("<b>Remember that we only accept Visa, MasterCard, Discover and American Express</b>");
+        verificado = false;
+        
+    }
+    if(verificado===true){
+        var date = document.getElementById("cardExpiry").value;
+        date = date.split("/");
+        nowDate = new Date();
+        if (date[1]==nowDate.getFullYear()%100){
+            if(date[0]>=nowDate.getMonth()){
+                verificado = true;
+            }
+            else{
+                verificado = false;
+            }
+        }
+        else if(date[1]>nowDate.getFullYear()%100){
+            verificado = true;
+        }
+        else{
+            verificado = false;
+        }
+    }
+
+    if(verificado=== true){
+        alertify.success("Todo en orden");
+        var usuario = "";
+        await axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
+                .then(function (response) {
+                    console.log(response.data)
+                    usuario = {1:response.data};
+                    usuario["1"]['userBalance']+=50;
+                    verificado = true
+
+                })
+                .catch(function (error) {
+                    alerta = ' Username No encontrado.';
+                    alertify.error(alerta);
+                    verificado = false
+
+                })
+    }
+
+    if(verificado===true){
+        await axios.put('/api/v1/users/', usuario)
+                .then(function (response) {
+                    console.log(response.data);
+                    var text = 'Cambio correcto';
+                    alertify.success(text);
+                })
+                .catch(function (error) {
+                    alerta = ' error, no se hizo .';
+                    console.log(error);
+                    alertify.error(alerta);
+                    verificado = false
+
+                })
+    }
+    else{
+        alertify.error("<b>Error, Verifique los datos</b>");
+    }
 
 
-/*
-https://goo.gl/PLbrBK
-*/
+}
+
+/// Funcion para llamar las alertas de alertify
+
+function callAlert(text, web){
+    if(web!==null){
+        alertify.alert(text[0],text[1]).set('label', 'OK');
+        location.href = web;
+    } else {
+        alertify.alert(text[0],text[1]).set('label', 'OK');
+    }
+    
+}

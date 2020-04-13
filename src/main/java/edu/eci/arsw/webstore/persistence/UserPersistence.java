@@ -49,7 +49,7 @@ public interface UserPersistence {
      * @param email el email del usuario a obtener
      * @return El usuario que pertenece a ese email
      */
-    public User getUserByEmail(String email);
+    public void updateUser(User user);
 
     /**
      * Este metodo permite eliminar un usuario por su email

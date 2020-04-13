@@ -102,6 +102,26 @@ public class UserController {
         }
     }
 
+    
+	@RequestMapping(method = RequestMethod.PUT, path = "users")
+	public ResponseEntity<?> updateUser(@RequestBody String user) {
+		try {
+            Type listType = new TypeToken<Map<Integer, User>>() {
+            }.getType();
+            Map<String, User> result = new Gson().fromJson(user, listType);
+            
+            //Obtener las llaves del Map
+            Object[] nameKeys = result.keySet().toArray();
+            
+            User us = result.get(nameKeys[0]);
+            System.out.println(us);
+			uService.updateUser(us);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getStackTrace(), HttpStatus.CONFLICT);
+		}
+	}
+
     @RequestMapping(method = RequestMethod.DELETE, path = {"users/{userNickname}"})
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("userNickname") String username) {
         try {

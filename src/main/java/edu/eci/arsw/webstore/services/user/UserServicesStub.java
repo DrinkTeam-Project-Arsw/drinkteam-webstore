@@ -42,8 +42,8 @@ public class UserServicesStub implements UserServices{
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return uPersistence.getUserByEmail(email);
+    public void updateUser(User user) {
+        uPersistence.updateUser(user);
     }
 
     @Override
