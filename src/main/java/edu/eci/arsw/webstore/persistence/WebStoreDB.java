@@ -220,7 +220,7 @@ public class WebStoreDB {
             ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
             while ( rs.next() ) {
                 p = new Product( rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"), rs.getString("productImage"));
-                p.setProductUser(rs.getString("productid"));
+                p.setProductId(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
                 allProduct.add(p);
                 
