@@ -63,7 +63,7 @@ async function cargarSaldo() {
         }
     }
 
-    if(verificado=== true){
+    /*if(verificado=== true){
         alertify.success("Todo en orden");
         var usuario = "";
         await axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
@@ -80,14 +80,17 @@ async function cargarSaldo() {
                     verificado = false
 
                 })
-    }
+    }*/
 
     if(verificado===true){
-        await axios.put('/api/v1/users/', usuario)
+        await axios.put('/api/v1/users/'+ localStorage.getItem('Actual') +'/'+ 50.00)
                 .then(function (response) {
                     console.log(response.data);
                     var text = 'Cambio correcto';
                     alertify.success(text);
+                    document.getElementById("closeModal").click();
+                    
+                    loadProfile();
                 })
                 .catch(function (error) {
                     var alerta = ' error, no se hizo .';

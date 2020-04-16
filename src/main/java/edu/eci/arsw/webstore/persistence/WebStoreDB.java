@@ -85,7 +85,7 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO usr (userid,usertype,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback) "
-                    + "VALUES ('"+us.getIdUser()+"','user','null','null','"+us.getUserEmail()+"','"+us.getUserPassword()+"','null','"+us.getUserNickname()+"','+57','0','0','0');";
+                    + "VALUES ('"+us.getIdUser()+"','user','','','"+us.getUserEmail()+"','"+us.getUserPassword()+"','','"+us.getUserNickname()+"','','0','0','0');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -156,8 +156,7 @@ public class WebStoreDB {
     
     /**
      * Metodo que permite consultar un usuario por email.
-     * @param email Es el email del usuario.
-     * @return  Retorna el usuario correspondiente al email.
+     * @param user Es el objeto del usuario.
      */
     public void updateUser(User user){
         Statement stmt  = null;
@@ -165,7 +164,14 @@ public class WebStoreDB {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
-            String sql1 = "UPDATE usr SET userBalance = " + user.getUserBalance() + " WHERE userid = '" + user.getIdUser() + "' ";
+            String sql1 = "UPDATE usr SET username = '" + user.getUserName() + 
+                "', userlastname = '" + user.getUserLastName() +
+                "', usserimage = '" + user.getUserImage() +
+                "', ussercode = '" + user.getCodeCountry() +
+                "', userphone = '" + user.getUserPhone() +
+                "', userbalance = '" + user.getUserBalance() +
+                "', userfeedback = '" + user.getUserFeedback() +
+                "'  WHERE userid = '" + user.getIdUser() + "' ";
             stmt = c.createStatement();
             stmt.executeUpdate(sql1);
             c.commit();
@@ -294,7 +300,7 @@ public class WebStoreDB {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
-            String sql1 = "UPDATE product SET productname = '" + pd.getProductName() + "', productdescription = '" + pd.getProductDescription() + "' , productprice = " + pd.getProductPrice() + "' , productImage = " + pd.getProductImage() + " WHERE productid = '" + productId + "' ";
+            String sql1 = "UPDATE product SET productname = '" + pd.getProductName() + "', productdescription = '" + pd.getProductDescription() + "' , productprice = '" + pd.getProductPrice() + "' , productImage = '" + pd.getProductImage() + "' WHERE productid = '" + productId + "' ";
             stmt = c.createStatement();
             stmt.executeUpdate(sql1);
             c.commit();

@@ -15,10 +15,12 @@
 }
 
 .img-container {
-  background-image: url('../img/noImageUser.jpg') ;
+  background-image: url('../img/fondoPerfil.png') ;
   position: absolute;
   left: 0;
   top: 0;
+  height: 100%;
+  width: 100%;
   transition: transform 0.3s ease-out;
   z-index: 2;
 }
@@ -127,3 +129,11 @@
   color: #262626;
   font-size: 16px;
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] { -moz-appearance:textfield; }

@@ -1,4 +1,4 @@
-
+const CLOUDINARY_URL_PREVIEW = 'https://res.cloudinary.com/dja8smkgx/image/upload/v';
 
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
@@ -125,6 +125,8 @@ function registrarUsuario() {
 
 }
 
+
+
 function cerrarSesion() {
     cerrarLocalStorageUsuario();
     location.href = "index.html";
@@ -154,7 +156,7 @@ function loadProfile() {
                 document.getElementById("userImageP").src = "./img/noImageUser.jpg";
             }
             else{
-                document.getElementById("userImageP").src = response.data["userImage"];
+                document.getElementById("userImageP").src = CLOUDINARY_URL_PREVIEW+response.data["userImage"];
             }
             
             //Feedback
@@ -180,14 +182,14 @@ function loadProfile() {
 
 }
 
-function updateAds() {
+async function updateAds() {
     var tabla = document.getElementById("tableYourAds");
     tabla.innerHTML = "<th>#</th><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th></th>" +
         "<tbody id='tbodyTableAds'></tbody>";
 
     var tbody = document.getElementById("tbodyTableAds");
 
-    axios.get('/api/v1/products/' + localStorage.getItem('Actual'))
+    await axios.get('/api/v1/products/' + localStorage.getItem('Actual'))
         .then(function (response) {
 
             for (var x in response.data) {

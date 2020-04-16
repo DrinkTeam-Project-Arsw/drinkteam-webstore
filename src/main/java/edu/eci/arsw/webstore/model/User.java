@@ -26,7 +26,7 @@ public class User {
     private String userImage;
     private String userNickname;
     private String codeCountry;
-    private int userPhone;
+    private long userPhone;
     private double userBalance;
     private int userFeedback;
     
@@ -111,11 +111,11 @@ public class User {
         this.codeCountry = codeCountry;
     }
 
-    public int getUserPhone() {
+    public long getUserPhone() {
         return userPhone;
     }
 
-    public void setUserPhone(int userPhone) {
+    public void setUserPhone(long userPhone) {
         this.userPhone = userPhone;
     }
 
