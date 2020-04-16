@@ -286,7 +286,7 @@ function registrarProducto() {
 async function eliminarProducto(productId){
     await axios.delete('api/v1/products/'+localStorage.getItem('Actual')+'/'+productId)
         .then(function(response){
-            var text = "Success, Product Delete";
+            var text = "Success, Deleted Product";
             alertify.success(text);
         })
 }
