@@ -106,6 +106,7 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.PUT, path = "users")
 	public ResponseEntity<?> updateUser(@RequestBody String user) {
 		try {
+            System.out.println(user);
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
@@ -114,11 +115,37 @@ public class UserController {
             Object[] nameKeys = result.keySet().toArray();
             
             User us = result.get(nameKeys[0]);
-            System.out.println(us);
+
+            User userActual = uService.getUserByUserNickname(us.getUserNickname());
+
+            us.setIdUser(userActual.getIdUser());
+            us.setUserBalance(userActual.getUserBalance());
+            us.setUserFeedback(userActual.getUserFeedback());
+
 			uService.updateUser(us);
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getStackTrace(), HttpStatus.CONFLICT);
+		} catch (Exception ex) {
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se puede guardar los cambios ", HttpStatus.NOT_FOUND);
+		}
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT, path = {"users/{userNickname}/{add}"})
+	public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add, @PathVariable("userNickname") String nickname ) {
+		try {
+            System.out.println(add);
+            System.out.println(nickname);
+
+            User userActual = uService.getUserByUserNickname(nickname);
+
+            double balanceBefore = userActual.getUserBalance();
+            userActual.setUserBalance(add+balanceBefore);
+
+			uService.updateUser(userActual);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		} catch (Exception ex) {
+			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se puede guardar los cambios ", HttpStatus.NOT_FOUND);
 		}
 	}
 
