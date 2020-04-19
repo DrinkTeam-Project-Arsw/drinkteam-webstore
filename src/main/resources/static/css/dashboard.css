@@ -8,7 +8,7 @@
 
 .price {
   color: #12ab18;
-  font-size: 26px;
+  font-size: 26px; 
   text-shadow: #00000080 0.1em 0.1em 0.2em;
 }
 .card button {

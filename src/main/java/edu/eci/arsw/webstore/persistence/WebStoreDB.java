@@ -45,7 +45,9 @@ public class WebStoreDB {
         }
     }
 
-    //Consultas de Usuario
+    /****/
+    //// BASE DE DATOS - Consultas de Usuario
+    /****/
     
     /**
      * Metodo que permite consultar una lista con todos los usarios que estan en la base de datos.
@@ -80,7 +82,7 @@ public class WebStoreDB {
     public void createNewUser(User us) {
         Statement stmt = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.postgresql.Driver"); 
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
@@ -203,7 +205,9 @@ public class WebStoreDB {
         }
     }
     
-    //Consultas de Producto
+    /****/
+    //// BASE DE DATOS - Consultas de Producto
+    /****/
     
     /**
      * Metodo que permite consular una lista con todos los productos registrados en el webStore.
@@ -352,4 +356,83 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /****/
+    //// BASE DE DATOS - Consultas de Transaacciones
+    /****/
+
+    /**
+     * Metodo que permite consultar una lista con todos las transacciones que estan en la base de datos.
+     * @return  Retorna una lista de transacciones registradas en la base de datos.
+     */
+    public List<Transaction> getAllTransactions(){
+        List<Transaction> allTransactions = new ArrayList<Transaction>();
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM transaction;");
+            while ( rs.next() ) {
+                t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getDate("transactiondate"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                allTransactions.add(t);
+            }
+            c.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allTransactions;
+    }
+
+     /**
+     * Metodo que permite la consulta de un usuario por su userNickName.
+     * @param userNickname  Es el Nickname del usuario.
+     * @return  Retorna el usuario correspondiente con el NickName o null si no encuentra un usuario con ese nickName.
+     */
+    public Transaction getTransactionByUId(String transactionId) {
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from transaction where transactionid = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, transactionId);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getDate("transactiondate"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+            c.close();
+            pstmt.close();
+            rs.close();
+            return t;
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Metodo que permite realizar la adición de una nueva transaccion en la base de datos.
+     * @param tr    Es la transaccion el cual se quiere agregar a la base de datos.
+     */
+    public void createNewtransaction(Transaction tr) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver"); 
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO transaction (transactionid,transactionprice,transactiondate,transactiondateend,buyer,seller,product) "
+                    + "VALUES ('"+tr.getTransactionId()+"','"+tr.getTransactionPrice()+"','"+tr.getTransactionDate()+"','"+tr.getTransactionDateEnd()+"','"+tr.getBuyerId()+"','"+tr.getSellerId()+"','"+tr.getProduct()+"');";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
