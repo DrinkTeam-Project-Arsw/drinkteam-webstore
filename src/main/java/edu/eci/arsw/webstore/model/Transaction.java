@@ -5,37 +5,42 @@
  */
 package edu.eci.arsw.webstore.model;
 
+
+import org.springframework.data.annotation.Id;
+
 import java.util.Date;
 
 /**
  *
  * @author jmvillatei
- */
-public class Transaction {    
-    private int transactionId;
+ */ 
+public class Transaction { 
+
+    @Id
+    private String transactionId;
     
     private int transactionPrice;
     private Date transactionDate;
     private Date transactionDateEnd;
-    private User buyer;
-    private User seller;
-    private Product product;
+    private String buyer;
+    private String seller;
+    private String product;
     
 
-    public Transaction(int transactionId, int transactionPrice, Date transactionDate, Date transactionDateEnd, User seller, User buyer) {
+    public Transaction(String transactionId, int transactionPrice, Date transactionDate, String seller, String buyer, String product) {
         this.transactionId = transactionId;
         this.transactionPrice = transactionPrice;
         this.transactionDate = transactionDate;
-        this.transactionDateEnd = transactionDateEnd;
         this.buyer = buyer;
         this.seller = seller;
+        this.product = product;
     }
 
-    public int getTransactionId() {
+    public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
     
@@ -63,27 +68,27 @@ public class Transaction {
         this.transactionDateEnd = transactionDateEnd;
     }
 
-    public User getBuyerId() {
+    public String getBuyerId() {
         return buyer;
     }
 
-    public void setBuyerId(User buyer) {
+    public void setBuyerId(String buyer) {
         this.buyer = buyer;
     }
     
-    public User getSellerId() {
+    public String getSellerId() {
         return seller;
     }
 
-    public void setSellerId(User seller) {
+    public void setSellerId(String seller) {
         this.seller = seller;
     }
     
-    public Product getProduct() {
+    public String getProduct() {
         return product;
     }
 
-    public void setProductId(Product product) {
+    public void setProductId(String product) {
         this.product = product;
     }   
 }

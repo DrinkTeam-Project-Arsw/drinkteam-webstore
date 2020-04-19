@@ -73,6 +73,25 @@ public class ProductController {
             return new ResponseEntity<>("No se ha podido retornar los productos del usuario con nickname: " + username, HttpStatus.NOT_FOUND);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = {"products/{usernickName}/{productId}"})
+    public ResponseEntity<?> getProductByNicknameById(@PathVariable("usernickName") String nickname, @PathVariable("productId") String producId) {
+        try {
+            List<Product> products = new ArrayList<>();
+
+            products = pService.getAllProductsOfUserNickname(nickname);
+
+            Product product = products.get(0);
+            System.out.println("Producto: "+ product.getProductName());
+
+            String data = new Gson().toJson(products);
+
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido retornar el producto del usuario con nickname: " + nickname, HttpStatus.NOT_FOUND);
+        }
+    }
     
     @RequestMapping(method = RequestMethod.POST, path = "products")
     public ResponseEntity<?> createNewProduct(@RequestBody String product ) {

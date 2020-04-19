@@ -100,6 +100,9 @@ async function agregarVendedor(productos) {
                     '</div>';
 
                 //console.log("carosel: "+carousel);
+                var productId = "'" + producto["productId"] + "'";
+                var vendedorId = "'" + vendedor['idUser'] + "'";
+                var vendedorNick = "'" + vendedor['userNickname'] + "'";
                 var divCardProfile = document.createElement("div");
                 divCardProfile.innerHTML = '<div class="col-sm-3" style="max-width:100%">' +
                         '<div class="card promoting-card">' +
@@ -116,7 +119,7 @@ async function agregarVendedor(productos) {
                             '<div class="card-body">'+
                                 '<p>' + producto["productDescription"] + '</p>'+
                                 '<p class="price">$' + producto["productPrice"] + '</p>'+
-                                '<button class="btn btn-success">buy</button>'+
+                                '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + "," + vendedorNick + ')">buy</button>'+
                             '</div>'+
                         '</div>'+
                     '</div>';
@@ -174,6 +177,29 @@ function loadProfile() {
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
         })
+
+}
+
+async function comprar(productoId, vendedorId, vendedor) {
+    //crear trasnaccion
+    
+    console.log("Producto: "+productoId);
+    console.log("vendedor: "+vendedorId);
+    console.log("vendedor: "+vendedor);
+    console.log("comprador: "+localStorage.getItem("Actual"));
+
+
+    
+
+    location.href = "transaction.html";
+
+
+    /*await axios.get('/api/v1/products/'+userId+"/"+productId)
+        .then(function (response) {
+            console.log(response.data);
+        })*/
+    //console.log(productos);
+   
 
 }
 

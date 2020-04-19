@@ -1,0 +1,5 @@
+
+.nav-justified>li {
+    display: table-cell;
+     width: 33%; 
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>transaction <span id="transactionIdT"></span></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -15,7 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="css/pricing.css" rel="stylesheet">
     <link href="css/profile.css" rel="stylesheet">
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/transaction.css" rel="stylesheet">
 
 </head>
 
@@ -26,6 +26,7 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal">WebStore</h5>
         <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="dashboard.html">Dashboard</a>
             <a class="p-2 text-dark" href="profile.html">Profile</a>
         </nav>
         <a onclick="cerrarSesion()" class="btn btn-outline-primary" href="index.html">Cerrar sesion</a>
@@ -114,29 +115,52 @@
                             button</h3>
                     </div>
                     <div class="panel-body">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#allProducts">Products</a></li>
-                            <li><a data-toggle="tab" href="#inProcess">In Process</a></li>
-                            <li><a data-toggle="tab" href="#history">History</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="allProducts" class="tab-pane fade in active">
-                                <!-- >> ALL PRODUCTS -->
-                                <div id="divAllProducts"></div>
-
-
+                        <div class="container" style="max-width: 100%;">
+                            <div class="row form-group" style="padding: 10px;">
+                                <div class="col-xs-12">
+                                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                        <li class="active"><a href="#step-1">
+                                                <h4 class="list-group-item-heading">Step 1</h4>
+                                                <p class="list-group-item-text">First step description</p>
+                                            </a></li>
+                                        <li class="disabled"><a href="#step-2">
+                                                <h4 class="list-group-item-heading">Step 2</h4>
+                                                <p class="list-group-item-text">Second step description</p>
+                                            </a></li>
+                                        <li class="disabled"><a href="#step-3">
+                                                <h4 class="list-group-item-heading">Step 3</h4>
+                                                <p class="list-group-item-text">Third step description</p>
+                                            </a></li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div id="inProcess" class="tab-pane fade">
-
-                                <table id="tablaTransaccionesEnCurso" class="table table-condensed table-hover"></table>
-
+                            <div class="row setup-content" id="step-1">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12 well text-center">
+                                        <h2> STEP 1</h2>
+                                        
+                                        <button id="activate-step-2" class="btn btn-primary btn-lg">Activate Step
+                                            2</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="history" class="tab-pane fade">
-                                <table id="tbodyTablaHitorial" class="table table-condensed table-hover"
-                                    style="text-align:center"></table>
-
-
+                            <div class="row setup-content" id="step-2">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12 well text-center">
+                                        <h2> STEP 2</h2>
+                                        <button id="activate-step-3" class="btn btn-primary btn-lg">Activate Step
+                                            3</button>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row setup-content" id="step-3">
+                                <div class="col-xs-12">
+                                    <div class="col-md-12 well text-center">
+                                        <h2> STEP 3</h2>
+                                    </div>
+                                </div>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -295,7 +319,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="js/jquery.js"></script>
 
-    <script src="js/dashboardController.js"></script>
+    <script src="js/transactionController.js"></script>
     <script src="js/payment.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
