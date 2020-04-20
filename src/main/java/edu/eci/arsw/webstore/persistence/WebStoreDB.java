@@ -81,19 +81,16 @@ public class WebStoreDB {
      */
     public void createNewUser(User us) {
         Statement stmt = null;
-        System.out.println("enviado4");
         try {
             Class.forName("org.postgresql.Driver"); 
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            System.out.println("Se totio ?");
             String sql = "INSERT INTO usr (userid,usertype,username,userlastname,useremail,usserpassword,usserimage,ussernickname,ussercode,userphone,userbalance,userfeedback,useractive) "
                     + "VALUES ('"+us.getIdUser()+"','user','','','"+us.getUserEmail()+"','"+us.getUserPassword()+"','','"+us.getUserNickname()+"','','0','0','0',false);";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
-            System.out.println("COrrecto");
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,6 +191,8 @@ public class WebStoreDB {
     public void deleteUserByUserNickname(String userNickname) {
         Statement stmt = null;
         try {
+            u = getUserByUserNickname(userNickname);
+            deleteAllProductByIdOfUserNickname(u.getIdUser());
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
@@ -202,8 +201,6 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-            u = getUserByUserNickname(userNickname);
-            deleteAllProductByIdOfUserNickname(u.getIdUser());
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -355,7 +352,6 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-            System.out.println("Borre productos");
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -397,21 +393,17 @@ public class WebStoreDB {
      * @return  Retorna la tracsaccion correspondiente con el iD o null si no encuentra la transaccion con ese Id.
      */
     public Transaction getTransactionById(String transactionId) {
-        System.out.println("En DB");
         PreparedStatement pstmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
-            System.out.println("conecction");
             c.setAutoCommit(false);
             String sql = "Select * from transaction where transactionid = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            System.out.println("va a ser T");
             t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getTimestamp("transactiondate"),rs.getBoolean("transactionactive"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-            System.out.println(t+"   <----- T mk");
             c.close();
             pstmt.close();
             rs.close();

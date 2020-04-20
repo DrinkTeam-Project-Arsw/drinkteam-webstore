@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -57,30 +56,22 @@ public class UserController {
     public ResponseEntity<?> createNewUser(@RequestBody String user) {
         //Formato de json {"1":{"userEmail":"webpostman@gmail.com","userPassword":"123","userNickname":"postmanweb"}}
         try {
-            //System.out.println("controller: "+user.getUserNickname());
-            //uService.createNewUser(user);
-            System.out.println("-------------------------------------------------------------");
-            System.out.println(user);
-            System.out.println("-------------------------------------------------------------");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
-            
+
             //Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
-            
+
             User us = result.get(nameKeys[0]);
             ObjectId newObjectIdUser = new ObjectId(new Date());
             us.setIdUser(newObjectIdUser.toHexString());
-            System.out.println("usuario: "+us.getUserNickname());
-            System.out.println("id: "+us.getIdUser());
-            
-            System.out.println("enviado1");
+
             uService.createNewUser(us);
-               
+
             return new ResponseEntity<>(HttpStatus.CREATED);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
@@ -94,7 +85,7 @@ public class UserController {
 
             User consulUser = uService.getUserByUserNickname(username);
 
-            user.put(consulUser.getUserNickname(), consulUser); 
+            user.put(consulUser.getUserNickname(), consulUser);
 
             String data = new Gson().toJson(consulUser);
 
@@ -105,18 +96,17 @@ public class UserController {
         }
     }
 
-    
-	@RequestMapping(method = RequestMethod.PUT, path = "users")
-	public ResponseEntity<?> updateUser(@RequestBody String user) {
-		try {
+    @RequestMapping(method = RequestMethod.PUT, path = "users")
+    public ResponseEntity<?> updateUser(@RequestBody String user) {
+        try {
             System.out.println(user);
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
-            
+
             //Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
-            
+
             User us = result.get(nameKeys[0]);
 
             User userActual = uService.getUserByUserNickname(us.getUserNickname());
@@ -125,36 +115,35 @@ public class UserController {
             us.setUserBalance(userActual.getUserBalance());
             us.setUserFeedback(userActual.getUserFeedback());
 
-			uService.updateUser(us);
-			return new ResponseEntity<>(HttpStatus.ACCEPTED);
-		} catch (Exception ex) {
-			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            uService.updateUser(us);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se puede guardar los cambios ", HttpStatus.NOT_FOUND);
-		}
+        }
     }
-    
+
     @RequestMapping(method = RequestMethod.PUT, path = {"users/{userNickname}/{add}"})
-	public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add, @PathVariable("userNickname") String nickname ) {
-		try {
-            System.out.println(add);
-            System.out.println(nickname);
+    public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add, @PathVariable("userNickname") String nickname) {
+        try {
 
             User userActual = uService.getUserByUserNickname(nickname);
 
             double balanceBefore = userActual.getUserBalance();
-            userActual.setUserBalance(add+balanceBefore);
+            userActual.setUserBalance(add + balanceBefore);
 
-			uService.updateUser(userActual);
-			return new ResponseEntity<>(HttpStatus.ACCEPTED);
-		} catch (Exception ex) {
-			Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            uService.updateUser(userActual);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se puede guardar los cambios ", HttpStatus.NOT_FOUND);
-		}
-	}
+        }
+    }
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"users/{userNickname}"})
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("userNickname") String username) {
         try {
+            System.out.println("Erro1");
             uService.deleteUserByUserNickname(username);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

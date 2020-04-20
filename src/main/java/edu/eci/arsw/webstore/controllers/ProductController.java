@@ -12,11 +12,9 @@ import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.services.product.ProductServices;
 import edu.eci.arsw.webstore.services.user.UserServices;
 
-import java.io.Console;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -102,11 +100,6 @@ public class ProductController {
     public ResponseEntity<?> createNewProduct(@RequestBody String product ) {
         //Formato de json {"1":{"productName":"PruebaOnline","productDescription":"pruebaOnlineeeee","productPrice":"20000","productUser":"david","productImage":""}}
         try {
-            //System.out.println("controller: "+user.getUserNickname());
-            //uService.createNewUser(user);
-            System.out.println("-------------------------------------------------------------");
-            System.out.println("producto: "+product);
-            System.out.println("-------------------------------------------------------------");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Product>>() {
             }.getType();
@@ -121,13 +114,7 @@ public class ProductController {
             
             ObjectId newObjectIdProduct = new ObjectId(new Date());
             pd.setProductId(newObjectIdProduct.toHexString());
-            //pd.setProductUser(user);
             pd.setProductUser(idUser.getIdUser());
-            
-            System.out.println("Nombre producto: "+pd.getProductName());
-            System.out.println("vendedor: "+ idUser.getUserNickname() );
-            System.out.println("id vendedor: "+ pd.getProductUser() );
-            System.out.println("id: "+pd.getProductId());
             
             pService.createNewProduct(pd);
                
@@ -139,20 +126,32 @@ public class ProductController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.PUT, path = {"products/{productId}"})
-    public ResponseEntity<?> editProductById(@PathVariable("productId") String productId) {
+    @RequestMapping(method = RequestMethod.PUT, path = {"products/{usernickName}/{productId}"})
+    public ResponseEntity<?> editProductById(@RequestBody String product, @PathVariable("usernickName") String nickname, @PathVariable("productId") String producId) {
         try {
+            //JSON {"1":{"productName":"xxxx","productDescription":"xxxx","productPrice":"xxxx","productImage":"xxxx"}}
+            //Pasar el String JSON a un Map
+            Type listType = new TypeToken<Map<Integer, Product>>() {
+            }.getType();
+            Map<String, Product> result = new Gson().fromJson(product, listType);
             
-            // OJO -----> Se debe crear un producto con los datos Nuevos.
-            // Producto Fake para realizar pruebas con postman.
-            Product pd = new Product("PruebaPostman", "Esta es la prueba del metodo PUT del producto", 5.500, "1586761913/zs3opsk3zujqjjoym2z4.jpg");
+            //Obtener las llaves del Map
+            Object[] nameKeys = result.keySet().toArray();
             
-            pService.editProductById(productId, pd);
+            Product pd = result.get(nameKeys[0]);
+            
+            User idUser = uService.getUserByUserNickname(nickname);
+            
+            ObjectId newObjectIdProduct = new ObjectId(new Date());
+            pd.setProductId(newObjectIdProduct.toHexString());
+            pd.setProductUser(idUser.getIdUser());            
+            
+            pService.editProductById(producId, pd);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("No se ha podido editar el producto con el id: " + productId,
+            return new ResponseEntity<>("No se ha podido editar el producto con el id: " + producId,
                     HttpStatus.FORBIDDEN);
         }
     }

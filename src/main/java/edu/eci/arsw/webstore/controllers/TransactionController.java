@@ -9,20 +9,16 @@ import edu.eci.arsw.webstore.model.Transaction;
 import edu.eci.arsw.webstore.services.transaction.TransactionServices;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import edu.eci.arsw.webstore.model.User;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import org.bson.types.ObjectId;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
