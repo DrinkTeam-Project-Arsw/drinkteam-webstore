@@ -80,11 +80,16 @@ public class ProductController {
             List<Product> products = new ArrayList<>();
 
             products = pService.getAllProductsOfUserNickname(nickname);
+            
+            Product product = null;
+            for(Product p:products){
+                if(p.getProductId().equals(producId)){
+                    product = p;
+                    break;
+                }
+            }
 
-            Product product = products.get(0);
-            System.out.println("Producto: "+ product.getProductName());
-
-            String data = new Gson().toJson(products);
+            String data = new Gson().toJson(product);
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
@@ -95,11 +100,13 @@ public class ProductController {
     
     @RequestMapping(method = RequestMethod.POST, path = "products")
     public ResponseEntity<?> createNewProduct(@RequestBody String product ) {
-        //Formato de json {"emailUser":email,"passwordUser":password,"username":username}
+        //Formato de json {"1":{"productName":"PruebaOnline","productDescription":"pruebaOnlineeeee","productPrice":"20000","productUser":"david","productImage":""}}
         try {
             //System.out.println("controller: "+user.getUserNickname());
             //uService.createNewUser(user);
+            System.out.println("-------------------------------------------------------------");
             System.out.println("producto: "+product);
+            System.out.println("-------------------------------------------------------------");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Product>>() {
             }.getType();

@@ -55,11 +55,13 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "users")
     public ResponseEntity<?> createNewUser(@RequestBody String user) {
-        //Formato de json {"emailUser":email,"passwordUser":password,"username":username}
+        //Formato de json {"1":{"userEmail":"webpostman@gmail.com","userPassword":"123","userNickname":"postmanweb"}}
         try {
             //System.out.println("controller: "+user.getUserNickname());
             //uService.createNewUser(user);
-
+            System.out.println("-------------------------------------------------------------");
+            System.out.println(user);
+            System.out.println("-------------------------------------------------------------");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
@@ -74,6 +76,7 @@ public class UserController {
             System.out.println("usuario: "+us.getUserNickname());
             System.out.println("id: "+us.getIdUser());
             
+            System.out.println("enviado1");
             uService.createNewUser(us);
                
             return new ResponseEntity<>(HttpStatus.CREATED);

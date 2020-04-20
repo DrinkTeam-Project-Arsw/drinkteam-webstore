@@ -6,9 +6,9 @@
 package edu.eci.arsw.webstore.model;
 
 
+import java.sql.Timestamp;
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
 
 /**
  *
@@ -20,17 +20,27 @@ public class Transaction {
     private String transactionId;
     
     private int transactionPrice;
-    private Date transactionDate;
-    private Date transactionDateEnd;
+    private Timestamp transactionDate;
+    private Timestamp transactionDateEnd;
+    private boolean transactionActive;
     private String buyer;
     private String seller;
     private String product;
     
+    public Transaction(String transactionId, int transactionPrice, boolean transactionActive, String buyer, String seller, String product){
+        this.transactionId = transactionId;
+        this.transactionPrice = transactionPrice;
+        this.transactionActive = transactionActive;
+        this.buyer = buyer;
+        this.seller = seller;
+        this.product = product;
+    }
 
-    public Transaction(String transactionId, int transactionPrice, Date transactionDate, String seller, String buyer, String product) {
+    public Transaction(String transactionId, int transactionPrice, Timestamp transactionDate, boolean transactionActive, String buyer, String seller, String product) {
         this.transactionId = transactionId;
         this.transactionPrice = transactionPrice;
         this.transactionDate = transactionDate;
+        this.transactionActive = transactionActive;
         this.buyer = buyer;
         this.seller = seller;
         this.product = product;
@@ -44,6 +54,14 @@ public class Transaction {
         this.transactionId = transactionId;
     }
     
+    public boolean getTransactionActive(){
+        return transactionActive;
+    }
+    
+    public void setTransactionActive(boolean transactionActive){
+        this.transactionActive = transactionActive;
+    }
+    
     public int getTransactionPrice() {
         return transactionPrice;
     }
@@ -52,19 +70,19 @@ public class Transaction {
         this.transactionPrice = transactionPrice;
     }
 
-    public Date getTransactionDate() {
+    public Timestamp getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(Timestamp transactionDate) {
         this.transactionDate = transactionDate;
     }
 
-    public Date getTransactionDateEnd() {
+    public Timestamp getTransactionDateEnd() {
         return transactionDateEnd;
     }
 
-    public void setTransactionDateEnd(Date transactionDateEnd) {
+    public void setTransactionDateEnd(Timestamp transactionDateEnd) {
         this.transactionDateEnd = transactionDateEnd;
     }
 

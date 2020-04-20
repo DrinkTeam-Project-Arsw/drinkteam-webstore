@@ -36,6 +36,7 @@ public class InMemoryUserPersistence implements UserPersistence{
     @Override
     public void createNewUser(User us) {
         newDb();
+        System.out.println("enviado3");
         if(getUserByUserNickname(us.getUserNickname()) == null){
             wsdb.createNewUser(us);
         }else{

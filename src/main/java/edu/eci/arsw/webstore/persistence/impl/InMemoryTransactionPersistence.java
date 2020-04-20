@@ -35,13 +35,14 @@ public class InMemoryTransactionPersistence implements TransactionPersistence {
 
     @Override
     public Transaction getTransactionById(String transactionId) {
-        // TODO Auto-generated method stub
-        return null;
+        newDb();
+        return wsdb.getTransactionById(transactionId);
     }
 
     @Override
     public void createNewTransaction(Transaction tr) {
-        // TODO Auto-generated method stub
+        newDb();
+        wsdb.createNewtransaction(tr);
 
     }
 
@@ -53,7 +54,8 @@ public class InMemoryTransactionPersistence implements TransactionPersistence {
 
     @Override
     public void deleteTransactionById(String transactionId) {
-        // TODO Auto-generated method stub
+        newDb();
+        wsdb.deleteTransactionById(transactionId);
 
     }
     
