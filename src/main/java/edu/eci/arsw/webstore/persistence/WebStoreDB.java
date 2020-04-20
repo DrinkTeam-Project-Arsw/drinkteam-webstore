@@ -375,7 +375,8 @@ public class WebStoreDB {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM transaction;");
             while ( rs.next() ) {
-                t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getTimestamp("transactiondate"), rs.getBoolean("transactionactive"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getString("transactiondate"), rs.getBoolean("transactionactive"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                t.setTransactionDateEnd(rs.getString("transactiondateend"));
                 allTransactions.add(t);
             }
             c.close();
@@ -403,7 +404,8 @@ public class WebStoreDB {
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getTimestamp("transactiondate"),rs.getBoolean("transactionactive"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+            t = new Transaction(rs.getString("transactionid"), rs.getInt("transactionprice"), rs.getString("transactiondate"),rs.getBoolean("transactionactive"), rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+            t.setTransactionDateEnd(rs.getString("transactiondateend"));
             c.close();
             pstmt.close();
             rs.close();
