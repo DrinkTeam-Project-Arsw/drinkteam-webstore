@@ -119,7 +119,7 @@ public class WebStoreDB {
             u.setUserLastName(rs.getString("userlastname"));
             u.setUserImage(rs.getString("usserimage"));
             u.setCodeCountry(rs.getString("ussercode"));
-            u.setUserPhone(rs.getInt("userphone"));
+            u.setUserPhone(rs.getString("userphone"));
             u.setUserBalance(rs.getDouble("userbalance"));
             u.setUserFeedback(rs.getInt("userfeedback"));
             u.setUserActive(rs.getBoolean("useractive"));

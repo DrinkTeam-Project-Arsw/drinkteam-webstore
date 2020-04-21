@@ -81,11 +81,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = {"users/{userNickname}"})
     public ResponseEntity<?> getUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            Map<String, User> user = new HashMap<>();
-
             User consulUser = uService.getUserByUserNickname(username);
-
-            user.put(consulUser.getUserNickname(), consulUser);
 
             String data = new Gson().toJson(consulUser);
 
