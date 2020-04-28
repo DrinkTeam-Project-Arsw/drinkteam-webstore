@@ -119,19 +119,20 @@ public class WebStoreDB {
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, userNickname);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-            u.setIdUser(rs.getString("userid"));
-            u.setUserType(rs.getString("usertype"));
-            u.setUserName(rs.getString("username"));
-            u.setUserLastName(rs.getString("userlastname"));
-            u.setUserImage(rs.getString("usserimage"));
-            u.setCodeCountry(rs.getString("ussercode"));
-            u.setUserPhone(rs.getString("userphone"));
-            u.setUserBalance(rs.getDouble("userbalance"));
-            u.setUserFeedback(rs.getInt("userfeedback"));
-            u.setUserActive(rs.getBoolean("useractive"));
-            getAllProductsOfUserNickname(userNickname);
+            if (rs.next()){
+                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                u.setIdUser(rs.getString("userid"));
+                u.setUserType(rs.getString("usertype"));
+                u.setUserName(rs.getString("username"));
+                u.setUserLastName(rs.getString("userlastname"));
+                u.setUserImage(rs.getString("usserimage"));
+                u.setCodeCountry(rs.getString("ussercode"));
+                u.setUserPhone(rs.getString("userphone"));
+                u.setUserBalance(rs.getDouble("userbalance"));
+                u.setUserFeedback(rs.getInt("userfeedback"));
+                u.setUserActive(rs.getBoolean("useractive"));
+                getAllProductsOfUserNickname(userNickname);
+            }
             c.close();
             pstmt.close();
             rs.close();

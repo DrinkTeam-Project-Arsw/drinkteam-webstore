@@ -27,7 +27,7 @@ public class UserServicesStub implements UserServices{
     }
 
     @Override
-    public void createNewUser(User us) {
+    public void createNewUser(User us) { 
         uPersistence.createNewUser(us);
     }
 

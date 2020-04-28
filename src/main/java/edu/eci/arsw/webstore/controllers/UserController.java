@@ -66,7 +66,7 @@ public class UserController {
             User us = result.get(nameKeys[0]);
             ObjectId newObjectIdUser = new ObjectId(new Date());
             us.setIdUser(newObjectIdUser.toHexString());
-
+                       
             uService.createNewUser(us);
 
             return new ResponseEntity<>(HttpStatus.CREATED);
