@@ -37,8 +37,8 @@ public class ProductServicesStub implements ProductServices{
     }
 
     @Override
-    public Product getProductByIdOfUserNickname(String id, String idUser) {
-        return pPersistence.getProductByIdOfUserNickname(id, idUser);
+    public Product getProductByIdOfUserNickname(String id) {
+        return pPersistence.getProductByIdOfUserNickname(id);
     }
 
     @Override

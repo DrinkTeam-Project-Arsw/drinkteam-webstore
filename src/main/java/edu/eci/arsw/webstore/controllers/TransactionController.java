@@ -5,8 +5,12 @@
  */
 package edu.eci.arsw.webstore.controllers;
 
+import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.Transaction;
+import edu.eci.arsw.webstore.model.User;
+import edu.eci.arsw.webstore.services.product.ProductServices;
 import edu.eci.arsw.webstore.services.transaction.TransactionServices;
+import edu.eci.arsw.webstore.services.user.UserServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 
 /**
  *
@@ -37,7 +43,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
 
     @Autowired
-    TransactionServices tService; 
+    TransactionServices tService;
+
+    @Autowired
+    UserServices uService;
+
+    @Autowired
+    ProductServices pService;
 
     @RequestMapping(method = RequestMethod.GET, path = "transactions")
     public ResponseEntity<?> getAllTransactions() {
@@ -54,12 +66,12 @@ public class TransactionController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"transactions/{transactionid}"})
+    @RequestMapping(method = RequestMethod.GET, path = { "transactions/{transactionid}" })
     public ResponseEntity<?> getTransactionById(@PathVariable("transactionid") String id) {
         try {
-            System.out.println("transaccion: "+id);
+            System.out.println("transaccion: " + id);
             Transaction t = tService.getTransactionById(id);
-            System.out.println(t +"  OMG PERO ES IGUAL");
+            System.out.println(t + "  OMG PERO ES IGUAL");
             String data = new Gson().toJson(t);
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
@@ -71,38 +83,78 @@ public class TransactionController {
 
     @RequestMapping(method = RequestMethod.POST, path = "transactions")
     public ResponseEntity<?> createNewTransaction(@RequestBody String transaction) {
-        //Formato de json {"1":{"transactionId":"5","transactionPrice":"2000","transactionDate":"2020-04-19 08:22:23","transactionDateEnd":"2020-04-19 08:22:23","transactionActive":"true","buyer":"0","seller":"2","product":"4"}}
+        // Formato de json {"1":{"buyer":"0","seller":"2","product":"4"}}
         try {
-            //Pasar el String JSON a un Map
+            System.out.println(">>>JSON: "+transaction);
+            // Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Transaction>>() {
             }.getType();
             Map<String, Transaction> result = new Gson().fromJson(transaction, listType);
-            //Obtener las llaves del Map
+            // Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
             Transaction tr = result.get(nameKeys[0]);
-            ObjectId newObjectIdUser = new ObjectId(new Date());
 
+            // Crear Id aleatorio
+            ObjectId newObjectIdUser = new ObjectId(new Date());
             tr.setTransactionId(newObjectIdUser.toHexString());
 
+            // Crear fecha de inicio de transaccion
+            String dateColombia = tService.getDateColombia();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime myDateObj = LocalDateTime.parse(dateColombia.substring(0, 19), formatter);
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String formattedDate = myDateObj.format(myFormatObj);
+            //System.out.println("After formatting: " + formattedDate);
+            tr.setTransactionDate(formattedDate);
+
+
+            // Asignar demas atributos
+            /// Buscar vendedor
+            User seller = uService.getUserById(tr.getSeller());
+            /// Buscar Comprador
+            User buyer = uService.getUserByUserNickname(tr.getBuyer());
+            tr.setBuyer(buyer.getIdUser());
+            /// Buscar Producto
+            Product product = pService.getProductByIdOfUserNickname(tr.getProduct()) ;
+            /// Agregar precio con nuestra comision
+            int newPrice = (int) product.getProductPrice();
+            tr.setTransactionPrice(newPrice + 1);
+            tr.setTransactionActive(true);
+            System.out.println("Comprador: "+ buyer.getUserNickname()+" Vendedor: "+seller.getUserNickname()+" producto: "+product.getProductName());
+            System.out.println("Transaccion: " + tr.getTransactionId());
+
             tService.createNewTransaction(tr);
-               
-            return new ResponseEntity<>(HttpStatus.CREATED);
+
             
+            return new ResponseEntity<>(HttpStatus.CREATED);
+
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar la transaction", HttpStatus.FORBIDDEN);
         }
     }
-    
-    @RequestMapping(method = RequestMethod.DELETE, path = {"transactions/{transactionid}"})
+
+    @RequestMapping(method = RequestMethod.DELETE, path = { "transactions/{transactionid}" })
     public ResponseEntity<?> deleteTransactionById(@PathVariable("transactionid") String transactionid) {
         try {
-            System.out.println("transaccion: "+transactionid);
+            System.out.println("transaccion: " + transactionid);
             tService.deleteTransactionById(transactionid);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("No se ha podido eliminar la transaccion: " + transactionid, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No se ha podido eliminar la transaccion: " + transactionid,
+                    HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getDateColombia() {
+
+        try {
+            return new ResponseEntity<>(tService.getDateColombia(), HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Error, No es posible obtener la informacion del tiempo", HttpStatus.NOT_FOUND);
         }
     }
 }

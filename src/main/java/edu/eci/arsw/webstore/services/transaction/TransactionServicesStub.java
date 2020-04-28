@@ -2,6 +2,9 @@ package edu.eci.arsw.webstore.services.transaction;
 
 import java.util.List;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import edu.eci.arsw.webstore.model.Transaction;
 import edu.eci.arsw.webstore.persistence.TransactionPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,11 @@ public class TransactionServicesStub implements TransactionServices {
     public void deleteTransactionById(String transactionId) {
         tPersistence.deleteTransactionById(transactionId);
 
+    }
+
+    @Override
+    public String getDateColombia() throws MalformedURLException, ProtocolException, IOException {
+        return tPersistence.getDateColombia();
     }
 
     

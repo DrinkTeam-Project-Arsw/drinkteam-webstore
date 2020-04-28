@@ -67,9 +67,10 @@ public class InMemoryUserPersistence implements UserPersistence{
     }
 
     @Override
-    public void deleteUserByEmail(String email) {
+    public User getUserById(String id) {
         newDb();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return wsdb.getUserById(id);
+
     }
     
 }

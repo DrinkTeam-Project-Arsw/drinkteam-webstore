@@ -41,10 +41,9 @@ public interface ProductServices {
      * Este metodo permite obtener un producto por id de un usuario
      *
      * @param id id del producto a obtener
-     * @param idUser id del usuario
      * @return El producto que pertenece a ese usuario
      */
-    public Product getProductByIdOfUserNickname(String id, String idUser);
+    public Product getProductByIdOfUserNickname(String id);
 
     /**
      * Este metodo permite eliminar un producto de un usuario

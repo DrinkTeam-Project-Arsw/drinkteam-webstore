@@ -50,14 +50,14 @@ async function agregarVendedor(productos) {
                 //console.log(response.data);
                 vendedor = response.data;
 
-                if(producto['productImage']===undefined){
-                    var imagenes = ["1586761913/zs3opsk3zujqjjoym2z4.jpg","1586761911/fyz3wskpl2chznqyq7p8.jpg"];
+                if (producto['productImage'] === undefined) {
+                    var imagenes = ["1586761913/zs3opsk3zujqjjoym2z4.jpg", "1586761911/fyz3wskpl2chznqyq7p8.jpg"];
                     //console.log("Imagenes: "+imagenes);
-                }else{
+                } else {
                     var imagenes = producto['productImage'].split(",");
                     //console.log("Imagenes: "+imagenes);
                 }
-                
+
                 //var ol = '<ol class="carousel-indicators">';
                 //var divCareusel = '<div class="carousel-inner">';
 
@@ -65,38 +65,38 @@ async function agregarVendedor(productos) {
                 var divCareusel = '';
 
                 for (let img in imagenes) {
-                    if(img==0){
-                        ol += '<li data-target="#myCarousel'+ producto['productId'] +'" data-slide-to="'+ img +'" class="active"></li>';
-                    divCareusel += '<div class="item active">'+
-                        '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">'+
-                        '</div>';
-                    }else{
-                        ol += '<li data-target="#myCarousel'+ producto['productId'] +'" data-slide-to="'+ img +'"></li>';
-                        divCareusel += '<div class="item">'+
-                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">'+
+                    if (img == 0) {
+                        ol += '<li data-target="#myCarousel' + producto['productId'] + '" data-slide-to="' + img + '" class="active"></li>';
+                        divCareusel += '<div class="item active">' +
+                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
+                            '</div>';
+                    } else {
+                        ol += '<li data-target="#myCarousel' + producto['productId'] + '" data-slide-to="' + img + '"></li>';
+                        divCareusel += '<div class="item">' +
+                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
                             '</div>';
                     }
-                    
+
                 }
 
 
                 //console.log("ol: "+ol);
                 //console.log("divCar: "+divCareusel);
-                
-                var carousel = '<div class="view overlay">'+
-                        '<div id="myCarousel'+ producto['productId'] +'" class="carousel slide" data-ride="carousel">'+
-                            '<ol class="carousel-indicators">' + ol + '</ol>'+
-                            '<div class="carousel-inner">' + divCareusel + '</div>'+
-                            
-                            '<a class="left carousel-control" href="#myCarousel'+ producto['productId'] +'" data-slide="prev">'+
-                                '<span class="glyphicon glyphicon-chevron-left"></span>'+
-                                '<span class="sr-only">Previous</span>'+
-                            '</a>'+
-                            '<a class="right carousel-control" href="#myCarousel'+ producto['productId'] +'"  data-slide="next">'+
-                                '<span class="glyphicon glyphicon-chevron-right"></span>'+
-                                '<span class="sr-only">Next</span>'+
-                            '</a>'+
-                        '</div>'+
+
+                var carousel = '<div class="view overlay">' +
+                    '<div id="myCarousel' + producto['productId'] + '" class="carousel slide" data-ride="carousel">' +
+                    '<ol class="carousel-indicators">' + ol + '</ol>' +
+                    '<div class="carousel-inner">' + divCareusel + '</div>' +
+
+                    '<a class="left carousel-control" href="#myCarousel' + producto['productId'] + '" data-slide="prev">' +
+                    '<span class="glyphicon glyphicon-chevron-left"></span>' +
+                    '<span class="sr-only">Previous</span>' +
+                    '</a>' +
+                    '<a class="right carousel-control" href="#myCarousel' + producto['productId'] + '"  data-slide="next">' +
+                    '<span class="glyphicon glyphicon-chevron-right"></span>' +
+                    '<span class="sr-only">Next</span>' +
+                    '</a>' +
+                    '</div>' +
                     '</div>';
 
                 //console.log("carosel: "+carousel);
@@ -105,23 +105,23 @@ async function agregarVendedor(productos) {
                 var vendedorNick = "'" + vendedor['userNickname'] + "'";
                 var divCardProfile = document.createElement("div");
                 divCardProfile.innerHTML = '<div class="col-sm-3" style="max-width:100%">' +
-                        '<div class="card promoting-card">' +
-                            '<div class="card-body d-flex flex-row">' +
-                                '<img src="' + CLOUDINARY_URL_PREVIEW + vendedor['userImage'] + '" class="rounded-circle mr-5" width="35%"  alt="avatar">' +
-                                '<div>'+
-                                    '<h4 class="card-title font-weight-bold mb-2">' + vendedor['userNickname'] + '</h4>' +
-                                    '<p class="card-text"><i class="far fa-clock pr-2"></i>' + vendedor['userFeedback'] + '</p>'+
-                                '</div>'+
-                            '</div>'+
-                            '<hr>'+
-                            '<h5 class="card-title">' + producto["productName"] + '</h5>'+
-                            carousel +
-                            '<div class="card-body">'+
-                                '<p>' + producto["productDescription"] + '</p>'+
-                                '<p class="price">$' + producto["productPrice"] + '</p>'+
-                                '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + "," + vendedorNick + ')">buy</button>'+
-                            '</div>'+
-                        '</div>'+
+                    '<div class="card promoting-card">' +
+                    '<div class="card-body d-flex flex-row">' +
+                    '<img src="' + CLOUDINARY_URL_PREVIEW + vendedor['userImage'] + '" class="rounded-circle mr-5" width="35%"  alt="avatar">' +
+                    '<div>' +
+                    '<h4 class="card-title font-weight-bold mb-2">' + vendedor['userNickname'] + '</h4>' +
+                    '<p class="card-text"><i class="far fa-clock pr-2"></i>' + vendedor['userFeedback'] + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '<hr>' +
+                    '<h5 class="card-title">' + producto["productName"] + '</h5>' +
+                    carousel +
+                    '<div class="card-body">' +
+                    '<p>' + producto["productDescription"] + '</p>' +
+                    '<p class="price">$' + producto["productPrice"] + '</p>' +
+                    '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + ')">buy</button>' +
+                    '</div>' +
+                    '</div>' +
                     '</div>';
 
                 divRow.appendChild(divCardProfile);
@@ -138,11 +138,11 @@ async function agregarVendedor(productos) {
     //console.log(productos);
 }
 
-function loadProfile() {
-    axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
+async function loadProfile() {
+    await axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
         .then(function (response) {
-            
-            document.getElementById("usernameP").innerHTML = "Hi, "+response.data["userNickname"];
+
+            document.getElementById("usernameP").innerHTML = "Hi, " + response.data["userNickname"];
 
             document.getElementById("emailP").innerHTML = response.data["userEmail"];
             document.getElementById("balanceP").innerHTML = response.data["userBalance"];
@@ -153,13 +153,13 @@ function loadProfile() {
             document.getElementById("phoneP").innerHTML = response.data["codeCountry"] + " " + response.data["userPhone"];
             document.getElementById("nProductsP").innerHTML = response.data["products"].length;
 
-            if(response.data["userImage"] === ""){
+            if (response.data["userImage"] === "") {
                 document.getElementById("userImageP").src = "./img/noImageUser.jpg";
             }
-            else{
-                document.getElementById("userImageP").src = CLOUDINARY_URL_PREVIEW+response.data["userImage"];
+            else {
+                document.getElementById("userImageP").src = CLOUDINARY_URL_PREVIEW + response.data["userImage"];
             }
-            
+
             //Feedback
             var ul = document.getElementById("feedbackView");
             var feedback = response.data["userFeedback"];
@@ -169,7 +169,7 @@ function loadProfile() {
                 li.innerHTML = star;
                 ul.appendChild(li);
             }
-           
+
             //llamar otras funciones
             agregarProductos({});
 
@@ -180,37 +180,33 @@ function loadProfile() {
 
 }
 
-async function comprar(productoId, vendedorId, vendedor) {
+async function comprar(productoId, vendedorId) {
     //crear trasnaccion
-    
-    console.log("Producto: "+productoId);
-    console.log("vendedor: "+vendedorId);
-    console.log("vendedor: "+vendedor);
-    console.log("comprador: "+localStorage.getItem("Actual"));
-
-
-    
-
-    location.href = "transaction.html";
-
-
-    /*await axios.get('/api/v1/products/'+userId+"/"+productId)
+    await axios.post('/api/v1/transactions/', {
+        "1": {
+            buyer: localStorage.Actual,
+            seller: vendedorId,
+            product: productoId
+        }
+    })
         .then(function (response) {
             console.log(response.data);
-        })*/
-    //console.log(productos);
-   
+            var text = "Successm, Registered Product";
+            var web = "#sectionList";
+            alertify.success(text);
+            location.href = "transaction.html";
+        })
 
 }
 
 /// Funcion para llamar las alertas de alertify
 
 function callAlert(text, web) {
-                if (web !== null) {
-                    alertify.alert(text[0], text[1]).set('label', 'OK');
-                    location.href = web;
-                } else {
-                    alertify.alert(text[0], text[1]).set('label', 'OK');
-                }
+    if (web !== null) {
+        alertify.alert(text[0], text[1]).set('label', 'OK');
+        location.href = web;
+    } else {
+        alertify.alert(text[0], text[1]).set('label', 'OK');
+    }
 
-            }
+}

@@ -5,6 +5,9 @@
  */
 package edu.eci.arsw.webstore.services.transaction;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import edu.eci.arsw.webstore.model.Transaction;
 import java.util.List;
 
@@ -51,4 +54,10 @@ public interface TransactionServices {
      */
     public void deleteTransactionById(String transactionId);
 
+    /**
+     * Este metodo permite obtener la fecha y hora actual de Colombia
+     *
+     * @return datos de tiempo zona horaria, etc de Colombia
+     */
+    public String getDateColombia() throws MalformedURLException, ProtocolException, IOException;
 }

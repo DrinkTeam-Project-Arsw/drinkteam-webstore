@@ -47,9 +47,11 @@ public class UserServicesStub implements UserServices{
     }
 
     @Override
-    public void deleteUserByEmail(String email) {
-        uPersistence.deleteUserByEmail(email);
+    public User getUserById(String id) {
+         return uPersistence.getUserById(id);
+
     }
+ 
 
         
 }
