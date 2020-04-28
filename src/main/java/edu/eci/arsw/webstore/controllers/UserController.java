@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,6 +80,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = {"users/{userNickname}"})
     public ResponseEntity<?> getUserByUsername(@PathVariable("userNickname") String username) {
         try {
+            System.out.println(username);
             User consulUser = uService.getUserByUserNickname(username);
 
             String data = new Gson().toJson(consulUser);

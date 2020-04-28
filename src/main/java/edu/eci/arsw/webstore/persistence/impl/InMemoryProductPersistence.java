@@ -52,9 +52,15 @@ public class InMemoryProductPersistence implements ProductPersistence {
     }
 
     @Override
-    public Product getProductByIdOfUserNickname(String id, String idUser) {
+    public Product getProductByIdOfUserNickname(String id) {
         newDb();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+             return wsdb.getProductByIdOfUserNickname(id);
+
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryProductPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override

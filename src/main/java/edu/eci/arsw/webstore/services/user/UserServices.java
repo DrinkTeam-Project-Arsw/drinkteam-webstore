@@ -37,6 +37,13 @@ public interface UserServices {
     public User getUserByUserNickname(String userNickname);
 
     /**
+     * Este metodo permite obtener un usuario por su id
+     *
+     * @param id
+     */
+    public User getUserById(String id);
+
+    /**
      * Este metodo permite eliminar un usuario por su nickname
      *
      * @param userNickname
@@ -51,10 +58,5 @@ public interface UserServices {
      */
     public void updateUser(User user);
 
-    /**
-     * Este metodo permite eliminar un usuario por su email
-     *
-     * @param email
-     */
-    public void deleteUserByEmail(String email);
+    
 }

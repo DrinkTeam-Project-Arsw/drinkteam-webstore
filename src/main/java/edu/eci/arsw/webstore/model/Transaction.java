@@ -28,11 +28,9 @@ public class Transaction {
     private String seller;
     private String product;
 
-    public Transaction(String transactionId, int transactionPrice, String transactionDate, boolean transactionActive, String buyer, String seller, String product) {
-        this.transactionId = transactionId;
-        this.transactionPrice = transactionPrice;
-        this.transactionDate = transactionDate;
-        this.transactionActive = transactionActive;
+    public Transaction(String buyer, String seller, String product) {
+        
+        this.transactionActive = true;
         this.buyer = buyer;
         this.seller = seller;
         this.product = product;
@@ -78,19 +76,19 @@ public class Transaction {
         this.transactionDateEnd = transactionDateEnd;
     }
 
-    public String getBuyerId() {
+    public String getBuyer() {
         return buyer;
     }
 
-    public void setBuyerId(String buyer) {
+    public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
 
-    public String getSellerId() {
+    public String getSeller() {
         return seller;
     }
 
-    public void setSellerId(String seller) {
+    public void setSeller(String seller) {
         this.seller = seller;
     }
 
