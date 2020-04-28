@@ -96,6 +96,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
+            c.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -366,6 +367,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
+            c.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -530,6 +532,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
+            c.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
