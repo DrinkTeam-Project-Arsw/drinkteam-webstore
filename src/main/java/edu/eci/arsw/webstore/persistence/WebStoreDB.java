@@ -143,6 +143,41 @@ public class WebStoreDB {
         }
         
     }
+    
+    public User getUserByEmail(String email) {
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from usr where useremail = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()){
+                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                u.setIdUser(rs.getString("userid"));
+                u.setUserType(rs.getString("usertype"));
+                u.setUserName(rs.getString("username"));
+                u.setUserLastName(rs.getString("userlastname"));
+                u.setUserImage(rs.getString("usserimage"));
+                u.setCodeCountry(rs.getString("ussercode"));
+                u.setUserPhone(rs.getString("userphone"));
+                u.setUserBalance(rs.getDouble("userbalance"));
+                u.setUserFeedback(rs.getInt("userfeedback"));
+                u.setUserActive(rs.getBoolean("useractive"));
+                getAllProductsOfUserNickname(u.getUserNickname());
+            }
+            c.close();
+            pstmt.close();
+            rs.close();
+            return u;
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
 
     private String getUserNicknameByUserId(String userId) {
         PreparedStatement pstmt = null;

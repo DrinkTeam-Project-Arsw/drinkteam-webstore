@@ -84,7 +84,7 @@ public class UserController {
             User consulUser = uService.getUserByUserNickname(username);
 
             String data = new Gson().toJson(consulUser);
-
+                        
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

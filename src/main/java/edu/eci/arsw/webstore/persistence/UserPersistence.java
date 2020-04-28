@@ -35,26 +35,32 @@ public interface UserPersistence {
      * @return El usuario que pertenece a ese nickname
      */
     public User getUserByUserNickname(String userNickname);
+    
+    /**
+     * Metodo que permite consultar un usuario por su correo.
+     * @param email Es el correo con el cual se quiere encontrar un usuario.
+     * @return Retorna el usuario correspondiente 
+     */
+    public User getUserByEmail(String email);
 
     /**
      * Este metodo permite obtener un usuario por su id
      *
-     * @param id
+     * @param id Es el id del usuario que se quiere obtener
+     * @return Retorna el usuario correspondiente al id.
      */
     public User getUserById(String id);
 
     /**
      * Este metodo permite eliminar un usuario por su nickname
      *
-     * @param userNickname
+     * @param userNickname Es el nickname del usuario que se quiere eliminar.
      */
     public void deleteUserByUserNickname(String userNickname);
     
     /**
-     * Este metodo permite obtener un usuario por su email
-     *
-     * @param email el email del usuario a obtener
-     * @return El usuario que pertenece a ese email
+     * Metodo que permite actualizar un usuario.
+     * @param user Es el usuario a actualizar.
      */
     public void updateUser(User user);
 

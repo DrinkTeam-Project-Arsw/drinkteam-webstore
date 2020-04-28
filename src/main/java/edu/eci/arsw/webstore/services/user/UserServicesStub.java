@@ -48,10 +48,14 @@ public class UserServicesStub implements UserServices{
 
     @Override
     public User getUserById(String id) {
-         return uPersistence.getUserById(id);
+        return uPersistence.getUserById(id);
 
     }
- 
 
-        
+    @Override
+    public User getUserByEmail(String email) {
+        return uPersistence.getUserByEmail(email);
+    }
+ 
+    
 }

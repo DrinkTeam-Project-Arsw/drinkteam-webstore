@@ -36,11 +36,11 @@ public class InMemoryUserPersistence implements UserPersistence{
     @Override
     public void createNewUser(User us) {
         newDb();
-        if(getUserByUserNickname(us.getUserNickname()) == null){
+        if(getUserByUserNickname(us.getUserNickname()) == null && getUserByEmail(us.getUserEmail()) == null){
             wsdb.createNewUser(us);
         }else{
             try {
-                throw new ExcepcionWebStore("Nickname ya registrados en la plataforma.");
+                throw new ExcepcionWebStore("Nickname o Email ya registrados en la plataforma.");
             } catch (ExcepcionWebStore ex) {
                 Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -72,5 +72,10 @@ public class InMemoryUserPersistence implements UserPersistence{
         return wsdb.getUserById(id);
 
     }
-    
+
+    @Override
+    public User getUserByEmail(String email) {
+        newDb();
+        return wsdb.getUserByEmail(email);
+    }   
 }
