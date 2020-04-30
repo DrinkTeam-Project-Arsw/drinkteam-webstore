@@ -104,13 +104,26 @@ async function agregarVendedor(productos) {
                 var vendedorId = "'" + vendedor['idUser'] + "'";
                 var vendedorNick = "'" + vendedor['userNickname'] + "'";
                 var divCardProfile = document.createElement("div");
+
+                ///Feedback
+                var divFeedback = document.createElement("div");
+                var feedback = vendedor['userFeedback'];
+                var images = '';
+                for (var i = 0; i < feedback; i++) {
+                    //var img = document.createElement("");
+                    images += '<img src="./img/star.png" style="width: 20%; position: relative; top: -8px">';
+                    //li.innerHTML = star;
+
+                }
+                divFeedback.innerHTML = images;
+
                 divCardProfile.innerHTML = '<div class="col-sm-3" style="max-width:100%">' +
                     '<div class="card promoting-card">' +
                     '<div class="card-body d-flex flex-row">' +
                     '<img src="' + CLOUDINARY_URL_PREVIEW + vendedor['userImage'] + '" class="rounded-circle mr-5" width="35%"  alt="avatar">' +
                     '<div>' +
                     '<h4 class="card-title font-weight-bold mb-2">' + vendedor['userNickname'] + '</h4>' +
-                    '<p class="card-text"><i class="far fa-clock pr-2"></i>' + vendedor['userFeedback'] + '</p>' +
+                    '<div>' + images + '</div>'+
                     '</div>' +
                     '</div>' +
                     '<hr>' +
@@ -190,11 +203,10 @@ async function comprar(productoId, vendedorId) {
         }
     })
         .then(function (response) {
-            console.log(response.data);
             var text = "Successm, Registered Product";
-            var web = "#sectionList";
+            var web = "transaction.html?txnId="+response.data;
             alertify.success(text);
-            location.href = "transaction.html";
+            location.href = web;
         })
 
 }

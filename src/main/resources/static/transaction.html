@@ -109,38 +109,200 @@
             </div>
             <div class="col-sm-9">
 
-                <div class="panel panel-success">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3>Here you can see the products of all the users. If you want to buy one, just press the buy
-                            button</h3>
+                        <h3>You are the <b>buyer</b>. Please, follow the steps.</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="container" style="max-width: 100%;">
+                        <div class="container" style="max-width: 100%; height: 100%;">
                             <div class="row form-group" style="padding: 10px;">
                                 <div class="col-xs-12">
                                     <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                                         <li class="active"><a href="#step-1">
-                                                <h4 class="list-group-item-heading">Step 1</h4>
-                                                <p class="list-group-item-text">First step description</p>
+                                                <h4 class="list-group-item-heading"><b>VERIFY</b></h4>
+                                                <p class="list-group-item-text">Verify the seller and product details
+                                                </p>
                                             </a></li>
                                         <li class="disabled"><a href="#step-2">
-                                                <h4 class="list-group-item-heading">Step 2</h4>
-                                                <p class="list-group-item-text">Second step description</p>
+                                                <h4 class="list-group-item-heading"><b>FUND ESCROW</b></h4>
+                                                <p class="list-group-item-text">You must make the guarantee deposit</p>
                                             </a></li>
                                         <li class="disabled"><a href="#step-3">
-                                                <h4 class="list-group-item-heading">Step 3</h4>
-                                                <p class="list-group-item-text">Third step description</p>
+                                                <h4 class="list-group-item-heading"><b>SELLER MAKES SHIPPING</b></h4>
+                                                <p class="list-group-item-text">Awaiting confirmation</p>
                                             </a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="row setup-content" id="step-1">
                                 <div class="col-xs-12">
-                                    <div class="col-md-12 well text-center">
-                                        <h2> STEP 1</h2>
-                                        
-                                        <button id="activate-step-2" class="btn btn-primary btn-lg">Activate Step
-                                            2</button>
+                                    <div class=" col-md-12 well text-center" style="background-color: #e2eafd3b ;">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>Hi <span id="buyerNickname"></span>!</strong> you should verify the following
+                                            information. <br>Once you verify the product, your details, and the seller's
+                                            reputation, you must agree to continue the process..
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <!-- Campo Detalles Producto-->
+                                        <div class="row">
+                                            <div class="col-xs-10 col-md-7">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">Product</div>
+                                                    <div class="panel-body">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" style="width: 118px;">
+                                                                <span style="width: 100%" class="input-group-text"
+                                                                    id="basic-addon1"><b>Name</b></span>
+                                                            </div>
+                                                            <input
+                                                                style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                type="text" class="input-details form-control"
+                                                                id="productName" readonly>
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" style="width: 118px;">
+                                                                <span style="width: 100%;" class="input-group-text"
+                                                                    id="basic-addon1"><b>Description</b></span>
+                                                            </div>
+                                                            <textarea class="form-control" rows="3" 
+                                                                style="border: 0; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                id="productDescription" readonly></textarea>
+                                                        </div>
+
+                                                        <div style="display: flex;  align-items: center;">
+                                                            <div class="input-group mb-3" style="width: 35%;">
+                                                                <div class="input-group-prepend" style="width: 118px;">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Product Price</b></span>
+                                                                </div>
+                                                                <input
+                                                                    style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                    type="text" class="input-details form-control"
+                                                                    id="productPrice" readonly>
+                                                            </div>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <div class="input-group mb-3" style="width: 35%;">
+                                                                <div class="input-group-prepend">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Fees (0.5%)</b></span>
+                                                                </div>
+                                                                <input
+                                                                    style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                    type="text" class="input-details form-control"
+                                                                    id="totalPrice" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-2 col-md-4" style="max-height: 350px;">
+
+                                                <div id="photosDiv"></div>
+
+                                                
+                                            </div>
+                                        </div>
+                                        <!-- Campo Detalles comprador -->
+                                        <div class="row">
+                                            <div class="col-xs-10 col-md-5" style="max-height: 200px;">
+                                                <img src="./img/manchas/azul.png" style="max-width: 600px;">
+                                            </div>
+
+                                            <div class="col-xs-4 col-md-7">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">Contact Details and address</div>
+                                                    <div class="panel-body">
+                                                        <div style="display: flex;  align-items: center;">
+                                                            <div class="input-group mb-3" style="width: 49%;">
+                                                                <div class="input-group-prepend" style="width: 118px;">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Name</b></span>
+                                                                </div>
+                                                                <input
+                                                                    style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                    type="text" class="input-details form-control"
+                                                                    id="buyerName" readonly>
+                                                            </div>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <div class="input-group mb-3" style="width: 49%;">
+                                                                <div class="input-group-prepend">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Last Name</b></span>
+                                                                </div>
+                                                                <input
+                                                                    style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                    type="text" class="input-details form-control"
+                                                                    id="buyerLastname" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" style="width: 118px;">
+                                                                <span style="width: 100%" class="input-group-text"
+                                                                    id="basic-addon1"><b>Delivery at</b></span>
+                                                            </div>
+                                                            <input
+                                                                style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                type="text" class="input-details form-control"
+                                                                id="buyerAddress" readonly>
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" style="width: 118px;">
+                                                                <span style="width: 100%;" class="input-group-text"
+                                                                    id="basic-addon1"><b>Phone</b></span>
+                                                            </div>
+                                                            <input
+                                                                style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                type="text" class="input-details form-control"
+                                                                id="buyerPhone" readonly>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <!-- Campo Detalles vendedor -->
+                                        <div class="row">
+                                            <div class="col-xs-10 col-md-7">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">Seller Details</div>
+                                                    <div class="panel-body">
+                                                        <div style="display: flex;  align-items: center;">
+                                                            <div class="input-group mb-3" style="width: 49%;">
+                                                                <div class="input-group-prepend" style="width: 118px;">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Username</b></span>
+                                                                </div>
+                                                                <input
+                                                                    style="border: 0; height: 40px; background: #2d81ee94; color: #fff; text-shadow: 1px 2px #999;"
+                                                                    type="text" class="input-details form-control"
+                                                                    id="sellerNickname" readonly>
+                                                            </div>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <div class="input-group mb-3" style="width: 49%;">
+                                                                <div class="input-group-prepend">
+                                                                    <span style="width: 100%;" class="input-group-text"
+                                                                        id="basic-addon1"><b>Reputation</b></span>
+                                                                </div>
+                                                                <div class="input-details form-control"
+                                                                    style="border: 0; height: 40px; background: #dfdede82; text-shadow: 1px 2px #999;">
+                                                                    <div id="sellerReputation"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-4 col-md-3" style="max-height: 100px;">
+                                            </div>
+                                        </div>
+
+                                        <button id="activate-step-2" class="btn btn-primary btn-lg">I AGREE</button>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +310,7 @@
                                 <div class="col-xs-12">
                                     <div class="col-md-12 well text-center">
                                         <h2> STEP 2</h2>
-                                        <button id="activate-step-3" class="btn btn-primary btn-lg">Activate Step
+                                        <button id="activate-step-3" class="btn btn-primary btn-lg">Step
                                             3</button>
                                     </div>
                                 </div>
@@ -160,15 +322,12 @@
                                     </div>
                                 </div>
                             </div>
-                           
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
+    </div>
     </div>
 
 
