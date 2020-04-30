@@ -42,23 +42,23 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 #### Diagrama de clases
 
-![image](https://user-images.githubusercontent.com/53972469/77471383-2d664380-6de0-11ea-9901-1e01c0d5f926.png)
+![Clases](https://user-images.githubusercontent.com/53972469/77471383-2d664380-6de0-11ea-9901-1e01c0d5f926.png)
 
 #### Modelo E-R.
 
-![image](https://user-images.githubusercontent.com/53972469/77483659-b6887500-6df6-11ea-85a3-1a24351b8fc9.png)
+![DB](https://user-images.githubusercontent.com/53972469/77483659-b6887500-6df6-11ea-85a3-1a24351b8fc9.png)
 
 #### Caso de uso
 
-![image](https://user-images.githubusercontent.com/53972469/77471471-58509780-6de0-11ea-8204-d56b96b56b03.png)
+![Casos](https://user-images.githubusercontent.com/53972469/77471471-58509780-6de0-11ea-8204-d56b96b56b03.png)
 
 ### Diagrama de componentes
 
-![image](https://user-images.githubusercontent.com/53972469/80709883-b8a7b880-8ab3-11ea-949f-756b0f9cdb08.png)
+![Componentes](https://user-images.githubusercontent.com/53972469/80709883-b8a7b880-8ab3-11ea-949f-756b0f9cdb08.png)
 
 ### Diagrama de despliegue
 
-![Despliegue](https://user-images.githubusercontent.com/44879884/76483737-cf9c2980-63e5-11ea-8dbe-09f8c0588689.PNG)
+![Despliegue](https://user-images.githubusercontent.com/53972469/80711621-47b5d000-8ab6-11ea-94e2-56a2c68d2815.png)
 
 #### Mockup
 
