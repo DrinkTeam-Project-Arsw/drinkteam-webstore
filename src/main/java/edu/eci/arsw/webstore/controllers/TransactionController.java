@@ -70,11 +70,36 @@ public class TransactionController {
     public ResponseEntity<?> getTransactionById(@PathVariable("transactionid") String id) {
         try {
             System.out.println("transaccion: " + id);
-            Transaction t = tService.getTransactionById(id);
-            System.out.println(t + "  OMG PERO ES IGUAL");
-            String data = new Gson().toJson(t);
 
-            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+            Transaction t = tService.getTransactionById(id);
+
+            if (t != null) {
+                System.out.println(t + "  OMG PERO ES IGUAL");
+
+                // Consultar Comprador
+                User buyer = uService.getUserById(t.getBuyer());
+
+                // Consultar Vendedor
+                User seller = uService.getUserById(t.getSeller());
+
+                // Consultar producto
+                Product product = pService.getProductByIdOfUserNickname(t.getProduct());
+
+                // unir objetos
+                List<Object> todo = new ArrayList<>();
+
+                todo.add(t);
+                todo.add(buyer);
+                todo.add(seller);
+                todo.add(product);
+
+                String data = new Gson().toJson(t);
+
+                return new ResponseEntity<>(todo, HttpStatus.ACCEPTED);
+            }else{
+                return new ResponseEntity<>("Error, invalid transaction: " + id, HttpStatus.NOT_FOUND);
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar la transaccion: " + id, HttpStatus.NOT_FOUND);
@@ -85,7 +110,7 @@ public class TransactionController {
     public ResponseEntity<?> createNewTransaction(@RequestBody String transaction) {
         // Formato de json {"1":{"buyer":"0","seller":"2","product":"4"}}
         try {
-            System.out.println(">>>JSON: "+transaction);
+            System.out.println(">>>JSON: " + transaction);
             // Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Transaction>>() {
             }.getType();
@@ -104,9 +129,8 @@ public class TransactionController {
             LocalDateTime myDateObj = LocalDateTime.parse(dateColombia.substring(0, 19), formatter);
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             String formattedDate = myDateObj.format(myFormatObj);
-            //System.out.println("After formatting: " + formattedDate);
+            // System.out.println("After formatting: " + formattedDate);
             tr.setTransactionDate(formattedDate);
-
 
             // Asignar demas atributos
             /// Buscar vendedor
@@ -115,18 +139,18 @@ public class TransactionController {
             User buyer = uService.getUserByUserNickname(tr.getBuyer());
             tr.setBuyer(buyer.getIdUser());
             /// Buscar Producto
-            Product product = pService.getProductByIdOfUserNickname(tr.getProduct()) ;
+            Product product = pService.getProductByIdOfUserNickname(tr.getProduct());
             /// Agregar precio con nuestra comision
             int newPrice = (int) product.getProductPrice();
             tr.setTransactionPrice(newPrice + 1);
             tr.setTransactionActive(true);
-            System.out.println("Comprador: "+ buyer.getUserNickname()+" Vendedor: "+seller.getUserNickname()+" producto: "+product.getProductName());
+            System.out.println("Comprador: " + buyer.getUserNickname() + " Vendedor: " + seller.getUserNickname()
+                    + " producto: " + product.getProductName());
             System.out.println("Transaccion: " + tr.getTransactionId());
 
             tService.createNewTransaction(tr);
 
-            
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(tr.getTransactionId(), HttpStatus.CREATED);
 
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

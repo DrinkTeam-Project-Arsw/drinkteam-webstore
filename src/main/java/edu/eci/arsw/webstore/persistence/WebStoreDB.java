@@ -544,8 +544,9 @@ public class WebStoreDB {
             return t;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
+        
     }
 
     /**

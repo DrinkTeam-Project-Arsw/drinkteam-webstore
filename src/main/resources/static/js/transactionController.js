@@ -1,5 +1,20 @@
 const CLOUDINARY_URL_PREVIEW = 'https://res.cloudinary.com/dja8smkgx/image/upload/v';
 
+var txnId = getParameterById('txnId');
+
+/**
+ * @param String name
+ * @return String
+ */
+function getParameterById(transactionId) {
+    transactionId = transactionId.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + transactionId + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+console.log("Transaction: " + txnId)
+
 "use strict"
 jQuery(document).ready(function () {
 
@@ -89,6 +104,7 @@ async function loadProfile() {
             }
 
             //llamar otras funciones
+            loadTransaction()
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
@@ -96,6 +112,96 @@ async function loadProfile() {
 
 }
 
+async function loadTransaction() {
+    if (txnId != '') {
+        //verificar que usuarios hagan parte de la transaccion (comprador y vendedor)
+
+        //consultar transacction
+        var response = await axios.get('/api/v1/transactions/' + txnId)
+
+        console.log(response.data);
+
+        //>>> response.data 0 = transaction, 1 = comprador, 2 = vendedor, 3 = producto
+        var product = response.data[3];
+        var buyer = response.data[1];
+        var seller = response.data[2];
+        var transaction = response.data[0];
+        //Colocar datos
+        /// Producto
+        document.getElementById("productName").value = product["productName"];
+        document.getElementById("productDescription").value = product["productDescription"];
+        document.getElementById("productPrice").value = product["productPrice"];
+        document.getElementById("totalPrice").value = (parseFloat(product["productPrice"]) * 0.005) + product["productPrice"];
+
+        ///imagenes
+        var imagenes = product['productImage'].split(",");
+        var ol = '';
+        var divCareusel = '';
+
+        for (let img in imagenes) {
+            if (img == 0) {
+                ol += '<li data-target="#myCarousel' + product['productId'] + '" data-slide-to="' + img + '" class="active"></li>';
+                divCareusel += '<div class="item active">' +
+                    '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
+                    '</div>';
+            } else {
+                ol += '<li data-target="#myCarousel' + product['productId'] + '" data-slide-to="' + img + '"></li>';
+                divCareusel += '<div class="item">' +
+                    '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
+                    '</div>';
+            }
+
+        }
+        var carousel = document.getElementById('photosDiv');
+        carousel.innerHTML = '<div class="view overlay">' +
+            '<div id="myCarousel' + product['productId'] + '" class="carousel slide" data-ride="carousel">' +
+            '<ol class="carousel-indicators">' + ol + '</ol>' +
+            '<div class="carousel-inner">' + divCareusel + '</div>' +
+
+            '<a class="left carousel-control" href="#myCarousel' + product['productId'] + '" data-slide="prev">' +
+            '<span class="glyphicon glyphicon-chevron-left"></span>' +
+            '<span class="sr-only">Previous</span>' +
+            '</a>' +
+            '<a class="right carousel-control" href="#myCarousel' + product['productId'] + '"  data-slide="next">' +
+            '<span class="glyphicon glyphicon-chevron-right"></span>' +
+            '<span class="sr-only">Next</span>' +
+            '</a>' +
+            '</div>' +
+            '</div>';
+
+        
+
+        ///Comprador
+        document.getElementById("buyerNickname").innerHTML = buyer["userNickname"];
+
+        document.getElementById("buyerName").value = buyer["userName"];
+        document.getElementById("buyerLastname").value = buyer["userLastName"];
+        document.getElementById("buyerAddress").value = "Cr 19";
+        document.getElementById("buyerPhone").value ="+" + buyer["codeCountry"] + " " + buyer["userPhone"];
+
+
+        ///Vendedor
+        document.getElementById("sellerNickname").value = seller["userNickname"];
+
+        ///Feedback
+        var div = document.getElementById("sellerReputation");
+        var feedback = seller["userFeedback"];
+        var images = '';
+        for (var i = 0; i < feedback; i++) {
+            //var img = document.createElement("");
+            images += '<img src="./img/star.png" style="width: 35px; position: relative; top: -8px">';
+            //li.innerHTML = star;
+
+        }
+        div.innerHTML = images;
+
+
+
+
+    } else {
+        alert("Error, there is no transaction")
+    }
+}
 /// Funcion para llamar las alertas de alertify
 
 function callAlert(text, web) {
