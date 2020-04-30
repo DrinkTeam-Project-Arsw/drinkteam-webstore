@@ -46,7 +46,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 #### Modelo E-R.
 
-![DB](https://user-images.githubusercontent.com/53972469/77483659-b6887500-6df6-11ea-85a3-1a24351b8fc9.png)
+![DB](https://user-images.githubusercontent.com/53972469/80713555-4639d700-8ab9-11ea-997d-c05d74ec3710.png)
 
 #### Caso de uso
 
