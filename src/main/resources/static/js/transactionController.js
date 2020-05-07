@@ -214,13 +214,13 @@ function callAlert(text, web) {
 
 }
 
-function messages() {
+async function messages() {
     //consultar Mensajes
     var response = await axios.get('/api/v1/messages/' + txnId)
-    for (var i = 0; i < project.mensajes.length; i++) {
-        var mensaje = project.mensajes[i];
+    for (var i = 0; i < response.data.length; i++) {
+        var mensaje = response.data[i];
         $("#chat").append(
-            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user.userNickname + '</span> </div> </li>'
+            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> </li>'
         );
     }
 }
