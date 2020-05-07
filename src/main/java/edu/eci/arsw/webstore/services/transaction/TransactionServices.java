@@ -34,6 +34,14 @@ public interface TransactionServices {
     public Transaction getTransactionById(String transactionId);
 
     /**
+     * Este metodo permite obtener las transacciones de un usuario
+     *
+     * @param userId id del usuario
+     * @return lista de transacciones
+     */
+    public List<Transaction> getTransactionsOfUserById(String userId);
+
+    /**
      * Este metodo permite la creacion de una nueva transaccion
      *
      * @param tr objeto transaccion

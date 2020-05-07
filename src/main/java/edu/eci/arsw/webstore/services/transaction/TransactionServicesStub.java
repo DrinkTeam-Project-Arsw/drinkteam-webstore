@@ -27,6 +27,11 @@ public class TransactionServicesStub implements TransactionServices {
     }
 
     @Override
+    public List<Transaction> getTransactionsOfUserById(String userId) {
+        return tPersistence.getTransactionsOfUserById(userId);
+    }
+
+    @Override
     public void createNewTransaction(Transaction tr) {
        tPersistence.createNewTransaction(tr);
 
@@ -48,7 +53,5 @@ public class TransactionServicesStub implements TransactionServices {
     public String getDateColombia() throws MalformedURLException, ProtocolException, IOException {
         return tPersistence.getDateColombia();
     }
-
-    
 
 }

@@ -21,10 +21,11 @@ public class Transaction {
     @Id
     private String transactionId;
 
-    private int transactionPrice;
+    private double transactionPrice;
     private String transactionDate;
     private String transactionDateEnd;
     private boolean transactionActive;
+    private String TransactionState;
     private String buyer;
     private String seller;
     private String product;
@@ -55,11 +56,11 @@ public class Transaction {
         this.transactionActive = transactionActive;
     }
 
-    public int getTransactionPrice() {
+    public double getTransactionPrice() {
         return transactionPrice;
     }
 
-    public void setTransactionPrice(int transactionPrice) {
+    public void setTransactionPrice(double transactionPrice) {
         this.transactionPrice = transactionPrice;
     }
 
@@ -143,5 +144,13 @@ public class Transaction {
             System.out.println("Error: " + e.getMessage());
         }
         return null;
+    }
+
+    public String getTransactionState() {
+        return TransactionState;
+    }
+
+    public void setTransactionState(String transactionState) {
+        TransactionState = transactionState;
     }
 }

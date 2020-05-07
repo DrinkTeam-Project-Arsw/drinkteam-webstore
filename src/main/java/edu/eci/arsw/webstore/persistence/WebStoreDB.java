@@ -501,10 +501,11 @@ public class WebStoreDB {
             while (rs.next()) {
                 t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
                 t.setTransactionId(rs.getString("transactionid"));
-                t.setTransactionPrice(rs.getInt("transactionprice"));
+                t.setTransactionPrice(rs.getDouble("transactionprice"));
                 t.setTransactionDate(rs.getString("transactiondate"));
                 t.setTransactionActive(rs.getBoolean("transactionactive"));
                 t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                t.setTransactionState(rs.getString("transactionstate"));
                 allTransactions.add(t);
             }
             c.close();
@@ -536,14 +537,54 @@ public class WebStoreDB {
             rs.next();
             t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
             t.setTransactionId(rs.getString("transactionid"));
-            t.setTransactionPrice(rs.getInt("transactionprice"));
+            t.setTransactionPrice(rs.getDouble("transactionprice"));
             t.setTransactionDate(rs.getString("transactiondate"));
             t.setTransactionActive(rs.getBoolean("transactionactive"));
             t.setTransactionDateEnd(rs.getString("transactiondateend"));
+            t.setTransactionState(rs.getString("transactionstate"));
             c.close();
             pstmt.close();
             rs.close();
             return t;
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
+
+    /**
+     * Este metodo permite obtener las transacciones de un usuario
+     *
+     * @param userId id del usuario
+     * @return lista de transacciones
+     */
+    public List<Transaction> getTransactionsOfUserById(String userId){
+        List<Transaction> allTransactions = new ArrayList<Transaction>();
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from transaction where seller = ? OR buyer = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, userId);
+            pstmt.setString(2, userId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                t.setTransactionId(rs.getString("transactionid"));
+                t.setTransactionPrice(rs.getDouble("transactionprice"));
+                t.setTransactionDate(rs.getString("transactiondate"));
+                t.setTransactionActive(rs.getBoolean("transactionactive"));
+                t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                t.setTransactionState(rs.getString("transactionstate"));
+                allTransactions.add(t);
+            }
+            c.close();
+            pstmt.close();
+            rs.close();
+            return allTransactions;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -564,10 +605,10 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO transaction (transactionid,transactionprice,transactiondate,transactiondateend,transactionactive,buyer,seller,product) "
+            String sql = "INSERT INTO transaction (transactionid,transactionprice,transactiondate,transactiondateend,transactionactive,buyer,seller,product,transactionstate) "
                     + "VALUES ('" + tr.getTransactionId() + "','" + tr.getTransactionPrice() + "','"
                     + tr.getTransactionDate() + "','" + tr.getTransactionDateEnd() + "','" + tr.getTransactionActive()
-                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" + tr.getProduct() + "');";
+                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" +  "','" + tr.getProduct() + "','" + tr.getTransactionState() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
