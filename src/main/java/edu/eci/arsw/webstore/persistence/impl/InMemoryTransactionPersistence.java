@@ -54,6 +54,12 @@ public class InMemoryTransactionPersistence implements TransactionPersistence {
     }
 
     @Override
+    public List<Transaction> getTransactionsOfUserById(String userId) {
+        newDb();
+        return wsdb.getTransactionsOfUserById(userId);
+    }
+
+    @Override
     public void createNewTransaction(Transaction tr) {
         newDb();
         wsdb.createNewtransaction(tr);
@@ -92,5 +98,4 @@ public class InMemoryTransactionPersistence implements TransactionPersistence {
             return ">>>error, no se puedo consultar el tiempo";
         }
     }
-    
 }

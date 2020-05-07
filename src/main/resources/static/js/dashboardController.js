@@ -187,12 +187,71 @@ async function loadProfile() {
 
             //llamar otras funciones
             agregarProductos({});
+            updateOthersTablesBuyer();
 
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
         })
 
+}
+
+async function updateOthersTablesBuyer() {
+    var tabla = document.getElementById("tableInProcessBuyer");
+    tabla.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Seller</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
+        "<tbody id='tbodytableInProcessBuyer'></tbody>";
+
+    var tbody = document.getElementById("tbodytableInProcessBuyer");
+
+    var tablaHistoria = document.getElementById("tableHistoryBuyer");
+    tablaHistoria.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Seller</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
+        "<tbody id='tbodytableHistoryBuyer'></tbody>";
+
+    var tbodyHistory = document.getElementById("tbodytableHistoryBuyer");
+
+    await axios.get('/api/v1/transactions/user/' + localStorage.getItem('Actual'))
+        .then(function (response) {
+            console.log(response.data);
+
+            for (var x in response.data) {
+                if (response.data[x]["buyer"] == localStorage.Actual) {
+                    if (response.data[x]["transactionActive"]==true) {
+                        //alert(response.data[x]['productName']);
+                        var filatr = document.createElement("tr");
+
+                        var transactionID = "'" + String(response.data[x]["transactionId"]) + "'";
+                        var numeroFila = parseInt(x) + 1;
+                        filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="productId' + response.data[x]["transactionId"] + '">' + response.data[x]["transactionId"] + '</td>' +
+                            '<td>' + response.data[x]["product"] + '</td>' +
+                            '<td>' + response.data[x]["seller"] + '</td>' +
+                            '<td>$' + response.data[x]["transactionPrice"] + ' USD</td>' +
+                            '<td>' + response.data[x]["TransactionState"] + '</td>' +
+                            '<td>' + response.data[x]["transactionDate"] + '</td>' +
+                            '<td> <div class="btn-group"><button onclick="goToTransaction(' + transactionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                            '</div> </td>';
+                        tbody.appendChild(filatr);
+                    } else {
+                        var filatr = document.createElement("tr");
+
+                        var transactionID = "'" + String(response.data[x]["transactionId"]) + "'";
+                        var numeroFila = parseInt(x) + 1;
+                        filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="productId' + response.data[x]["transactionId"] + '">' + response.data[x]["transactionId"] + '</td>' +
+                            '<td>' + response.data[x]["product"] + '</td>' +
+                            '<td>' + response.data[x]["seller"] + '</td>' +
+                            '<td>$' + response.data[x]["transactionPrice"] + ' USD</td>' +
+                            '<td>' + response.data[x]["TransactionState"] + '</td>' +
+                            '<td>' + response.data[x]["transactionDate"] + '</td>' +
+                            '<td> <div class="btn-group"><button onclick="goToTransaction(' + transactionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                            '</div> </td>';
+                        tbodyHistory.appendChild(filatr);
+                    }
+
+                }
+
+            }
+        })
 }
 
 async function comprar(productoId, vendedorId) {
@@ -211,6 +270,11 @@ async function comprar(productoId, vendedorId) {
             location.href = web;
         })
 
+}
+
+async function goToTransaction(transactionId) {
+    var web = "transaction.html?txnId=" + transactionId;
+    location.href = web;
 }
 
 /// Funcion para llamar las alertas de alertify

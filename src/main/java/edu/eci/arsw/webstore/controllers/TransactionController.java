@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
+import java.util.HashMap;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -55,7 +57,7 @@ public class TransactionController {
     public ResponseEntity<?> getAllTransactions() {
         try {
             List<Transaction> transactions = new ArrayList<>();
-            System.out.println("entro a transacciones ");
+            System.out.println("Consultando Transacciones...");
 
             String data = new Gson().toJson(tService.getAllTransactions());
 
@@ -69,12 +71,11 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.GET, path = { "transactions/{transactionid}" })
     public ResponseEntity<?> getTransactionById(@PathVariable("transactionid") String id) {
         try {
-            System.out.println("transaccion: " + id);
+            System.out.println("Consultando transaccion: " + id);
 
             Transaction t = tService.getTransactionById(id);
 
             if (t != null) {
-                System.out.println(t + "  OMG PERO ES IGUAL");
 
                 // Consultar Comprador
                 User buyer = uService.getUserById(t.getBuyer());
@@ -93,10 +94,8 @@ public class TransactionController {
                 todo.add(seller);
                 todo.add(product);
 
-                String data = new Gson().toJson(t);
-
                 return new ResponseEntity<>(todo, HttpStatus.ACCEPTED);
-            }else{
+            } else {
                 return new ResponseEntity<>("Error, invalid transaction: " + id, HttpStatus.NOT_FOUND);
             }
 
@@ -106,11 +105,75 @@ public class TransactionController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = { "transactions/user/{nickname}" })
+    public ResponseEntity<?> getTransactionsOfUserById(@PathVariable("nickname") String nickname) {
+        try {
+            System.out.println("Consultando Transacciones del usuario: "+nickname);
+            List<Transaction> transactions = new ArrayList<>();
+            User user = uService.getUserByUserNickname(nickname);
+            String userId = user.getIdUser();
+
+            transactions = tService.getTransactionsOfUserById(userId);
+            System.out.println(transactions);
+            User buyer = null;
+            User seller = null;
+            Product product = null;
+
+            Map<String,String> idsUsers= new HashMap<>();
+            // Agregamos el suario actual
+            idsUsers.put(userId,nickname);
+
+            for (Transaction t : transactions) {
+                System.out.println(t.getTransactionId());
+
+                // Consultar Comprador
+                if(idsUsers.get(t.getBuyer())!=null){
+                    t.setBuyer(idsUsers.get(t.getBuyer()));
+                }else{
+                    buyer = uService.getUserById(t.getBuyer());
+                    t.setBuyer(buyer.getUserNickname());
+                    idsUsers.put(buyer.getIdUser(),buyer.getUserNickname());
+                    System.out.println("Se ha anadido el comprador: "+ buyer.getUserNickname());
+                }
+                
+
+                // Consultar Vendedor
+                if(idsUsers.get(t.getSeller())!=null){
+                    t.setSeller(idsUsers.get(t.getSeller()));
+                }else{
+                    seller = uService.getUserById(t.getSeller());
+                    t.setSeller(seller.getUserNickname());
+                    idsUsers.put(seller.getIdUser(),seller.getUserNickname());
+                    System.out.println("Se ha anadido el vendedor: "+ seller.getUserNickname());
+                }
+                
+                // Consultar producto
+                product = pService.getProductByIdOfUserNickname(t.getProduct());
+
+                // modificar ids a nicknames y nombre producto
+                t.setProduct(product.getProductName());
+                t.setTransactionPrice(product.getProductPrice());
+                
+                
+                
+            }
+
+            String data = new Gson().toJson(transactions);
+
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido retornar las transacciones del usuario: " + nickname,
+                    HttpStatus.NOT_FOUND);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, path = "transactions")
     public ResponseEntity<?> createNewTransaction(@RequestBody String transaction) {
         // Formato de json {"1":{"buyer":"0","seller":"2","product":"4"}}
         try {
-            System.out.println(">>>JSON: " + transaction);
+            System.out.println("Actualizando transaccion: " + transaction);
             // Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Transaction>>() {
             }.getType();
@@ -161,7 +224,7 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.DELETE, path = { "transactions/{transactionid}" })
     public ResponseEntity<?> deleteTransactionById(@PathVariable("transactionid") String transactionid) {
         try {
-            System.out.println("transaccion: " + transactionid);
+            System.out.println("Eliminando transaccion: " + transactionid);
             tService.deleteTransactionById(transactionid);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {

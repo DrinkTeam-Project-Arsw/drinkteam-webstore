@@ -40,6 +40,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "users")
     public ResponseEntity<?> getAllUsers() {
         try {
+            System.out.println("Consultando Usuarios...");
             List<User> users = new ArrayList<>();
 
             String data = new Gson().toJson(uService.getAllUsers());
@@ -55,6 +56,7 @@ public class UserController {
     public ResponseEntity<?> createNewUser(@RequestBody String user) {
         //Formato de json {"1":{"userEmail":"webpostman@gmail.com","userPassword":"123","userNickname":"postmanweb"}}
         try {
+            System.out.println("Creando nuevo usuario...");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
@@ -80,7 +82,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = {"users/{userNickname}"})
     public ResponseEntity<?> getUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            System.out.println(username);
+            System.out.println("Consultando usuario: "+username);
             User consulUser = uService.getUserByUserNickname(username);
 
             String data = new Gson().toJson(consulUser);
@@ -95,7 +97,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.PUT, path = "users")
     public ResponseEntity<?> updateUser(@RequestBody String user) {
         try {
-            System.out.println(user);
+            System.out.println("Actualizando usuario: "+user);
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
@@ -122,7 +124,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.PUT, path = {"users/{userNickname}/{add}"})
     public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add, @PathVariable("userNickname") String nickname) {
         try {
-
+            System.out.println("Actualizando Saldo de Usuario: "+nickname);
             User userActual = uService.getUserByUserNickname(nickname);
 
             double balanceBefore = userActual.getUserBalance();
@@ -139,7 +141,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.DELETE, path = {"users/{userNickname}"})
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            System.out.println("Erro1");
+            System.out.println("Eliminando Usuario: "+username);
             uService.deleteUserByUserNickname(username);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

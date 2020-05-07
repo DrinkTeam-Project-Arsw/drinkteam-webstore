@@ -140,8 +140,8 @@ function cerrarSesion() {
 function loadProfile() {
     axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
         .then(function (response) {
-            
-            document.getElementById("usernameP").innerHTML = "Hi, "+response.data["userNickname"];
+
+            document.getElementById("usernameP").innerHTML = "Hi, " + response.data["userNickname"];
 
             document.getElementById("emailP").innerHTML = response.data["userEmail"];
             document.getElementById("balanceP").innerHTML = response.data["userBalance"];
@@ -152,13 +152,13 @@ function loadProfile() {
             document.getElementById("phoneP").innerHTML = response.data["codeCountry"] + " " + response.data["userPhone"];
             document.getElementById("nProductsP").innerHTML = response.data["products"].length;
 
-            if(response.data["userImage"] === ""){
+            if (response.data["userImage"] === "") {
                 document.getElementById("userImageP").src = "./img/noImageUser.jpg";
             }
-            else{
-                document.getElementById("userImageP").src = CLOUDINARY_URL_PREVIEW+response.data["userImage"];
+            else {
+                document.getElementById("userImageP").src = CLOUDINARY_URL_PREVIEW + response.data["userImage"];
             }
-            
+
             //Feedback
             var ul = document.getElementById("feedbackView");
             var feedback = response.data["userFeedback"];
@@ -168,13 +168,14 @@ function loadProfile() {
                 li.innerHTML = star;
                 ul.appendChild(li);
             }
-           
+
             //document.getElementById("feedbackView").appendChild(' <li><a href="#"><img src="./img/star.png" style="width: 50px; top: -7px; position: relative; filter: drop-shadow(2px 2px 6px #444);"></i></a></li>');
 
 
 
             //llamar otras funciones
             updateAds();
+            updateOthersTablesSeller();
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
@@ -203,9 +204,70 @@ async function updateAds() {
                     '<td>' + response.data[x]["productName"] + '</td>' +
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
-                    '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> '+
+                    '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
                     ' <button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
                 tbody.appendChild(filatr);
+            }
+        })
+}
+
+async function updateOthersTablesSeller() {
+    var tabla = document.getElementById("tableInProcessSeller");
+    tabla.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Buyer</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
+        "<tbody id='tbodyTableInProcessSeller'></tbody>";
+
+    var tbody = document.getElementById("tbodyTableInProcessSeller");
+
+    var tablaHistoria = document.getElementById("tableHistorySeller");
+    tablaHistoria.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Buyer</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
+        "<tbody id='tbodytableHistorySeller'></tbody>";
+
+    var tbodyHistory = document.getElementById("tbodytableHistorySeller");
+
+    await axios.get('/api/v1/transactions/user/' + localStorage.getItem('Actual'))
+        .then(function (response) {
+            console.log(response.data);
+
+            for (var x in response.data) {
+                console.log(">>> vendedor: "+response.data["seller"])
+                if (response.data[x]["seller"] == localStorage.Actual) {
+                    if (response.data[x]["transactionActive"]==true) {
+                        console.log(">>> es true")
+                        //alert(response.data[x]['productName']);
+                        var filatr = document.createElement("tr");
+
+                        var transactionID = "'" + String(response.data[x]["transactionId"]) + "'";
+                        var numeroFila = parseInt(x) + 1;
+                        filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="productId' + response.data[x]["transactionId"] + '">' + response.data[x]["transactionId"] + '</td>' +
+                            '<td>' + response.data[x]["product"] + '</td>' +
+                            '<td>' + response.data[x]["buyer"] + '</td>' +
+                            '<td>$' + response.data[x]["transactionPrice"] + ' USD</td>' +
+                            '<td>' + response.data[x]["TransactionState"] + '</td>' +
+                            '<td>' + response.data[x]["transactionDate"] + '</td>' +
+                            '<td> <div class="btn-group"><button onclick="goToTransaction(' + transactionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                            '</div> </td>';
+                        tbody.appendChild(filatr);
+                    } else {
+                        console.log(">>> es false")
+                        var filatr = document.createElement("tr");
+
+                        var transactionID = "'" + String(response.data[x]["transactionId"]) + "'";
+                        var numeroFila = parseInt(x) + 1;
+                        filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="productId' + response.data[x]["transactionId"] + '">' + response.data[x]["transactionId"] + '</td>' +
+                            '<td>' + response.data[x]["product"] + '</td>' +
+                            '<td>' + response.data[x]["buyer"] + '</td>' +
+                            '<td>$' + response.data[x]["transactionPrice"] + ' USD</td>' +
+                            '<td>' + response.data[x]["TransactionState"] + '</td>' +
+                            '<td>' + response.data[x]["transactionDate"] + '</td>' +
+                            '<td> <div class="btn-group"><button onclick="goToTransaction(' + transactionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                            '</div> </td>';
+                        tbodyHistory.appendChild(filatr);
+                    }
+
+                }
+
             }
         })
 }
@@ -249,14 +311,14 @@ function registrarProducto() {
 
     if (document.getElementById("upSecondImage").value !== '') {
         console.log("Imagen 2: " + document.getElementById("upSecondImage").value);
-        imagenes += ','+ document.getElementById("upSecondImage").value;
+        imagenes += ',' + document.getElementById("upSecondImage").value;
     }
     if (document.getElementById("upThirdImage").value !== '') {
         console.log("Imagen 3: " + document.getElementById("upThirdImage").value);
-        imagenes += ','+ document.getElementById("upThirdImage").value;
+        imagenes += ',' + document.getElementById("upThirdImage").value;
     }
 
-    console.log("imagenes: "+ imagenes);
+    console.log("imagenes: " + imagenes);
 
     if (!nullAlert) {
         axios.post('/api/v1/products/', {
@@ -283,9 +345,14 @@ function registrarProducto() {
     }
 }
 
-async function eliminarProducto(productId){
-    await axios.delete('api/v1/products/'+localStorage.getItem('Actual')+'/'+productId)
-        .then(function(response){
+async function goToTransaction(transactionId) {
+    var web = "transaction.html?txnId=" + transactionId;
+    location.href = web;
+}
+
+async function eliminarProducto(productId) {
+    await axios.delete('api/v1/products/' + localStorage.getItem('Actual') + '/' + productId)
+        .then(function (response) {
             var text = "Success, Deleted Product";
             alertify.success(text);
         })

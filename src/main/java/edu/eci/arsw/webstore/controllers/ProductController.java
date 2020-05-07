@@ -46,7 +46,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.GET, path = "products")
     public ResponseEntity<?> getAllProducts() {
         try {
-
+            System.out.println("Consultando productos...");
             String data = new Gson().toJson(pService.getAllProducts());
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
@@ -59,6 +59,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.GET, path = {"products/{usernickName}"})
     public ResponseEntity<?> getProductByUsername(@PathVariable("usernickName") String username) {
         try {
+            System.out.println("Consultando productos de usuario: "+username);
             List<Product> products = new ArrayList<>();
 
             products = pService.getAllProductsOfUserNickname(username);
@@ -75,6 +76,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.GET, path = {"products/{usernickName}/{productId}"})
     public ResponseEntity<?> getProductByNicknameById(@PathVariable("usernickName") String nickname, @PathVariable("productId") String producId) {
         try {
+            System.out.println("Consultando producto: "+producId);
             List<Product> products = new ArrayList<>();
 
             products = pService.getAllProductsOfUserNickname(nickname);
@@ -100,6 +102,7 @@ public class ProductController {
     public ResponseEntity<?> createNewProduct(@RequestBody String product ) {
         //Formato de json {"1":{"productName":"PruebaOnline","productDescription":"pruebaOnlineeeee","productPrice":"20000","productUser":"david","productImage":""}}
         try {
+            System.out.println("Creando producto nuevo...");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Product>>() {
             }.getType();
@@ -129,6 +132,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.PUT, path = {"products/{usernickName}/{productId}"})
     public ResponseEntity<?> editProductById(@RequestBody String product, @PathVariable("usernickName") String nickname, @PathVariable("productId") String producId) {
         try {
+            System.out.println("Actualizando producto: "+producId);
             //JSON {"1":{"productName":"xxxx","productDescription":"xxxx","productPrice":"xxxx","productImage":"xxxx"}}
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Product>>() {
@@ -159,6 +163,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.DELETE, path = {"products/{usernickName}/{productId}"})
     public ResponseEntity<?> deleteProductById(@PathVariable("productId") String productId, @PathVariable("usernickName") String username) {
         try {
+            System.out.println("Eliminando Producto: "+productId);
             User us = uService.getUserByUserNickname(username);
 
             pService.deleteProductByIdOfUserNickname(productId, us.getIdUser());
