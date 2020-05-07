@@ -65,15 +65,17 @@ async function agregarVendedor(productos) {
                 var divCareusel = '';
 
                 for (let img in imagenes) {
+                    img.height = 50;
+                    img.width = 50;
                     if (img == 0) {
                         ol += '<li data-target="#myCarousel' + producto['productId'] + '" data-slide-to="' + img + '" class="active"></li>';
                         divCareusel += '<div class="item active">' +
-                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
+                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '" style="height: 200px; height: 200px;">' +
                             '</div>';
                     } else {
                         ol += '<li data-target="#myCarousel' + producto['productId'] + '" data-slide-to="' + img + '"></li>';
                         divCareusel += '<div class="item">' +
-                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '">' +
+                            '<img class="card-img-top rounded-0" src="' + CLOUDINARY_URL_PREVIEW + imagenes[img] + '" alt="' + imagenes[img] + '" style="height: 200px; height: 200px;">' +
                             '</div>';
                     }
 

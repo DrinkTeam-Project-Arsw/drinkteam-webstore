@@ -37,6 +37,7 @@ transactionActive BOOLEAN NOT NULL,
 buyer VARCHAR(50) NOT NULL,
 seller VARCHAR(50) NOT NULL,
 product VARCHAR(50) NOT NULL,
+transactionState VARCHAR(50),
 PRIMARY KEY (transactionId)
 );
 
@@ -60,4 +61,13 @@ CREATE TABLE BUYERS
 (auction VARCHAR(50) REFERENCES AUCTION,
 buyer VARCHAR(50) REFERENCES USR,
 PRIMARY KEY (auction, buyer)
+);
+
+CREATE TABLE MESSAGE
+(messageId VARCHAR(50) NOT NULL,
+messageTransaction VARCHAR(50) NOT NULL,
+messageUser VARCHAR(50) NOT NULL,
+messageData VARCHAR(500) NOT NULL,
+messageDate VARCHAR(50),
+PRIMARY KEY (messageId)
 );

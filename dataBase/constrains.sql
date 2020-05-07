@@ -39,3 +39,15 @@ add constraint FK_AUCTION_PRODUCT
 foreign key(product) 
 references PRODUCT(productId)
 ON DELETE CASCADE;
+
+alter table MESSAGE 
+add constraint FK_MESSAGE_TRANSACTION
+foreign key(messageTransaction) 
+references TRANSACTION(transactionId)
+ON DELETE CASCADE;
+
+alter table MESSAGE 
+add constraint FK_MESSAGE_USR
+foreign key(messageUser) 
+references USR(userId)
+ON DELETE CASCADE;
