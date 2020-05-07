@@ -220,8 +220,39 @@ async function messages() {
     for (var i = 0; i < response.data.length; i++) {
         var mensaje = response.data[i];
         $("#chat").append(
-            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> </li>'
+            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'
         );
+    }
+}
+
+function registrarMensaje() {
+    var nullAlert = false;
+    //document.getElementById("alertDiv").innerHTML = "";
+    var alerta;
+    if (document.getElementById("mensaje").value === '') {
+        nullAlert = true;
+
+        alerta = ' Add message.';
+        alertify.error(alerta);
+    }
+
+    if (!nullAlert) {
+        axios.post('/api/v1/messages/', {
+            "1": {
+                idTransaction: txnId,
+                user: localStorage.Actual,
+                data: document.getElementById("mensaje").value
+            }
+
+        })
+            .then(function (response) {
+                console.log(response.data);
+                var text = "Success, message";
+                var web = "#sectionList";
+                alertify.success(text);
+            })
+    } else {
+        alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
 }
 

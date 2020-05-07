@@ -331,12 +331,12 @@
                                     <div class="actionBox">
                                         <ul class="commentList" id="chat">
                                         </ul>
-                                        <form class="form-inline" role="form">
+                                        <form class="form-inline" onsubmit="registrarMensaje(); return false" role="form">
                                             <div class="form-group">
                                                 <input id="mensaje" class="form-control" type="text" placeholder="Message" />
                                             </div>
                                             <div class="form-group">
-                                                <button >Enviar</button>
+                                                <button type="submit" class="btn btn-secondary" value="enviarMensaje">Enviar</button>
                                             </div>
                                         </form>
                                     </div>
