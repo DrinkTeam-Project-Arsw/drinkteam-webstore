@@ -6,6 +6,7 @@
 package edu.eci.arsw.webstore.persistence;
 
 import edu.eci.arsw.webstore.model.Auction;
+import edu.eci.arsw.webstore.model.Message;
 import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.Transaction;
 import edu.eci.arsw.webstore.model.User;
@@ -34,6 +35,7 @@ public class WebStoreDB {
     private Product p;
     private Auction a;
     private Transaction t;
+    private Message m;
 
     /**
      * Metodo que permite generar la conexión con la base de datos.
@@ -591,4 +593,68 @@ public class WebStoreDB {
         }
     }
 
+    /****/
+    //// BASE DE DATOS - Consultas de Mensajes
+    /****/
+    
+    /**
+     * 
+     * @param transactionId
+     * @return 
+     */
+    public List<Message> getMessagesByTransactionId(String transactionId) {
+        String SQL = "SELECT * FROM message WHERE messagetransaction = ?";
+        List<Message> allMessageTransaction = new ArrayList<Message>();
+        try {
+            System.err.println("EN DBBBB MK");
+            /**
+            if (u == (null)) {
+                u = getUserByUserNickname(transactionId);
+            }**/
+            getConnection();
+            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, transactionId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                m = new Message(rs.getString("messagetransaction"),rs.getString("messageuser"),rs.getString("messagedata"));
+                allMessageTransaction.add(m);
+            }
+            // Se Agregan todos los mensajes a la transaccion.
+            //t.setMessages(allMessageTransaction);
+            c.close();
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allMessageTransaction;
+    }
+    
+    /**
+     * Metodo que permite registrar un nuevo mensaje en la base de datos.
+     * 
+     * @param msg Es el producto que se agregara a la base de datos.
+     * 
+     */
+    public void createNewMessage(Message msg) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO message (messageid,messagetransaction,messageuser,messagedata) "
+                    + "VALUES ('" + msg.getId() + "','" + msg.getIdTransaction() + "','" + msg.getUser()
+                    + "','" + msg.getData()
+                    + "');";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+  
 }

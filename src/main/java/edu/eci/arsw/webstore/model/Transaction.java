@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -27,7 +28,9 @@ public class Transaction {
     private String buyer;
     private String seller;
     private String product;
-
+    
+    private List messages;
+    
     public Transaction(String buyer, String seller, String product) {
         
         this.transactionActive = true;
@@ -79,6 +82,14 @@ public class Transaction {
     public String getBuyer() {
         return buyer;
     }
+    
+    public boolean isTransactionActive() {
+        return transactionActive;
+    }
+
+    public List getMessages() {
+        return messages;
+    }
 
     public void setBuyer(String buyer) {
         this.buyer = buyer;
@@ -100,6 +111,16 @@ public class Transaction {
         this.product = product;
     }
 
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public void setMessages(List messages) {
+        this.messages = messages;
+    }
+
+    
+    
     public Date getTransactionDateInFormatDate() {
         try {
             DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

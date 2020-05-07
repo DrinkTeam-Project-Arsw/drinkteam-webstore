@@ -195,8 +195,8 @@ async function loadTransaction() {
         }
         div.innerHTML = images;
 
-
-
+        ///Mensajes CHAT
+        messages();
 
     } else {
         alert("Error, there is no transaction")
@@ -212,4 +212,29 @@ function callAlert(text, web) {
         alertify.alert(text[0], text[1]).set('label', 'OK');
     }
 
+}
+
+function messages() {
+    //consultar Mensajes
+    var response = await axios.get('/api/v1/messages/' + txnId)
+    for (var i = 0; i < project.mensajes.length; i++) {
+        var mensaje = project.mensajes[i];
+        $("#chat").append(
+            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user.userNickname + '</span> </div> </li>'
+        );
+    }
+}
+
+var connectAndSubscribe = function () {
+    console.info('Connecting to WS...');
+    var socket = new SockJS('/stompendpoint');
+    stompClient = Stomp.over(socket);
+	stompClient.connect({}, function (frame) {
+		stompClient.subscribe('/project/mensaje.' + sessionStorage.proyecto, function (eventbody) {
+			var mensaje = JSON.parse(eventbody.body);
+			$("#chat").append(
+				'<li> </div> <div class="commentText"></div> <p class="">' + mensaje.contenido + '</p> <span class="date sub-text">' + mensaje.usuario.nombre + ' on ' + mensaje.fecha + '</span> </div> </li>'
+			);
+        });
+    });
 }
