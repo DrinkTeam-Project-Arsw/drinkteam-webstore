@@ -1,18 +1,18 @@
-package edu.eci.arsw.webstore.model.timing;
+package edu.eci.arsw.webstore.model;
 
-public class Timing {
+public class Synchronize {
 
     private String content;
 
-    public Timing() {
+    public Synchronize() {
     }
 
-    public Timing(String content) {
+    public Synchronize(String content) {
         this.content = content;
     }
 
     public String getContent() {
         return content;
     }
-    
+
 }

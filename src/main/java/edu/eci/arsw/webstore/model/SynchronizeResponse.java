@@ -1,16 +1,15 @@
-package edu.eci.arsw.webstore.model.timing;
+package edu.eci.arsw.webstore.model;
 
-public class ResponseTiming {
+public class SynchronizeResponse {
+
     private String userNickname;
-    private String function;
     private String tableName;
 
-    public ResponseTiming() {
+    public SynchronizeResponse() {
     }
 
-    public ResponseTiming(String userNickname, String function, String tableName) {
+    public SynchronizeResponse(String userNickname, String tableName) {
         this.userNickname = userNickname;
-        this.function = function;
         this.tableName = tableName;
     }
 
@@ -22,14 +21,6 @@ public class ResponseTiming {
         this.userNickname = userNickname;
     }
 
-    public String getFunction() {
-        return function;
-    }
-
-    public void setFunction(String function) {
-        this.function = function;
-    }
-
     public String getTableName() {
         return tableName;
     }
@@ -37,6 +28,4 @@ public class ResponseTiming {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-
-    
 }

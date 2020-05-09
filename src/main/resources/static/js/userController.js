@@ -334,7 +334,8 @@ function registrarProducto() {
                 var text = "Successm, Registered Product";
                 var web = "#sectionList";
                 alertify.success(text);
-
+                //Actualizar tabal demas usuarios
+                upgradeTable('registrarProducto');
 
             })
     } else {
@@ -355,7 +356,11 @@ async function eliminarProducto(productId) {
         })
 }
 
+/// Actualizar tablas una vez alguien modifique algo
 
+async function upgradeTable(tabla){
+    sendRequest(tabla);
+}
 
 
 /// Funcion para llamar las alertas de alertify
