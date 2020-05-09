@@ -105,6 +105,7 @@ async function loadProfile() {
 
             //llamar otras funciones
             loadTransaction()
+            connectAndSubscribe()
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
@@ -251,6 +252,12 @@ function registrarMensaje() {
                 var web = "#sectionList";
                 alertify.success(text);
             })
+        
+            console.info('voy a enviar a la suscripcion ');
+            var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val());
+            $("#mensaje").val("");
+            stompClient.send("/webStore/transactions" + txnId, {}, JSON.stringify(mensaje));
+
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
@@ -261,11 +268,19 @@ var connectAndSubscribe = function () {
     var socket = new SockJS('/stompendpoint');
     stompClient = Stomp.over(socket);
 	stompClient.connect({}, function (frame) {
-		stompClient.subscribe('/project/mensaje.' + sessionStorage.proyecto, function (eventbody) {
+		stompClient.subscribe('/app/transactions' + txnId, function (eventbody) {
 			var mensaje = JSON.parse(eventbody.body);
 			$("#chat").append(
-				'<li> </div> <div class="commentText"></div> <p class="">' + mensaje.contenido + '</p> <span class="date sub-text">' + mensaje.usuario.nombre + ' on ' + mensaje.fecha + '</span> </div> </li>'
-			);
+                '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'
+            );
         });
     });
+}
+
+class Message {
+    constructor(idTransaction, user, data) {
+        this.idTransaction = idTransaction;
+        this.user = user;
+        this.data = data;
+    }
 }
