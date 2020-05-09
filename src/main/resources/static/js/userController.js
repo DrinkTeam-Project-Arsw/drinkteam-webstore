@@ -229,10 +229,8 @@ async function updateOthersTablesSeller() {
             console.log(response.data);
 
             for (var x in response.data) {
-                console.log(">>> vendedor: "+response.data["seller"])
                 if (response.data[x]["seller"] == localStorage.Actual) {
                     if (response.data[x]["transactionActive"]==true) {
-                        console.log(">>> es true")
                         //alert(response.data[x]['productName']);
                         var filatr = document.createElement("tr");
 
@@ -249,7 +247,6 @@ async function updateOthersTablesSeller() {
                             '</div> </td>';
                         tbody.appendChild(filatr);
                     } else {
-                        console.log(">>> es false")
                         var filatr = document.createElement("tr");
 
                         var transactionID = "'" + String(response.data[x]["transactionId"]) + "'";
@@ -337,7 +334,8 @@ function registrarProducto() {
                 var text = "Successm, Registered Product";
                 var web = "#sectionList";
                 alertify.success(text);
-
+                //Actualizar tabal demas usuarios
+                upgradeTable('registrarProducto');
 
             })
     } else {
@@ -358,7 +356,11 @@ async function eliminarProducto(productId) {
         })
 }
 
+/// Actualizar tablas una vez alguien modifique algo
 
+async function upgradeTable(tabla){
+    sendRequest(tabla);
+}
 
 
 /// Funcion para llamar las alertas de alertify
