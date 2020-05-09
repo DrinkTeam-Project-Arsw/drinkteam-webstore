@@ -42,9 +42,7 @@ public class WebStoreDB {
      */
     public void getConnection() {
         try {
-            if(c==null){
-                c = DriverManager.getConnection(urlDb);
-            }
+            c = DriverManager.getConnection(urlDb);
         } catch (SQLException e) {
         }
     }
@@ -68,11 +66,11 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM usr;");
+            c.close();
             while (rs.next()) {
                 u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
                 allUsers.add(u);
             }
-            c.close();
             stmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -123,6 +121,7 @@ public class WebStoreDB {
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, userNickname);
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             if (rs.next()){
                 u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
                 u.setIdUser(rs.getString("userid"));
@@ -137,13 +136,14 @@ public class WebStoreDB {
                 u.setUserActive(rs.getBoolean("useractive"));
                 getAllProductsOfUserNickname(userNickname);
             }
-            c.close();
             pstmt.close();
             rs.close();
+            return u;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return u;
+        
     }
     
     public User getUserByEmail(String email) {
@@ -156,6 +156,7 @@ public class WebStoreDB {
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             if (rs.next()){
                 u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
                 u.setIdUser(rs.getString("userid"));
@@ -170,7 +171,6 @@ public class WebStoreDB {
                 u.setUserActive(rs.getBoolean("useractive"));
                 getAllProductsOfUserNickname(u.getUserNickname());
             }
-            c.close();
             pstmt.close();
             rs.close();
             return u;
@@ -215,6 +215,7 @@ public class WebStoreDB {
             pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
+            c.close();
             u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
             u.setIdUser(rs.getString("userid"));
             u.setUserType(rs.getString("usertype"));
@@ -227,7 +228,6 @@ public class WebStoreDB {
             u.setUserFeedback(rs.getInt("userfeedback"));
             u.setUserActive(rs.getBoolean("useractive"));
             getAllProductsOfUserNickname(rs.getString("ussernickname"));
-            c.close();
             pstmt.close();
             rs.close();
             return u;
@@ -274,7 +274,6 @@ public class WebStoreDB {
             u = getUserByUserNickname(userNickname);
             deleteAllProductByIdOfUserNickname(u.getIdUser());
             Class.forName("org.postgresql.Driver");
-            getConnection();
             c.setAutoCommit(false);
             String sql1 = "DELETE FROM usr WHERE ussernickname = '" + userNickname + "'";
             stmt = c.createStatement();
@@ -305,13 +304,14 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
+            c.close();
             while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"), rs.getString("productImage"));
+                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                        rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
                 allProduct.add(p);
             }
-            c.close();
             stmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -327,20 +327,18 @@ public class WebStoreDB {
      * @return Retorna una lista de productos relacionados al usario dado.
      */
     public List<Product> getAllProductsOfUserNickname(String userNickname) {
+        String SQL = "SELECT * FROM product WHERE productuser = ?";
         List<Product> allProductUser = new ArrayList<Product>();
-        PreparedStatement pstmt = null;
         try {
             if (u == (null)) {
                 u = getUserByUserNickname(userNickname);
             }
-            Class.forName("org.postgresql.Driver");
             getConnection();
-            c.setAutoCommit(false);
-            String sql = "SELECT * FROM product WHERE productuser = ?";
-            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
+            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, u.getIdUser());
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             while (rs.next()) {
                 p = new Product(rs.getString("productname"), rs.getString("productdescription"),
                         rs.getDouble("productprice"), rs.getString("productImage"));
@@ -350,7 +348,6 @@ public class WebStoreDB {
             }
             // Se Agregan todos los productos al usuario.
             u.setProducts(allProductUser);
-            c.close();
             pstmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -369,6 +366,7 @@ public class WebStoreDB {
                     ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             while (rs.next()) {
                 p = new Product(rs.getString("productname"), rs.getString("productdescription"),
                         rs.getDouble("productprice"), rs.getString("productImage"));
@@ -376,8 +374,6 @@ public class WebStoreDB {
 
                 product = p;
             }
-            
-            c.close();
             pstmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -499,6 +495,7 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM transaction;");
+            c.close();
             while (rs.next()) {
                 t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
                 t.setTransactionId(rs.getString("transactionid"));
@@ -509,7 +506,6 @@ public class WebStoreDB {
                 t.setTransactionState(rs.getString("transactionstate"));
                 allTransactions.add(t);
             }
-            c.close();
             stmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -536,6 +532,7 @@ public class WebStoreDB {
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
+            c.close();
             t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
             t.setTransactionId(rs.getString("transactionid"));
             t.setTransactionPrice(rs.getDouble("transactionprice"));
@@ -543,7 +540,6 @@ public class WebStoreDB {
             t.setTransactionActive(rs.getBoolean("transactionactive"));
             t.setTransactionDateEnd(rs.getString("transactiondateend"));
             t.setTransactionState(rs.getString("transactionstate"));
-            c.close();
             pstmt.close();
             rs.close();
             return t;
@@ -572,6 +568,7 @@ public class WebStoreDB {
             pstmt.setString(1, userId);
             pstmt.setString(2, userId);
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             while (rs.next()) {
                 t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
                 t.setTransactionId(rs.getString("transactionid"));
@@ -582,7 +579,6 @@ public class WebStoreDB {
                 t.setTransactionState(rs.getString("transactionstate"));
                 allTransactions.add(t);
             }
-            c.close();
             pstmt.close();
             rs.close();
             return allTransactions;
@@ -648,23 +644,18 @@ public class WebStoreDB {
         String SQL = "SELECT * FROM message WHERE messagetransaction = ?";
         List<Message> allMessageTransaction = new ArrayList<Message>();
         try {
-            System.err.println("EN DBBBB MK");
-            /**
-            if (u == (null)) {
-                u = getUserByUserNickname(transactionId);
-            }**/
             getConnection();
             PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
+            c.close();
             while (rs.next()) {
                 m = new Message(rs.getString("messagetransaction"),rs.getString("messageuser"),rs.getString("messagedata"));
                 allMessageTransaction.add(m);
             }
             // Se Agregan todos los mensajes a la transaccion.
             //t.setMessages(allMessageTransaction);
-            c.close();
             pstmt.close();
             rs.close();
         } catch (Exception ex) {
