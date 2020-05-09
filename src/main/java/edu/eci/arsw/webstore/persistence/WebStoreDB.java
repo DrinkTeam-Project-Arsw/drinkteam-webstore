@@ -42,7 +42,9 @@ public class WebStoreDB {
      */
     public void getConnection() {
         try {
-            c = DriverManager.getConnection(urlDb);
+            if(c==null){
+                c = DriverManager.getConnection(urlDb);
+            }
         } catch (SQLException e) {
         }
     }
@@ -138,12 +140,10 @@ public class WebStoreDB {
             c.close();
             pstmt.close();
             rs.close();
-            return u;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
-        
+        return u;
     }
     
     public User getUserByEmail(String email) {
@@ -306,12 +306,10 @@ public class WebStoreDB {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
             while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
-                        rs.getDouble("productprice"), rs.getString("productImage"));
+                p = new Product(rs.getString("productname"), rs.getString("productdescription"), rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
                 allProduct.add(p);
-
             }
             c.close();
             stmt.close();
@@ -329,14 +327,17 @@ public class WebStoreDB {
      * @return Retorna una lista de productos relacionados al usario dado.
      */
     public List<Product> getAllProductsOfUserNickname(String userNickname) {
-        String SQL = "SELECT * FROM product WHERE productuser = ?";
         List<Product> allProductUser = new ArrayList<Product>();
+        PreparedStatement pstmt = null;
         try {
             if (u == (null)) {
                 u = getUserByUserNickname(userNickname);
             }
+            Class.forName("org.postgresql.Driver");
             getConnection();
-            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+            c.setAutoCommit(false);
+            String sql = "SELECT * FROM product WHERE productuser = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, u.getIdUser());
             ResultSet rs = pstmt.executeQuery();
