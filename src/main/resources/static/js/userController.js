@@ -1,5 +1,7 @@
 const CLOUDINARY_URL_PREVIEW = 'https://res.cloudinary.com/dja8smkgx/image/upload/v';
 
+
+
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -331,11 +333,11 @@ function registrarProducto() {
         })
             .then(function (response) {
                 console.log(response.data);
-                var text = "Successm, Registered Product";
+                var text = "Success, Registered Product";
                 var web = "#sectionList";
-                alertify.success(text);
+                //alertify.success(text);
                 //Actualizar tabal demas usuarios
-                upgradeTable('registrarProducto');
+                showMessage("newProduct");
 
             })
     } else {
@@ -356,11 +358,7 @@ async function eliminarProducto(productId) {
         })
 }
 
-/// Actualizar tablas una vez alguien modifique algo
 
-async function upgradeTable(tabla){
-    sendRequest(tabla);
-}
 
 
 /// Funcion para llamar las alertas de alertify

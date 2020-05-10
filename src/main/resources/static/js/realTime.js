@@ -17,7 +17,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/syncup', function (response) {
-            showMessage(JSON.parse(response.body).content);
+            showMessage(JSON.parse(response.body));
         });
     });
 }
@@ -30,15 +30,30 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendRequest(tabla) {
+async function sendRequest(funcion) {
     alertify.success("Enviando solicitud...");
-    stompClient.send("/webStore/upgrade", {}, JSON.stringify({'userNickname': localStorage.Actual , "tableName": tabla}));
+    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({'userNickname': localStorage.Actual , "function": funcion}));
 }
 
 function showMessage(message) {
     alertify.success("Recibiendo Solicitud...");
-    alertify.success(message);
+    //alertify.success(message.userNickname + '-' + message.function);
+    
+    console.log('Mensaje guardado ');
+
+    console.log("retrona: "+ message.function);
+    if(message.function == "newProduct"){
+        if(message.userNickname == localStorage.Actual ){
+            updateAds();
+            alertify.success("Tabla anucios Actualizada");
+        }else{
+            alertify.success("Usuario "+ mensage.userNickname +" ha publicado un nuevo producto");
+        }
+    }else{
+        alertify.error("MALPARIDOS")
+    }
 }
+
 
 $(function () {
     console.log(">>> Servidor Sincronizado...");
