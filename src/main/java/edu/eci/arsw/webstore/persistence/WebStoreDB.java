@@ -634,7 +634,7 @@ public class WebStoreDB {
             String sql = "INSERT INTO transaction (transactionid,transactionprice,transactiondate,transactiondateend,transactionactive,buyer,seller,product,transactionstate) "
                     + "VALUES ('" + tr.getTransactionId() + "','" + tr.getTransactionPrice() + "','"
                     + tr.getTransactionDate() + "','" + tr.getTransactionDateEnd() + "','" + tr.getTransactionActive()
-                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" +  "','" + tr.getProduct() + "','" + tr.getTransactionState() + "');";
+                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" + tr.getProduct() + "','" + tr.getTransactionState() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();

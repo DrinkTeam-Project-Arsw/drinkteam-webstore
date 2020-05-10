@@ -207,6 +207,7 @@ public class TransactionController {
             int newPrice = (int) product.getProductPrice();
             tr.setTransactionPrice(newPrice + 1);
             tr.setTransactionActive(true);
+            tr.setTransactionState("verifying");
             System.out.println("Comprador: " + buyer.getUserNickname() + " Vendedor: " + seller.getUserNickname()
                     + " producto: " + product.getProductName());
             System.out.println("Transaccion: " + tr.getTransactionId());
