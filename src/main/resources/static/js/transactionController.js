@@ -1,6 +1,7 @@
 const CLOUDINARY_URL_PREVIEW = 'https://res.cloudinary.com/dja8smkgx/image/upload/v';
 
 var txnId = getParameterById('txnId');
+var stompClient = null;
 
 /**
  * @param String name
@@ -105,7 +106,7 @@ async function loadProfile() {
 
             //llamar otras funciones
             loadTransaction()
-            connectAndSubscribe()
+            console.info('Aqui 0');
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
@@ -252,26 +253,23 @@ function registrarMensaje() {
                 var web = "#sectionList";
                 alertify.success(text);
             })
-        
-            console.info('voy a enviar a la suscripcion ');
             var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val());
             $("#mensaje").val("");
-            stompClient.send("/webStore/transactions" + txnId, {}, JSON.stringify(mensaje));
+            stompClient.send("/topic/transactions." + txnId, {}, JSON.stringify(mensaje));
 
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
 }
 
-var connectAndSubscribe = function () {
-    console.info('Connecting to WS...');
-    var socket = new SockJS('/stompendpoint');
+function connectAndSubscribe() {
+    var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
-	stompClient.connect({}, function (frame) {
-		stompClient.subscribe('/app/transactions' + txnId, function (eventbody) {
-			var mensaje = JSON.parse(eventbody.body);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/topic/transactions.' + txnId, function (response) {
+            var mensaje = JSON.parse(response.body);
 			$("#chat").append(
-                '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'
+                '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'    
             );
         });
     });
