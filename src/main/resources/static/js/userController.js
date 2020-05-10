@@ -232,7 +232,7 @@ async function updateOthersTablesSeller() {
 
             for (var x in response.data) {
                 if (response.data[x]["seller"] == localStorage.Actual) {
-                    if (response.data[x]["transactionActive"]==true) {
+                    if (response.data[x]["transactionActive"] == true) {
                         //alert(response.data[x]['productName']);
                         var filatr = document.createElement("tr");
 
@@ -337,9 +337,33 @@ function registrarProducto() {
                 var web = "#sectionList";
                 //alertify.success(text);
                 //Actualizar tabal demas usuarios
-                showMessage("newProduct");
+
+                document.getElementById("upProductName").value = "";
+                document.getElementById("upDescription").value = "";
+                document.getElementById("upPrice").value = "";
+                //
+                document.getElementById('img-preview').src = "img/noImage.png";
+                document.getElementById('mainImageLabel').innerHTML = "Choose Image";
+                document.getElementById('selectMainImage').value = "";
+                document.getElementById('main-bar').setAttribute('aria-valuenow', 0);
+                document.getElementById('main-bar').style = ('width', 0);
+                //
+                document.getElementById('imgSecond-preview').src = "img/noImage.png";
+                document.getElementById('secondImageLabel').innerHTML = "Choose Image";
+                document.getElementById('selectSecondImage').value = "";
+                document.getElementById('second-bar').setAttribute('aria-valuenow', 0);
+                document.getElementById('second-bar').style = ('width', 0);
+                //
+                document.getElementById('imgThird-preview').src = "img/noImage.png";
+                document.getElementById('thirdImageLabel').innerHTML = "Choose Image";
+                document.getElementById('selectThirdImage').value = "";
+                document.getElementById('third-bar').setAttribute('aria-valuenow', 0);
+                document.getElementById('third-bar').style = ('width', 0);
+                sendRequest("newProduct");
+                location.href = web;
 
             })
+
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
@@ -353,9 +377,13 @@ async function goToTransaction(transactionId) {
 async function eliminarProducto(productId) {
     await axios.delete('api/v1/products/' + localStorage.getItem('Actual') + '/' + productId)
         .then(function (response) {
-            var text = "Success, Deleted Product";
-            alertify.success(text);
-        })
+            console.log(response.data);
+            console.log("se elimino...");
+            sendRequest("deleteProduct");
+
+        });
+
+
 }
 
 

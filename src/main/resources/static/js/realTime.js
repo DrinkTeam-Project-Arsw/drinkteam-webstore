@@ -1,7 +1,7 @@
 var stompClient = null;
 
 function setConnected(connected) {
-    
+
     if (connected) {
         alertify.success("Conectado al servidor...");
     }
@@ -32,25 +32,50 @@ function disconnect() {
 
 async function sendRequest(funcion) {
     alertify.success("Enviando solicitud...");
-    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({'userNickname': localStorage.Actual , "function": funcion}));
+    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion }));
 }
 
 function showMessage(message) {
+    console.log("Recibiendo Solicitud...");
     alertify.success("Recibiendo Solicitud...");
     //alertify.success(message.userNickname + '-' + message.function);
-    
+
     console.log('Mensaje guardado ');
 
-    console.log("retrona: "+ message.function);
-    if(message.function == "newProduct"){
-        if(message.userNickname == localStorage.Actual ){
+    console.log("retrona: " + message.function);
+    var pathname = window.location.pathname;
+    if (message.function == "newProduct") {
+        if (message.userNickname == localStorage.Actual) {
+            document.getElementById("tableYourAds").innerHTML = "";
             updateAds();
-            alertify.success("Tabla anucios Actualizada");
-        }else{
-            alertify.success("Usuario "+ mensage.userNickname +" ha publicado un nuevo producto");
+            alertify.success("Success, Registered Product");
+        } else {
+            alertify.message("User <b>" + message.userNickname + "</b> has published a new product!");
+            if (pathname == '/dashboard.html') {
+                document.getElementById("divAllProducts").innerHTML = "";
+                agregarProductos({});
+            }
         }
-    }else{
-        alertify.error("MALPARIDOS")
+    } else if (message.function == "deleteProduct") {
+        if (message.userNickname == localStorage.Actual) {
+            document.getElementById("tableYourAds").innerHTML = "";
+            updateAds();
+            alertify.success("Success, Deleted Product");
+        } else {
+            if (pathname == '/dashboard.html') {
+                document.getElementById("divAllProducts").innerHTML = "";
+                agregarProductos({});
+            }
+        }
+
+    } else if (message.function == "newTransaction") {
+
+        if (pathname == '/profile.html') {
+            document.getElementById("tableInProcessSeller").innerHTML = "";
+            updateOthersTablesSeller();
+        }
+    } else if (message.function == "newMessage") {
+
     }
 }
 
@@ -63,6 +88,6 @@ $(function () {
     connect();
     //$( "#connect" ).click(function() { connect(); });
     //$( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendRequest("tabla prueba2 2"); });
+    $("#send").click(function () { sendRequest("tabla prueba2 2"); });
 });
 
