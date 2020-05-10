@@ -66,7 +66,16 @@ public class InMemoryProductPersistence implements ProductPersistence {
     @Override
     public void deleteProductByIdOfUserNickname(String id, String idUser) {
         newDb();
-        wsdb.deleteProductByIdOfUserNickname(id, idUser);
+        if(wsdb.getTransactionByProductId(id)==null){
+            wsdb.deleteProductByIdOfUserNickname(id, idUser);
+        }else{
+            try {
+                throw new ExcepcionWebStore("No se puede eleminar el producto hay una transacción en curso.");
+            } catch (ExcepcionWebStore ex) {
+                Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     @Override

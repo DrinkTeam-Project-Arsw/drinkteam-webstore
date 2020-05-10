@@ -549,6 +549,35 @@ public class WebStoreDB {
         }
         
     }
+    
+    public Transaction getTransactionByProductId(String productId) {
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from transaction where product = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            c.close();
+            t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+            t.setTransactionId(rs.getString("transactionid"));
+            t.setTransactionPrice(rs.getDouble("transactionprice"));
+            t.setTransactionDate(rs.getString("transactiondate"));
+            t.setTransactionActive(rs.getBoolean("transactionactive"));
+            t.setTransactionDateEnd(rs.getString("transactiondateend"));
+            t.setTransactionState(rs.getString("transactionstate"));
+            pstmt.close();
+            rs.close();
+            return t;
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
 
     /**
      * Este metodo permite obtener las transacciones de un usuario
