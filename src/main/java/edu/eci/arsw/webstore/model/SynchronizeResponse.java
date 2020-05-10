@@ -3,14 +3,14 @@ package edu.eci.arsw.webstore.model;
 public class SynchronizeResponse {
 
     private String userNickname;
-    private String tableName;
+    private String function;
 
     public SynchronizeResponse() {
     }
 
-    public SynchronizeResponse(String userNickname, String tableName) {
+    public SynchronizeResponse(String userNickname, String function) {
         this.userNickname = userNickname;
-        this.tableName = tableName;
+        this.function = function;
     }
 
     public String getUserNickname() {
@@ -21,11 +21,11 @@ public class SynchronizeResponse {
         this.userNickname = userNickname;
     }
 
-    public String getTableName() {
-        return tableName;
+    public String getFunction() {
+        return function;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setFunction(String function) {
+        this.function = function;
     }
 }
