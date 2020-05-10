@@ -267,7 +267,9 @@ async function comprar(productoId, vendedorId) {
             var text = "Successm, Registered Product";
             var web = "transaction.html?txnId="+response.data;
             alertify.success(text);
+            sendRequest("newTransaction");
             location.href = web;
+
         })
 
 }
