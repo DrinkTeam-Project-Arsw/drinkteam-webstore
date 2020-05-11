@@ -9,6 +9,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <link href="js/AlertifyJS/alertify.css" rel="stylesheet" />
+    <link href="js/AlertifyJS/semantic.css" rel="stylesheet" />
+    <link href="js/AlertifyJS/semantic.min.css" rel="stylesheet" />
+    <link href="js/AlertifyJS/alertify.min.css" rel="stylesheet" />
+
     <link rel="icon" href="https://getbootstrap.com/favicon.ico">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,6 +34,19 @@
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="dashboard.html">Dashboard</a>
             <a class="p-2 text-dark" href="profile.html">Profile</a>
+        </nav>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <div class="btn-group dropleft">
+                <button type="button" class="btn btn-info" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span
+                        class="badge badge-light"><span id="alertNotify">0</span></span>
+                </button>
+                <div id="notifications" class="dropdown-menu">
+                    <h6 class="dropdown-header">Notifications</h6>
+
+                </div>
+            </div>
         </nav>
         <a onclick="cerrarSesion()" class="btn btn-outline-primary" href="index.html">Cerrar sesion</a>
     </div>
@@ -340,19 +358,20 @@
 
                                                 <div class="msj-rta macro">
                                                     <div class="text " style="background:whitesmoke !important">
-                                                        <form onsubmit=" return false">
-                                                            <input id="mensaje" class="mytext" placeholder="Type a message" />
+                                                        <form onsubmit="registrarMensaje(); return false">
+                                                            <input id="mensaje" class="mytext"
+                                                                placeholder="Type a message" />
 
-                                                        </form>
+
                                                     </div>
 
                                                 </div>
                                                 <div style="padding:10px;">
                                                     <button type="submit"
                                                         class="btn btn-info btn-rounded btn-sm waves-effect waves-light float-right"
-                                                        value="enviarMensaje" onclick="registrarMensaje();"><span
+                                                        value="enviarMensaje" ><span
                                                             class="glyphicon glyphicon-share-alt"></span></button>
-
+                                                    </form>
                                                 </div>
                                             </div>
 
@@ -566,6 +585,9 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
+    <script type="text/javascript" src="js/popper.min.js"></script>
+
+    <script src="js/realTime.js"></script>
     <script src="js/transactionController.js"></script>
     <script src="js/payment.js"></script>
     <script src="js/bootstrap.min.js"></script>

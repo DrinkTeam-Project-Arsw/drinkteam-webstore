@@ -1,5 +1,7 @@
 const CLOUDINARY_URL_PREVIEW = 'https://res.cloudinary.com/dja8smkgx/image/upload/v';
 
+var contraTransaction = "";
+
 var txnId = getParameterById('txnId');
 var stompClient = null;
 
@@ -201,8 +203,10 @@ async function loadTransaction() {
         //// Guardar Imagen de vendedor y comprador
         if (localStorage.Actual == seller['userNickname']) {
             localStorage.avatarActual = seller["userImage"];
+            contraTransaction = buyer["userNickname"];
         } else {
             localStorage.avatarActual = buyer["userImage"];
+            contraTransaction = seller["userNickname"];
         }
 
 
@@ -285,6 +289,7 @@ function registrarMensaje() {
                 var text = "Success, message";
                 var web = "#sectionList";
                 alertify.success(text);
+                sendRequest('newMessage',contraTransaction);
             })
         var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val(), localStorage.avatarActual);
         $("#mensaje").val("");
