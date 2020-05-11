@@ -30,9 +30,9 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-async function sendRequest(funcion) {
+async function sendRequest(funcion, seller) {
     alertify.success("Enviando solicitud...");
-    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion }));
+    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion, "seller": seller }));
 }
 
 function showMessage(message) {
@@ -42,7 +42,7 @@ function showMessage(message) {
 
     console.log('Mensaje guardado ');
 
-    console.log("retrona: " + message.function);
+    console.log("retrona: " + message.function + " - " + message.seller);
     var pathname = window.location.pathname;
     if (message.function == "newProduct") {
         if (message.userNickname == localStorage.Actual) {
@@ -69,12 +69,27 @@ function showMessage(message) {
         }
 
     } else if (message.function == "newTransaction") {
+        if (message.seller == localStorage.Actual) {
 
-        if (pathname == '/profile.html') {
-            document.getElementById("tableInProcessSeller").innerHTML = "";
-            updateOthersTablesSeller();
+            if (pathname == '/profile.html') {
+                document.getElementById("tableInProcessSeller").innerHTML = "";
+                document.getElementById("tableHistorySeller").innerHTML = "";
+                updateOthersTablesSeller();
+            }
+            document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + message.userNickname + '</b> wants to buy a product!</a>';
+            var notificaiones = document.getElementById('alertNotify').innerHTML
+            document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
+            alertify.success("<b>" + message.userNickname + "</b> wants to buy a product!");
         }
     } else if (message.function == "newMessage") {
+        if (message.seller == localStorage.Actual) {
+            if (pathname != '/transaction.html') {
+                alertify.success("<b>" + message.userNickname + "</b> wrote to you in one of your sales!");
+                document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + message.userNickname + '</b> wrote to you in one of your sales!</a>';
+                var notificaiones = document.getElementById('alertNotify').innerHTML
+                document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
+            }
+        }
 
     }
 }

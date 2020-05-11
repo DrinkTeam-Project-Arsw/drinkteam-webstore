@@ -59,6 +59,7 @@ public class MessageController {
     public ResponseEntity<?> createNewMessage(@RequestBody String message ) {
         //Formato de json {"1":{"idTransaction":"5eb2fcac7db0440004cfd5a3","user":"2","data":"Respuesta"}}
         try {
+            System.out.println("Consiltando mensaje: "+message);
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Message>>() {
             }.getType();
