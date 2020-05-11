@@ -4,13 +4,15 @@ public class SynchronizeResponse {
 
     private String userNickname;
     private String function;
+    private String seller;
 
     public SynchronizeResponse() {
     }
 
-    public SynchronizeResponse(String userNickname, String function) {
+    public SynchronizeResponse(String userNickname, String function, String seller) {
         this.userNickname = userNickname;
         this.function = function;
+        this.seller = seller;
     }
 
     public String getUserNickname() {
@@ -28,4 +30,13 @@ public class SynchronizeResponse {
     public void setFunction(String function) {
         this.function = function;
     }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
 }

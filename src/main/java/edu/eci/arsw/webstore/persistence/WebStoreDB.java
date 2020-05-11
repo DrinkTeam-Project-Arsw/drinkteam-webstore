@@ -681,7 +681,7 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             c.close();
             while (rs.next()) {
-                m = new Message(rs.getString("messagetransaction"),rs.getString("messageuser"),rs.getString("messagedata"));
+                m = new Message(rs.getString("messagetransaction"),rs.getString("messageuser"),rs.getString("messagedata"),rs.getString("messageuserimage"));
                 allMessageTransaction.add(m);
             }
             // Se Agregan todos los mensajes a la transaccion.
@@ -707,9 +707,10 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO message (messageid,messagetransaction,messageuser,messagedata) "
+            String sql = "INSERT INTO message (messageid,messagetransaction,messageuser,messagedata,messageuserimage) "
                     + "VALUES ('" + msg.getId() + "','" + msg.getIdTransaction() + "','" + msg.getUser()
                     + "','" + msg.getData()
+                    + "','" + msg.getUserImage()
                     + "');";
             stmt.executeUpdate(sql);
             stmt.close();

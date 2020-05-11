@@ -134,7 +134,7 @@ async function agregarVendedor(productos) {
                     '<div class="card-body">' +
                     '<p>' + producto["productDescription"] + '</p>' +
                     '<p class="price">$' + producto["productPrice"] + '</p>' +
-                    '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + ')">buy</button>' +
+                    '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + "," + vendedorNick + ')">buy</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -254,7 +254,7 @@ async function updateOthersTablesBuyer() {
         })
 }
 
-async function comprar(productoId, vendedorId) {
+async function comprar(productoId, vendedorId, sellerNickname) {
     //crear trasnaccion
     await axios.post('/api/v1/transactions/', {
         "1": {
@@ -267,7 +267,7 @@ async function comprar(productoId, vendedorId) {
             var text = "Successm, Registered Product";
             var web = "transaction.html?txnId="+response.data;
             alertify.success(text);
-            sendRequest("newTransaction");
+            sendRequest("newTransaction",sellerNickname);
             location.href = web;
 
         })

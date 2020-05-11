@@ -359,7 +359,7 @@ function registrarProducto() {
                 document.getElementById('selectThirdImage').value = "";
                 document.getElementById('third-bar').setAttribute('aria-valuenow', 0);
                 document.getElementById('third-bar').style = ('width', 0);
-                sendRequest("newProduct");
+                sendRequest("newProduct","");
                 location.href = web;
 
             })
@@ -379,7 +379,7 @@ async function eliminarProducto(productId) {
         .then(function (response) {
             console.log(response.data);
             console.log("se elimino...");
-            sendRequest("deleteProduct");
+            sendRequest("deleteProduct","");
 
         });
 

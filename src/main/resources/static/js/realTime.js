@@ -30,9 +30,9 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-async function sendRequest(funcion) {
+async function sendRequest(funcion, seller) {
     alertify.success("Enviando solicitud...");
-    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion }));
+    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion, "seller": seller }));
 }
 
 function showMessage(message) {
@@ -69,12 +69,17 @@ function showMessage(message) {
         }
 
     } else if (message.function == "newTransaction") {
-
-        if (pathname == '/profile.html') {
-            document.getElementById("tableInProcessSeller").innerHTML = "";
-            updateOthersTablesSeller();
+        if (message.seller == localStorage.Actual) {
+            
+            if (pathname == '/profile.html') {
+                document.getElementById("tableInProcessSeller").innerHTML = "";
+                document.getElementById("tableHistorySeller").innerHTML = "";
+                updateOthersTablesSeller();
+            }
+            alertify.success("<b>" + message.userNickname + "</b> wants to buy a product!");
         }
     } else if (message.function == "newMessage") {
+        
 
     }
 }

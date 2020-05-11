@@ -18,11 +18,13 @@ public class Message {
     private String idTransaction;
     private String user;
     private String data;
+    private String userImage;
 
-    public Message(String idTransaction, String user, String data) {
+    public Message(String idTransaction, String user, String data, String userImage) {
         this.idTransaction = idTransaction;
         this.user = user;
         this.data = data;
+        this.userImage = userImage;
     }
     
     public String getId() {
@@ -55,5 +57,13 @@ public class Message {
 
     public void setData(String data) {
         this.data = data;
-    }    
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
 }

@@ -106,7 +106,6 @@ async function loadProfile() {
 
             //llamar otras funciones
             loadTransaction()
-            console.info('Aqui 0');
         })
         .catch(function (error) {
             alert("Error, No se pudo cargar usuario");
@@ -129,6 +128,9 @@ async function loadTransaction() {
         var seller = response.data[2];
         var transaction = response.data[0];
         //Colocar datos
+        /// Transacccion
+        document.title = "Transaction #" + transaction['transactionId'];
+
         /// Producto
         document.getElementById("productName").value = product["productName"];
         document.getElementById("productDescription").value = product["productDescription"];
@@ -171,7 +173,7 @@ async function loadTransaction() {
             '</div>' +
             '</div>';
 
-        
+
 
         ///Comprador
         document.getElementById("buyerNickname").innerHTML = buyer["userNickname"];
@@ -179,7 +181,7 @@ async function loadTransaction() {
         document.getElementById("buyerName").value = buyer["userName"];
         document.getElementById("buyerLastname").value = buyer["userLastName"];
         document.getElementById("buyerAddress").value = "Cr 19";
-        document.getElementById("buyerPhone").value ="+" + buyer["codeCountry"] + " " + buyer["userPhone"];
+        document.getElementById("buyerPhone").value = "+" + buyer["codeCountry"] + " " + buyer["userPhone"];
 
 
         ///Vendedor
@@ -196,6 +198,14 @@ async function loadTransaction() {
 
         }
         div.innerHTML = images;
+        //// Guardar Imagen de vendedor y comprador
+        if (localStorage.Actual == seller['userNickname']) {
+            localStorage.avatarActual = seller["userImage"];
+        } else {
+            localStorage.avatarActual = buyer["userImage"];
+        }
+
+
 
         ///Mensajes CHAT
         messages();
@@ -220,10 +230,31 @@ async function messages() {
     //consultar Mensajes
     var response = await axios.get('/api/v1/messages/' + txnId)
     for (var i = 0; i < response.data.length; i++) {
+
         var mensaje = response.data[i];
-        $("#chat").append(
-            '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'
-        );
+        var control = '';
+        if (mensaje.user == localStorage.Actual) {
+            control = '<li style="width:100%;">' +
+                '<div class="msj-rta macro">' +
+                '<div class="text text-r">' +
+                '<p>' + mensaje.data + '</p>' +
+                '<p><small>' + mensaje.user + '</small></p>' +
+                '</div>' +
+                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' + CLOUDINARY_URL_PREVIEW + mensaje.userImage + '" /></div>' +
+                '</li>';
+        } else {
+            control = '<li style="width:100%">' +
+                '<div class="msj macro">' +
+                '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + CLOUDINARY_URL_PREVIEW + mensaje.userImage + '" /></div>' +
+                '<div class="text text-l">' +
+                '<p>' + mensaje.data + '</p>' +
+                '<p><small>' + mensaje.user + '</small></p>' +
+                '</div>' +
+                '</div>' +
+                '</li>';
+        }
+
+        $("#chat").append(control);
     }
 }
 
@@ -231,6 +262,7 @@ function registrarMensaje() {
     var nullAlert = false;
     //document.getElementById("alertDiv").innerHTML = "";
     var alerta;
+
     if (document.getElementById("mensaje").value === '') {
         nullAlert = true;
 
@@ -239,23 +271,24 @@ function registrarMensaje() {
     }
 
     if (!nullAlert) {
+
         axios.post('/api/v1/messages/', {
             "1": {
                 idTransaction: txnId,
                 user: localStorage.Actual,
-                data: document.getElementById("mensaje").value
+                data: document.getElementById("mensaje").value,
+                userImage: localStorage.avatarActual
             }
 
         })
             .then(function (response) {
-                console.log(response.data);
                 var text = "Success, message";
                 var web = "#sectionList";
                 alertify.success(text);
             })
-            var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val());
-            $("#mensaje").val("");
-            stompClient.send("/topic/transactions." + txnId, {}, JSON.stringify(mensaje));
+        var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val(), localStorage.avatarActual);
+        $("#mensaje").val("");
+        stompClient.send("/topic/transactions." + txnId, {}, JSON.stringify(mensaje));
 
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
@@ -268,17 +301,38 @@ function connectAndSubscribe() {
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/transactions.' + txnId, function (response) {
             var mensaje = JSON.parse(response.body);
-			$("#chat").append(
-                '<li> </div> <div class="commentText"></div> <p class="">' + mensaje.data + '</p> <span class="date sub-text">' + mensaje.user + '</span> </div> </li>'    
-            );
+            var control = '';
+            if (mensaje.user == localStorage.Actual) {
+                control = '<li style="width:100%;">' +
+                    '<div class="msj-rta macro">' +
+                    '<div class="text text-r">' +
+                    '<p>' + mensaje.data + '</p>' +
+                    '<p><small>' + mensaje.user + '</small></p>' +
+                    '</div>' +
+                    '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' + CLOUDINARY_URL_PREVIEW + mensaje.userImage + '" /></div>' +
+                    '</li>';
+            } else {
+                control = '<li style="width:100%">' +
+                    '<div class="msj macro">' +
+                    '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + CLOUDINARY_URL_PREVIEW + mensaje.userImage + '" /></div>' +
+                    '<div class="text text-l">' +
+                    '<p>' + mensaje.data + '</p>' +
+                    '<p><small>' + mensaje.user + '</small></p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</li>';
+            }
+
+            $("#chat").append(control);
         });
     });
 }
 
 class Message {
-    constructor(idTransaction, user, data) {
+    constructor(idTransaction, user, data, userImage) {
         this.idTransaction = idTransaction;
         this.user = user;
         this.data = data;
+        this.userImage = userImage;
     }
 }
