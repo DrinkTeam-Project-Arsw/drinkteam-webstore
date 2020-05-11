@@ -720,5 +720,175 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /****/
+    //// BASE DE DATOS - Consultas de Subastas
+    /****/
   
+    
+    /**
+     * Metodo que permite consultar todas las subastas de la pagina web.
+     * @return Retorna una lista con todas las subastas que hay en la pagina.
+     */
+    public List<Auction> getAllAuctions() {
+        List<Auction> allAuctions = new ArrayList<Auction>();
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM auction;");
+            c.close();
+            while (rs.next()) {
+                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"));
+                a.setAuctionId(rs.getString("auctionid"));
+                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+                allAuctions.add(a);
+            }
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allAuctions;
+    }
+    
+    /**
+     * Metodo que permite realizar la consulade de subasta por id.
+     * @param auctionId Es el id de la subasta.
+     * @return Retorna la subasta correspondiente al id.
+     */
+    public Auction getAuctionById(String auctionId) {
+        PreparedStatement pstmt = null;
+        a = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from auction where auctionid = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, auctionId);
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            if(rs.next()){
+                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"));
+                a.setAuctionId(rs.getString("auctionid"));
+                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+            }
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return a;
+        
+    }
+    
+    /**
+     * Metodo que permite crear la subasta en la base de datos.
+     * @param au Es la subasta que se va a agregar a la base de datos.
+     */
+    public void createNewAuction(Auction au) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO auction (auctionid,auctioninitprice,auctioncurrentprice,auctionfinalprice,auctiondate,auctiondatefinal,auctiontimetowait,auctiontype,auctionactive,seller,product,auctionstatus) "
+                    + "VALUES ('" + au.getAuctionId() + "','" + au.getAuctionInitPrice() + "','" + au.getAuctionCurrentPrice()
+                    + "','" + au.getAuctionFinalPrice() + "','" + au.getAuctionDate() + "','" + au.getAuctionDateFinal() + "','" + au.getAuctionTimeToWait() + "','" + au.getAuctionType() + "','" + au.isAuctionActive() + "','" + au.getSellerId() + "','" + au.getProductId() + "','" + au.getAuctionStatus()
+                    + "');";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Metodo que permite eliminar una subasta de la base de datos.
+     * @param auctionId Es el id de la subasta que se quiere eliminar.
+     */
+    public void deleteAuctionById(String auctionId) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "DELETE FROM auction WHERE auctionid = '" + auctionId + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Metodo que permite eliminar todos los participantes en la subasta.
+     * @param auctionId Es el id de la subasta.
+     */
+    public void deleteBuyersInAuction(String auctionId) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "DELETE FROM buyers WHERE auction = '" + auctionId + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addUsersInAuction(String auctionId, String userId){
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO buyers (auction,buyer) "
+                    + "VALUES ('" + auctionId + "','" + userId
+                    + "');";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private List<User> getAllBuyersInAuction(String auctionId) {
+        List<User> allUserInAuction = new ArrayList<User>();
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from buyers where auction = ?";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, auctionId);
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            while (rs.next()) {
+                u = getUserById(rs.getString("buyer"));
+                allUserInAuction.add(u);
+            }
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allUserInAuction;
+    }
 }
