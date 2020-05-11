@@ -5,8 +5,6 @@
  */
 package edu.eci.arsw.webstore.model;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,59 +12,40 @@ import java.util.List;
  * @author estudiante
  */
 public class Auction {
-    private int auctionId;
     
+    //Atributos
+    private String auctionId;
     private double auctionInitPrice;
     private double auctionCurrentPrice;
     private double auctionFinalPrice;
-    private Date auctionDate;
-    private Date auctionDateFinal;
+    private String auctionDate;
+    private String auctionDateFinal;
     private int auctionTimeToWait;
-    private String AuctionType; 
-    private ArrayList<User> buyers;    
-    private User seller;   
-    private Product product;
+    private int auctionType; 
+    private boolean auctionActive;    
+    private String sellerId;   
+    private String productId;
+    private String auctionStatus;
+    private List buyers;
 
-    public Auction(int auctionId, User seller, ArrayList<User> buyers, Product product, double auctionInitPrice, Date auctionDate, String AuctionType) {
-        this.auctionId = auctionId;
-        this.seller = seller;
-        this.buyers = buyers;
-        this.product = product;
+    public Auction(double auctionInitPrice, String auctionDate, String auctionDateFinal, int auctionTimeToWait, int auctionType, boolean auctionActive, String sellerId, String productId, String auctionStatus) {
         this.auctionInitPrice = auctionInitPrice;
         this.auctionDate = auctionDate;
-        this.AuctionType = AuctionType;
+        this.auctionDateFinal = auctionDateFinal;
+        this.auctionTimeToWait = auctionTimeToWait;
+        this.auctionType = auctionType;
+        this.auctionActive = auctionActive;
+        this.sellerId = sellerId;
+        this.productId = productId;
+        this.auctionStatus = auctionStatus;
     }
 
-    public int getAuctionId() {
+    public String getAuctionId() {
         return auctionId;
     }
 
-    public void setAuctionId(int auctionId) {
+    public void setAuctionId(String auctionId) {
         this.auctionId = auctionId;
-    }
-
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
-    public List getBuyers() {
-        return buyers;
-    }
-
-    public void setBuyers(ArrayList<User> buyers) {
-        this.buyers = buyers;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public double getAuctionInitPrice() {
@@ -93,19 +72,19 @@ public class Auction {
         this.auctionFinalPrice = auctionFinalPrice;
     }
 
-    public Date getAuctionDate() {
+    public String getAuctionDate() {
         return auctionDate;
     }
 
-    public void setAuctionDate(Date auctionDate) {
+    public void setAuctionDate(String auctionDate) {
         this.auctionDate = auctionDate;
     }
 
-    public Date getAuctionDateFinal() {
+    public String getAuctionDateFinal() {
         return auctionDateFinal;
     }
 
-    public void setAuctionDateFinal(Date auctionDateFinal) {
+    public void setAuctionDateFinal(String auctionDateFinal) {
         this.auctionDateFinal = auctionDateFinal;
     }
 
@@ -117,13 +96,52 @@ public class Auction {
         this.auctionTimeToWait = auctionTimeToWait;
     }
 
-    public String getAuctionType() {
-        return AuctionType;
+    public int getAuctionType() {
+        return auctionType;
     }
 
-    public void setAuctionType(String AuctionType) {
-        this.AuctionType = AuctionType;
+    public void setAuctionType(int auctionType) {
+        this.auctionType = auctionType;
     }
-    
+
+    public boolean isAuctionActive() {
+        return auctionActive;
+    }
+
+    public void setAuctionActive(boolean auctionActive) {
+        this.auctionActive = auctionActive;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getAuctionStatus() {
+        return auctionStatus;
+    }
+
+    public void setAuctionStatus(String auctionStatus) {
+        this.auctionStatus = auctionStatus;
+    }
+
+    public List getBuyers() {
+        return buyers;
+    }
+
+    public void setBuyers(List buyers) {
+        this.buyers = buyers;
+    }
     
 }
