@@ -374,6 +374,11 @@ async function goToTransaction(transactionId) {
     location.href = web;
 }
 
+function editarProducto(productId) {
+    window.location.href = "updateProduct.html";
+    localStorage.setItem('Product', productId);
+}
+
 async function eliminarProducto(productId) {
     await axios.delete('api/v1/products/' + localStorage.getItem('Actual') + '/' + productId)
         .then(function (response) {

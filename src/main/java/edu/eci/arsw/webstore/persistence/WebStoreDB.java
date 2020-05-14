@@ -29,7 +29,10 @@ import java.util.logging.Logger;
 public class WebStoreDB {
 
     // Atributos
+    //Conexion Base de datos Heroku
     private static final String urlDb = "jdbc:postgresql://ec2-34-200-116-132.compute-1.amazonaws.com:5432/dc5qsgdq0jgp20?user=gpyoydzjumspiy&password=a92e5891a1f575b00c5319227c7f2acbadf68c4ef2dc9e1d35e76aab02c4a277";
+    //Conexion Base de datos Aws
+    //private static final String urlDb = "jdbc:postgresql://arsw.cu0adiovages.us-east-1.rds.amazonaws.com:5432/arsw?user=arsw&password=arsw1234";
     private Connection c;
     private User u;
     private Product p;
