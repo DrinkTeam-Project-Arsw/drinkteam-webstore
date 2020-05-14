@@ -81,7 +81,15 @@ public class InMemoryProductPersistence implements ProductPersistence {
     @Override
     public void editProductById(String productId, Product pd) {
         newDb();
-        wsdb.editProductById(productId, pd);
+        if(wsdb.getTransactionByProductId(productId)==null){
+            wsdb.editProductById(productId, pd);
+        }else{
+            try {
+                throw new ExcepcionWebStore("No se puede editar el producto hay una transacción en curso.");
+            } catch (ExcepcionWebStore ex) {
+                Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }
