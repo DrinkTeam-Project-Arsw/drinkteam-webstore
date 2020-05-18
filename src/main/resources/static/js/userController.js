@@ -214,6 +214,30 @@ async function updateAds() {
 }
 
 async function updateOthersTablesSeller() {
+    var tablaSubasta = document.getElementById("tableYourAuctions");
+    tablaSubasta.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Initial Price</th><th>Seller</th><th></th>" +
+        "<tbody id='tbodytableYourAuctions'></tbody>";
+
+    var tbodySubasta = document.getElementById("tbodytableYourAuctions");
+
+    await axios.get('/api/v1/auctions/' + localStorage.getItem('Actual'))
+        .then(function (response) {
+            for (var x in response.data) {
+                if (response.data[x]["auctionActive"] == true) {
+                    var filatr = document.createElement("tr");
+                    var auctionID = "'" + String(response.data[x]["auctionId"]) + "'";
+                    var numeroFila = parseInt(x) + 1;
+                    filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                        '<td id="auctionId' + response.data[x]["auctionId"] + '">' + response.data[x]["auctionId"] + '</td>' +
+                        '<td>' + response.data[x]["productName"] + '</td>' +
+                        '<td>$' + response.data[x]["auctionInitPrice"] + ' USD</td>' +
+                        '<td> <div class="btn-group"><button onclick="goToAuction(' + auctionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                        '</div> </td>';
+                    tbodySubasta.appendChild(filatr);
+                }
+            }
+        })
+
     var tabla = document.getElementById("tableInProcessSeller");
     tabla.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Buyer</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
         "<tbody id='tbodyTableInProcessSeller'></tbody>";
@@ -372,6 +396,12 @@ function registrarProducto() {
 async function goToTransaction(transactionId) {
     var web = "transaction.html?txnId=" + transactionId;
     location.href = web;
+}
+
+async function goToAuction(auctionId) {
+    console.log("Entro a ir a la Subasta")
+    //var web = "transaction.html?txnId=" + transactionId;
+    //location.href = web;
 }
 
 function editarProducto(productId) {

@@ -197,6 +197,33 @@ async function loadProfile() {
 }
 
 async function updateOthersTablesBuyer() {
+    var tablaSubasta = document.getElementById("tableAllAuctions");
+    tablaSubasta.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Initial Price</th><th>Seller</th><th></th>" +
+        "<tbody id='tbodytableAllAuctions'></tbody>";
+
+    var tbodySubasta = document.getElementById("tbodytableAllAuctions");
+
+    await axios.get('/api/v1/auctions')
+        .then(function (response) {
+            for (var x in response.data) {
+                if (response.data[x]["sellerId"] != localStorage.Actual){
+                    if (response.data[x]["auctionActive"] == true) {
+                        var filatr = document.createElement("tr");
+                        var auctionID = "'" + String(response.data[x]["auctionId"]) + "'";
+                        var numeroFila = parseInt(x) + 1;
+                        filatr.innerHTML = '<td>' + numeroFila + '</td>' +
+                            '<td id="auctionId' + response.data[x]["auctionId"] + '">' + response.data[x]["auctionId"] + '</td>' +
+                            '<td>' + response.data[x]["productName"] + '</td>' +
+                            '<td>$' + response.data[x]["auctionInitPrice"] + ' USD</td>' +
+                            '<td>' + response.data[x]["sellerId"] + '</td>' +
+                            '<td> <div class="btn-group"><button onclick="goToAuction(' + auctionID + ')" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button> ' +
+                            '</div> </td>';
+                        tbodySubasta.appendChild(filatr);
+                    }
+                }    
+            }
+        })
+
     var tabla = document.getElementById("tableInProcessBuyer");
     tabla.innerHTML = "<th>#</th><th>ID</th><th>Product</th><th>Seller</th><th>Price</th><th>Status</th><th>Date</th><th></th>" +
         "<tbody id='tbodytableInProcessBuyer'></tbody>";
@@ -277,6 +304,12 @@ async function comprar(productoId, vendedorId, sellerNickname) {
 async function goToTransaction(transactionId) {
     var web = "transaction.html?txnId=" + transactionId;
     location.href = web;
+}
+
+async function goToAuction(auctionId) {
+    console.log("EntroA ir a la Subasta")
+    //var web = "transaction.html?txnId=" + transactionId;
+    //location.href = web;
 }
 
 /// Funcion para llamar las alertas de alertify

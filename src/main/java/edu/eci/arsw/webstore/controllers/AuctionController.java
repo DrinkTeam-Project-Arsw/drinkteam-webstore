@@ -52,7 +52,7 @@ public class AuctionController {
         }
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = { "auctions/{auctionId}" })
+    @RequestMapping(method = RequestMethod.GET, path = { "auction/{auctionId}" })
     public ResponseEntity<?> getAuctionById(@PathVariable("auctionId") String auctionId) {
         try {
             System.out.println("Consultando Subasta: " + auctionId);
@@ -64,6 +64,21 @@ public class AuctionController {
         } catch (Exception ex) {
             Logger.getLogger(AuctionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar la subasta: " + auctionId, HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = { "auctions/{username}" })
+    public ResponseEntity<?> getAuctionsByUsername(@PathVariable("username") String username) {
+        try {
+            System.out.println("Consultando las Subastas del usuario: " + username);
+
+            String data = new Gson().toJson(aService.getAuctionById(username));
+
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+
+        } catch (Exception ex) {
+            Logger.getLogger(AuctionController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido retornar las subastas del usuario: " + username, HttpStatus.NOT_FOUND);
         }
     }
     

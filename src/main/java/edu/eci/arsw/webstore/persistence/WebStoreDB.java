@@ -744,7 +744,7 @@ public class WebStoreDB {
             ResultSet rs = stmt.executeQuery("SELECT * FROM auction;");
             c.close();
             while (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"));
+                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
                 a.setAuctionId(rs.getString("auctionid"));
                 a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
                 allAuctions.add(a);
@@ -755,6 +755,32 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allAuctions;
+    }
+    
+    public List<Auction> getAuctionsByUsername(String username) {
+        List<Auction> allAuctionsByUsername = new ArrayList<Auction>();
+        PreparedStatement pstmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from auction where seller = ? ";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            while (rs.next()) {
+                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
+                a.setAuctionId(rs.getString("auctionid"));
+                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+                allAuctionsByUsername.add(a);
+            }
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allAuctionsByUsername;
     }
     
     /**
@@ -775,7 +801,7 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             c.close();
             if(rs.next()){
-                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"));
+                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
                 a.setAuctionId(rs.getString("auctionid"));
                 a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
             }
@@ -799,9 +825,9 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO auction (auctionid,auctioninitprice,auctioncurrentprice,auctionfinalprice,auctiondate,auctiondatefinal,auctiontimetowait,auctiontype,auctionactive,seller,product,auctionstatus) "
+            String sql = "INSERT INTO auction (auctionid,auctioninitprice,auctioncurrentprice,auctionfinalprice,auctiondate,auctiondatefinal,auctiontimetowait,auctiontype,auctionactive,seller,product,auctionstatus,productname) "
                     + "VALUES ('" + au.getAuctionId() + "','" + au.getAuctionInitPrice() + "','" + au.getAuctionCurrentPrice()
-                    + "','" + au.getAuctionFinalPrice() + "','" + au.getAuctionDate() + "','" + au.getAuctionDateFinal() + "','" + au.getAuctionTimeToWait() + "','" + au.getAuctionType() + "','" + au.isAuctionActive() + "','" + au.getSellerId() + "','" + au.getProductId() + "','" + au.getAuctionStatus()
+                    + "','" + au.getAuctionFinalPrice() + "','" + au.getAuctionDate() + "','" + au.getAuctionDateFinal() + "','" + au.getAuctionTimeToWait() + "','" + au.getAuctionType() + "','" + au.isAuctionActive() + "','" + au.getSellerId() + "','" + au.getProductId() + "','" + au.getAuctionStatus()+ "','" + au.getProductName()
                     + "');";
             stmt.executeUpdate(sql);
             stmt.close();

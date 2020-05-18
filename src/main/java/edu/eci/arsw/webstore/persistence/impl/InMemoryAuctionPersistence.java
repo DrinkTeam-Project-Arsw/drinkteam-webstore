@@ -56,4 +56,10 @@ public class InMemoryAuctionPersistence implements AuctionPersistence {
         wsdb.addUsersInAuction(auctionId, userId);
     }
 
+    @Override
+    public List<Auction> getAuctionsByUsername(String username) {
+        newDb();
+        return wsdb.getAuctionsByUsername(username);
+    }
+
 }

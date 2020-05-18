@@ -28,6 +28,13 @@ public interface AuctionServices {
     public Auction getAuctionById(String auctionId);
     
     /**
+     * Metodo que permite consultar todas las subastas de un usuario por su usuario.
+     * @param username  Es el username del usuario.
+     * @return  Retorna todas las subastas del usuario.
+     */
+    public List<Auction> getAuctionsByUsername(String username);
+    
+    /**
      * Metodo que permite crear una nueva subasta.
      * @param au Es la nueva subasta que sera registrada en la base de datos.
      */

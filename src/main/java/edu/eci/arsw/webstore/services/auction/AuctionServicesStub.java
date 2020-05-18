@@ -45,5 +45,10 @@ public class AuctionServicesStub implements AuctionServices{
     public void addUsersInAuction(String auctionId, String userId) {
         aPersistence.addUsersInAuction(auctionId, userId);
     }
+
+    @Override
+    public List<Auction> getAuctionsByUsername(String username) {
+        return aPersistence.getAuctionsByUsername(username);
+    }
     
 }

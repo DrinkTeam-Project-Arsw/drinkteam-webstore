@@ -23,12 +23,13 @@ public class Auction {
     private int auctionTimeToWait;
     private int auctionType; 
     private boolean auctionActive;    
-    private String sellerId;   
+    private String sellerId;
+    private String productName;
     private String productId;
     private String auctionStatus;
     private List buyers;
 
-    public Auction(double auctionInitPrice, String auctionDate, String auctionDateFinal, int auctionTimeToWait, int auctionType, boolean auctionActive, String sellerId, String productId, String auctionStatus) {
+    public Auction(double auctionInitPrice, String auctionDate, String auctionDateFinal, int auctionTimeToWait, int auctionType, boolean auctionActive, String sellerId, String productId, String auctionStatus, String productName) {
         this.auctionInitPrice = auctionInitPrice;
         this.auctionDate = auctionDate;
         this.auctionDateFinal = auctionDateFinal;
@@ -38,6 +39,7 @@ public class Auction {
         this.sellerId = sellerId;
         this.productId = productId;
         this.auctionStatus = auctionStatus;
+        this.productName = productName;
     }
 
     public String getAuctionId() {
@@ -142,6 +144,14 @@ public class Auction {
 
     public void setBuyers(List buyers) {
         this.buyers = buyers;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
     
 }
