@@ -207,7 +207,8 @@ async function updateAds() {
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
                     '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
-                    ' <button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
+                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>'+
+                    '<button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
                 tbody.appendChild(filatr);
             }
         })
@@ -220,7 +221,9 @@ async function updateOthersTablesSeller() {
 
     var tbodySubasta = document.getElementById("tbodytableYourAuctions");
 
-    await axios.get('/api/v1/auctions/' + localStorage.getItem('Actual'))
+    //QUITAR CUANDO SE ARREGLE EN LA BASE DE DATOS
+    //await axios.get('/api/v1/auctions/' + localStorage.getItem('Actual'))
+    await axios.get('/api/v1/auctions/')
         .then(function (response) {
             for (var x in response.data) {
                 if (response.data[x]["auctionActive"] == true) {
@@ -408,6 +411,10 @@ function editarProducto(productId) {
     window.location.href = "updateProduct.html";
     localStorage.setItem('Product', productId);
 }
+function crearSubasta(productId) {
+    window.location.href = "createAuction.html";
+    localStorage.setItem('Product', productId);
+}
 
 async function eliminarProducto(productId) {
     await axios.delete('api/v1/products/' + localStorage.getItem('Actual') + '/' + productId)
@@ -420,9 +427,6 @@ async function eliminarProducto(productId) {
 
 
 }
-
-
-
 
 /// Funcion para llamar las alertas de alertify
 
