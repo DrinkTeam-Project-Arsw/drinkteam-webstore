@@ -54,66 +54,87 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "users")
     public ResponseEntity<?> createNewUser(@RequestBody String user) {
-        //Formato de json {"1":{"userEmail":"webpostman@gmail.com","userPassword":"123","userNickname":"postmanweb"}}
+        // Formato de json
+        // {"1":{"userEmail":"webpostman@gmail.com","userPassword":"123","userNickname":"postmanweb"}}
         try {
             System.out.println("Creando nuevo usuario...");
-            //Pasar el String JSON a un Map
+            // Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
 
-            //Obtener las llaves del Map
+            // Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
 
             User us = result.get(nameKeys[0]);
             ObjectId newObjectIdUser = new ObjectId(new Date());
             us.setIdUser(newObjectIdUser.toHexString());
-                       
-            uService.createNewUser(us);
 
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            // Usuario nuevo Inactivo
+            us.setUserActive(false);
+
+            if (uService.getUserByUserNickname(us.getUserNickname()) == null
+                    && uService.getUserByEmail(us.getUserEmail()) == null) {
+                uService.createNewUser(us);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else {
+                System.out.println("Nickname o Email ya registrados en la plataforma.");
+                return new ResponseEntity<>("Nickname o Email ya registrados en la plataforma",
+                        HttpStatus.NOT_ACCEPTABLE);
+
+            }
 
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("No se ha podido registrar el usuario", HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"users/{userNickname}"})
+    @RequestMapping(method = RequestMethod.GET, path = { "users/{userNickname}" })
     public ResponseEntity<?> getUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            System.out.println("Consultando usuario: "+username);
+            System.out.println("Consultando usuario: " + username);
             User consulUser = uService.getUserByUserNickname(username);
 
             String data = new Gson().toJson(consulUser);
-                        
+
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("No se ha podido retornar el usuario con nickname: " + username, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No se ha podido retornar el usuario con nickname: " + username,
+                    HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "users")
     public ResponseEntity<?> updateUser(@RequestBody String user) {
         try {
-            System.out.println("Actualizando usuario: "+user);
+            System.out.println("Actualizando usuario: " + user);
             Type listType = new TypeToken<Map<Integer, User>>() {
             }.getType();
             Map<String, User> result = new Gson().fromJson(user, listType);
 
-            //Obtener las llaves del Map
+            // Obtener las llaves del Map
             Object[] nameKeys = result.keySet().toArray();
 
             User us = result.get(nameKeys[0]);
 
             User userActual = uService.getUserByUserNickname(us.getUserNickname());
 
-            us.setIdUser(userActual.getIdUser());
-            us.setUserBalance(userActual.getUserBalance());
-            us.setUserFeedback(userActual.getUserFeedback());
+            if (us.getUserActive()) {
+                us.setIdUser(userActual.getIdUser());
+                us.setUserBalance(userActual.getUserBalance());
+                us.setUserFeedback(userActual.getUserFeedback());
+                System.out.println("Usuario a guardar activo: " + us.getUserActive());
 
-            uService.updateUser(us);
+                uService.updateUser(us);
+            }else{
+                
+                userActual.setUserImage(us.getUserImage());
+                System.out.println("Usuario a guardar img: " + us.getUserImage());
+                uService.updateUser(userActual);
+            }
+
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,10 +142,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = {"users/{userNickname}/{add}"})
-    public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add, @PathVariable("userNickname") String nickname) {
+    @RequestMapping(method = RequestMethod.PUT, path = { "users/{userNickname}/{add}" })
+    public ResponseEntity<?> updateBalanceByUser(@PathVariable("add") double add,
+            @PathVariable("userNickname") String nickname) {
         try {
-            System.out.println("Actualizando Saldo de Usuario: "+nickname);
+            System.out.println("Actualizando Saldo de Usuario: " + nickname);
             User userActual = uService.getUserByUserNickname(nickname);
 
             double balanceBefore = userActual.getUserBalance();
@@ -138,10 +160,10 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = {"users/{userNickname}"})
+    @RequestMapping(method = RequestMethod.DELETE, path = { "users/{userNickname}" })
     public ResponseEntity<?> deleteUserByUsername(@PathVariable("userNickname") String username) {
         try {
-            System.out.println("Eliminando Usuario: "+username);
+            System.out.println("Eliminando Usuario: " + username);
             uService.deleteUserByUserNickname(username);
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

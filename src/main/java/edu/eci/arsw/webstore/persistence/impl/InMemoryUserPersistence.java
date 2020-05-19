@@ -18,64 +18,92 @@ import org.springframework.stereotype.Service;
  * @author jmvillatei
  */
 @Service
-public class InMemoryUserPersistence implements UserPersistence{
+public class InMemoryUserPersistence implements UserPersistence {
 
-    //Atributos
+    // Atributos
     WebStoreDB wsdb;
-    
-    private void newDb(){
+
+    private void newDb() {
         wsdb = new WebStoreDB();
     }
-    
+
     @Override
     public List<User> getAllUsers() {
         newDb();
-        return wsdb.getAllUsers();
+        try {
+            return wsdb.getAllUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            return wsdb.getAllUsers();
+        }
+
     }
 
     @Override
     public void createNewUser(User us) {
         newDb();
-        if(getUserByUserNickname(us.getUserNickname()) == null && getUserByEmail(us.getUserEmail()) == null){
-            wsdb.createNewUser(us);
-        }else{
-            try {
-                throw new ExcepcionWebStore("Nickname o Email ya registrados en la plataforma.");
-            } catch (ExcepcionWebStore ex) {
-                Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+             wsdb.createNewUser(us);
+       } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public User getUserByUserNickname(String userNickname) {
         newDb();
-        return wsdb.getUserByUserNickname(userNickname); 
+        try {
+            return wsdb.getUserByUserNickname(userNickname);
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            return wsdb.getUserByUserNickname(userNickname);
+        }
+        
     }
 
     @Override
     public void deleteUserByUserNickname(String userNickname) {
         newDb();
-        wsdb.deleteUserByUserNickname(userNickname);
+        try {
+            wsdb.deleteUserByUserNickname(userNickname);
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
     public void updateUser(User user) {
         newDb();
-        wsdb.updateUser(user);
+        try {
+            wsdb.updateUser(user);
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+
     }
 
     @Override
     public User getUserById(String id) {
         newDb();
-        return wsdb.getUserById(id);
-
+        try {
+            return wsdb.getUserById(id);
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            return wsdb.getUserById(id);
+        }
     }
 
     @Override
     public User getUserByEmail(String email) {
         newDb();
-        return wsdb.getUserByEmail(email);
-    }   
+        try {
+            return wsdb.getUserByEmail(email);
+        } catch (Exception ex) {
+            Logger.getLogger(InMemoryUserPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            return wsdb.getUserByEmail(email);
+        }
+        
+    }
 }

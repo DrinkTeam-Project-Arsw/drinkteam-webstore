@@ -137,6 +137,7 @@ public class WebStoreDB {
                 u.setUserBalance(rs.getDouble("userbalance"));
                 u.setUserFeedback(rs.getInt("userfeedback"));
                 u.setUserActive(rs.getBoolean("useractive"));
+                u.setUserAddress(rs.getString("useraddress"));
                 getAllProductsOfUserNickname(userNickname);
             }
             pstmt.close();
@@ -172,6 +173,7 @@ public class WebStoreDB {
                 u.setUserBalance(rs.getDouble("userbalance"));
                 u.setUserFeedback(rs.getInt("userfeedback"));
                 u.setUserActive(rs.getBoolean("useractive"));
+                u.setUserAddress(rs.getString("useraddress"));
                 getAllProductsOfUserNickname(u.getUserNickname());
             }
             pstmt.close();
@@ -230,6 +232,7 @@ public class WebStoreDB {
             u.setUserBalance(rs.getDouble("userbalance"));
             u.setUserFeedback(rs.getInt("userfeedback"));
             u.setUserActive(rs.getBoolean("useractive"));
+            u.setUserAddress(rs.getString("useraddress"));
             getAllProductsOfUserNickname(rs.getString("ussernickname"));
             pstmt.close();
             rs.close();
@@ -255,7 +258,8 @@ public class WebStoreDB {
             String sql1 = "UPDATE usr SET username = '" + user.getUserName() + "', userlastname = '"
                     + user.getUserLastName() + "', usserimage = '" + user.getUserImage() + "', ussercode = '"
                     + user.getCodeCountry() + "', userphone = '" + user.getUserPhone() + "', userbalance = '"
-                    + user.getUserBalance() + "', userfeedback = '" + user.getUserFeedback() + "'  WHERE userid = '"
+                    + user.getUserBalance() + "', useraddress = '" + user.getUserAddress() + "', useractive = '"
+                    + user.getUserActive() + "', userfeedback = '" + user.getUserFeedback() + "'  WHERE userid = '"
                     + user.getIdUser() + "' ";
             stmt = c.createStatement();
             stmt.executeUpdate(sql1);
