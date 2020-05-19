@@ -221,9 +221,7 @@ async function updateOthersTablesSeller() {
 
     var tbodySubasta = document.getElementById("tbodytableYourAuctions");
 
-    //QUITAR CUANDO SE ARREGLE EN LA BASE DE DATOS
-    //await axios.get('/api/v1/auctions/' + localStorage.getItem('Actual'))
-    await axios.get('/api/v1/auctions/')
+    await axios.get('/api/v1/auctions/' + localStorage.getItem('Actual'))
         .then(function (response) {
             for (var x in response.data) {
                 if (response.data[x]["auctionActive"] == true) {

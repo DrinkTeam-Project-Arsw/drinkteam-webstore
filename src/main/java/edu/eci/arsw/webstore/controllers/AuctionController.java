@@ -72,7 +72,7 @@ public class AuctionController {
         try {
             System.out.println("Consultando las Subastas del usuario: " + username);
 
-            String data = new Gson().toJson(aService.getAuctionById(username));
+            String data = new Gson().toJson(aService.getAuctionsByUsername(username));
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
 

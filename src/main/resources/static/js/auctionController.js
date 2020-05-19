@@ -57,8 +57,7 @@ async function crearSubasta() {
                     auctionTimeToWait: 1,
                     auctionType: 1 ,
                     auctionActive: true,
-                    //CORREGIR MIENTRAS SE ARREGLA EN LA BASE DE DATOS
-                    sellerId: 0 /*localStorage.getItem('Product')*/,
+                    sellerId: localStorage.getItem('Product'),
                     productId:localStorage.getItem('Product'),
                     auctionStatus: "En Curso",
                     productName: document.getElementById("upProductName").value
