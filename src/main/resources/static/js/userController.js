@@ -111,6 +111,7 @@ function registrarUsuario() {
 
         })
             .then(function (response) {
+                console.log(">>> EXITO REGISTRO");
                 console.log(response.data);
                 var text = ["Success", "Registered User"];
                 var web = "login.html";
@@ -121,6 +122,17 @@ function registrarUsuario() {
                 callAlert(text, web);
 
             })
+            .catch(function (error) {
+                console.log(">>> ERROR REGISTRO");
+                console.log(error.message)
+                if(error.message == "Request failed with status code 406"){
+                    alertify.error("Email or Username are registered");
+                }else{
+                    alertify.error("Server Error, try again later");
+                }
+                
+            })
+
     } else {
         alertify.error("<b>>>Please, fill in all the required fields.<<</b>");
     }
