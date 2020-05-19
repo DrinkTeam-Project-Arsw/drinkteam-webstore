@@ -30,6 +30,7 @@ public class User {
     private double userBalance;
     private int userFeedback;
     private boolean userActive;
+    private String userAddress;
     
     private List products;
 
@@ -39,7 +40,6 @@ public class User {
         this.userNickname = userNickname;
         this.userBalance = 0.0;
         this.userFeedback = 0;
-        this.userActive = false;
     }
     
     public String getIdUser() {
@@ -151,5 +151,13 @@ public class User {
     
     public void setUserActive(boolean userActive){
         this.userActive = userActive;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 }

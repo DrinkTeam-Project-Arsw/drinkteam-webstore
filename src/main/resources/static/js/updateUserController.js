@@ -42,6 +42,12 @@ async function actualizarUsuario() {
         alertify.error(alerta);
 
     }
+    if (document.getElementById("upAddress").value === '') {
+        nullAlert = true;
+        alerta = ' Enter your Delivery Address.';
+        alertify.error(alerta);
+
+    }
     if (document.getElementById("upCode").value === '') {
         nullAlert = true;
         alerta = ' Enter your Code Country.';
@@ -74,10 +80,10 @@ async function actualizarUsuario() {
 
     }
 
-    
+
 
     if (!nullAlert) {
-        if(cpd===document.getElementById("upPassword").value){
+        if (cpd === document.getElementById("upPassword").value && localStorage.ActivoActual === "false") {
             await axios.put('/api/v1/users/', {
                 "1": {
                     userNickname: localStorage.getItem('Actual'),
@@ -85,27 +91,61 @@ async function actualizarUsuario() {
                     userLastName: document.getElementById("upLastname").value,
                     userImage: document.getElementById("upProfileImage").value,
                     codeCountry: document.getElementById("upCode").value,
-                    userPhone: parseInt(document.getElementById("upPhone").value)
+                    userPhone: parseInt(document.getElementById("upPhone").value),
+                    userAddress: document.getElementById("upAddress").value,
+                    userActive: true
                 }
-    
-    
+
+
             })
                 .then(function (response) {
                     console.log(response.data);
                     var text = "Success, Update Info";
                     var web = "profile.html";
+                    localStorage.ActivoActual = true
+                    loadData();
+                    document.getElementById("upPassword").value = ""
+                    document.getElementById("upPassword2").value = ""
+                    
+                    alertify.success(text);
+                
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    var text ="Error, No se puede actualizar datos del usuario";
+                    alertify.error(text);
+                    
+                })
+        } else if (cpd === document.getElementById("upPassword").value && localStorage.ActivoActual === "true") {
+            await axios.put('/api/v1/users/', {
+                "1": {
+                    userNickname: localStorage.getItem('Actual'),
+                    userImage: document.getElementById("upProfileImage").value,
+                    userActive: false
+                }
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    var text = "Success, Update Info";
                     alertify.success(text);
                     document.getElementById("upPassword").value = ""
                     document.getElementById("upPassword2").value = ""
                     loadData();
-                    
+
                     //callAlert(text, web);
-    
+
                 })
-        }else{
+                .catch(function (error) {
+                    console.log(error);
+                    var text ="Error, No se puede actualizar datos del usuario";
+                    alertify.error(text);
+                })
+
+        } else {
             alertify.error("<b>Incorrect Password </b>");
         }
-        
+
     } else {
         alertify.error("<b>Something happened, check the data you want to change</b>");
     }
@@ -122,14 +162,14 @@ var cpd = '';
 
 function loadData() {
     var alertDiv = document.getElementById("alertDiv");
-    var alertMust = '<a class="panel-close close" data-dismiss="alert">×</a>'+
-        '<span class="glyphicon glyphicon-user" aria-hidden="true"></span>'+
-        'You must fill out <strong>personal information</strong> in order to'+
+    var alertMust = '<a class="panel-close close" data-dismiss="alert">×</a>' +
+        '<span class="glyphicon glyphicon-user" aria-hidden="true"></span>' +
+        'You must fill out <strong>personal information</strong> in order to' +
         '<strong>sell</strong> products.';
-    var alertChange = ' <a class="panel-close close" data-dismiss="alert">×</a>'+
-        '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
+    var alertChange = ' <a class="panel-close close" data-dismiss="alert">×</a>' +
+        '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' +
         'If you want to change any personal information, <strong>please click here</strong>.';
-   
+
 
     axios.get('/api/v1/users/' + localStorage.getItem('Actual'))
         .then(function (response) {
@@ -137,25 +177,28 @@ function loadData() {
             cpd = response.data["userPassword"];
             document.getElementById("usernameU").innerHTML = response.data["userNickname"];
             document.getElementById("userIdU").value = response.data["idUser"];
+            
             document.getElementById("upNickname").value = "@" + response.data["userNickname"];
 
             document.getElementById("upEmail").value = response.data["userEmail"];
-
-            if (response.data["userName"] !== "") {
+            console.log(response.data["userActive"] === true)
+            if (response.data["userActive"]) {
                 alertDiv.innerHTML = alertChange;
                 alertDiv.style.visibility = "visible";
 
                 document.getElementById("upName").value = response.data["userName"];
                 document.getElementById("upLastname").value = response.data["userLastName"];
+                document.getElementById("upAddress").value = response.data["userAddress"];
                 document.getElementById("upCode").value = response.data["codeCountry"];
                 document.getElementById("upPhone").value = response.data["userPhone"];
-                document.getElementById("imgProfile-preview").src = CLOUDINARY_URL_PREVIEW+response.data["userImage"];
+                document.getElementById("imgProfile-preview").src = CLOUDINARY_URL_PREVIEW + response.data["userImage"];
 
                 //disabled inputs
                 document.getElementById("upName").disabled = true;
                 document.getElementById("upLastname").disabled = true;
                 document.getElementById("upCode").disabled = true;
                 document.getElementById("upPhone").disabled = true;
+                document.getElementById("upAddress").disabled = true;
             }
             else {
                 document.getElementById("imgProfile-preview").src = "./img/noImage.png";

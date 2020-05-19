@@ -70,17 +70,19 @@ public class UserController {
             ObjectId newObjectIdUser = new ObjectId(new Date());
             us.setIdUser(newObjectIdUser.toHexString());
 
+            // Usuario nuevo Inactivo
+            us.setUserActive(false);
+
             if (uService.getUserByUserNickname(us.getUserNickname()) == null
                     && uService.getUserByEmail(us.getUserEmail()) == null) {
                 uService.createNewUser(us);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
                 System.out.println("Nickname o Email ya registrados en la plataforma.");
-                return new ResponseEntity<>("Nickname o Email ya registrados en la plataforma", HttpStatus.NOT_ACCEPTABLE);
-                
-            }
+                return new ResponseEntity<>("Nickname o Email ya registrados en la plataforma",
+                        HttpStatus.NOT_ACCEPTABLE);
 
-            
+            }
 
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,11 +121,20 @@ public class UserController {
 
             User userActual = uService.getUserByUserNickname(us.getUserNickname());
 
-            us.setIdUser(userActual.getIdUser());
-            us.setUserBalance(userActual.getUserBalance());
-            us.setUserFeedback(userActual.getUserFeedback());
+            if (us.getUserActive()) {
+                us.setIdUser(userActual.getIdUser());
+                us.setUserBalance(userActual.getUserBalance());
+                us.setUserFeedback(userActual.getUserFeedback());
+                System.out.println("Usuario a guardar activo: " + us.getUserActive());
 
-            uService.updateUser(us);
+                uService.updateUser(us);
+            }else{
+                
+                userActual.setUserImage(us.getUserImage());
+                System.out.println("Usuario a guardar img: " + us.getUserImage());
+                uService.updateUser(userActual);
+            }
+
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

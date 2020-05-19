@@ -47,6 +47,7 @@ function iniciarSesion() {
                 if (response.data["userPassword"] === document.getElementById("inPassword").value) {
                     iniciarLocalStorageUser(document.getElementById("inUsername").value);
                     location.href = "profile.html";
+                    localStorage.ActivoActual = response.data["userActive"];
 
                 } else {
                     alerta = ' Incorrect username or password.';
