@@ -306,14 +306,16 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM product;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM product where productauction is null ;");
             c.close();
             while (rs.next()) {
                 p = new Product(rs.getString("productname"), rs.getString("productdescription"),
                         rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
-                allProduct.add(p);
+                if(getTransactionByProductId(p.getProductId()) == null){
+                    allProduct.add(p);
+                }
             }
             stmt.close();
             rs.close();
@@ -348,6 +350,37 @@ public class WebStoreDB {
                 p.setProductId(rs.getString("productid"));
 
                 allProductUser.add(p);
+            }
+            // Se Agregan todos los productos al usuario.
+            u.setProducts(allProductUser);
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allProductUser;
+    }
+    
+    public List<Product> getAllProductsOfUserNicknameWithoutAuction(String userNickname) {
+        String SQL = "SELECT * FROM product WHERE productuser = ? and productauction is null";
+        List<Product> allProductUser = new ArrayList<Product>();
+        try {
+            if (u == (null)) {
+                u = getUserByUserNickname(userNickname);
+            }
+            getConnection();
+            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, u.getIdUser());
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            while (rs.next()) {
+                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                        rs.getDouble("productprice"), rs.getString("productImage"));
+                p.setProductId(rs.getString("productid"));
+                if(getTransactionByProductId(p.getProductId()) == null){
+                    allProductUser.add(p);
+                }
             }
             // Se Agregan todos los productos al usuario.
             u.setProducts(allProductUser);
@@ -526,6 +559,7 @@ public class WebStoreDB {
      */
     public Transaction getTransactionById(String transactionId) {
         PreparedStatement pstmt = null;
+        t = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -534,23 +568,22 @@ public class WebStoreDB {
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
             c.close();
-            t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-            t.setTransactionId(rs.getString("transactionid"));
-            t.setTransactionPrice(rs.getDouble("transactionprice"));
-            t.setTransactionDate(rs.getString("transactiondate"));
-            t.setTransactionActive(rs.getBoolean("transactionactive"));
-            t.setTransactionDateEnd(rs.getString("transactiondateend"));
-            t.setTransactionState(rs.getString("transactionstate"));
+            if(rs.next()){
+                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                t.setTransactionId(rs.getString("transactionid"));
+                t.setTransactionPrice(rs.getDouble("transactionprice"));
+                t.setTransactionDate(rs.getString("transactiondate"));
+                t.setTransactionActive(rs.getBoolean("transactionactive"));
+                t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                t.setTransactionState(rs.getString("transactionstate"));
+            }
             pstmt.close();
             rs.close();
-            return t;
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
-        
+        return t;
     }
     
     public Transaction getTransactionByProductId(String productId) {

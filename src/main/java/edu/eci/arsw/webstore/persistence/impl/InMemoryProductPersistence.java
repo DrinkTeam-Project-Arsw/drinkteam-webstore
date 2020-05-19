@@ -35,7 +35,7 @@ public class InMemoryProductPersistence implements ProductPersistence {
     @Override
     public List<Product> getAllProductsOfUserNickname(String userNickname) {
         newDb();
-        return wsdb.getAllProductsOfUserNickname(userNickname);
+        return wsdb.getAllProductsOfUserNicknameWithoutAuction(userNickname);
     }
 
     @Override
