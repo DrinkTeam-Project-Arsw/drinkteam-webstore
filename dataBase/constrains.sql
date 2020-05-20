@@ -29,12 +29,6 @@ references PRODUCT(productId)
 ON DELETE CASCADE;
 
 alter table AUCTION 
-add constraint FK_AUCTION_USR_SELLER
-foreign key(seller) 
-references USR(userId)
-ON DELETE CASCADE;
-
-alter table AUCTION 
 add constraint FK_AUCTION_PRODUCT
 foreign key(product) 
 references PRODUCT(productId)
@@ -49,5 +43,5 @@ ON DELETE CASCADE;
 alter table MESSAGE 
 add constraint FK_MESSAGE_USR
 foreign key(messageUser) 
-references USR(userId)
+references USR(usserNickName)
 ON DELETE CASCADE;
