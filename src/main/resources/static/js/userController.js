@@ -185,6 +185,21 @@ function loadProfile() {
                 ul.appendChild(li);
             }
 
+            // Texto anuncio verificar
+            if (response.data["userActive"]) {
+                document.getElementById("textAnuncio").innerHTML = '<h3>Your account is online. You are ready to buy or sell products</h3>'
+                document.getElementById("divPanel").className = 'panel panel-success';
+
+            } else {
+                document.getElementById("textAnuncio").innerHTML = '<h3> Your account is not verified. <b> You can only buy intangible ' +
+                    'products</b>.<br>Complete your registration, <a href="update.html">click here</a></h3> ';
+                document.getElementById("divPanel").className = 'panel panel-danger';
+                document.getElementById("divProduct").style.visibility = 'hidden';
+                document.getElementById("divProduct").style.height = "0px";
+                document.getElementById("divComments").style.visibility = 'hidden';
+                document.getElementById("divComments").style.height = "0px";
+            }
+
             //document.getElementById("feedbackView").appendChild(' <li><a href="#"><img src="./img/star.png" style="width: 50px; top: -7px; position: relative; filter: drop-shadow(2px 2px 6px #444);"></i></a></li>');
 
 
