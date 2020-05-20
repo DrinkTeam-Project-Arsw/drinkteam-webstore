@@ -7,6 +7,7 @@ package edu.eci.arsw.webstore.services.auction;
 
 import edu.eci.arsw.webstore.model.Auction;
 import edu.eci.arsw.webstore.persistence.AuctionPersistence;
+import edu.eci.arsw.webstore.services.product.ProductServicesStub;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class AuctionServicesStub implements AuctionServices{
     @Autowired
     AuctionPersistence aPersistence;
     
+    @Autowired
+    ProductServicesStub pServices;
+    
     @Override
     public List<Auction> getAllAuctions() {
         return aPersistence.getAllAuctions();
@@ -34,6 +38,7 @@ public class AuctionServicesStub implements AuctionServices{
     @Override
     public void createNewAuction(Auction au) {
         aPersistence.createNewAuction(au);
+        pServices.updateCacheProduct(au.getSellerId());
     }
 
     @Override

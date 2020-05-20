@@ -41,7 +41,6 @@ public class InMemoryProductPersistence implements ProductPersistence {
     @Override
     public void createNewProduct(Product pr) {
         newDb();
-
         try {
             wsdb.createNewProduct(pr);
 

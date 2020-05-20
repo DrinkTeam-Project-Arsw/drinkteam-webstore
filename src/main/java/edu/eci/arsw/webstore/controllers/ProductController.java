@@ -102,7 +102,6 @@ public class ProductController {
     public ResponseEntity<?> createNewProduct(@RequestBody String product ) {
         //Formato de json {"1":{"productName":"PruebaOnline","productDescription":"pruebaOnlineeeee","productPrice":"20000","productUser":"david","productImage":""}}
         try {
-            System.out.println("Creando producto nuevo...");
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Product>>() {
             }.getType();
