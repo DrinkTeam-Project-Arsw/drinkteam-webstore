@@ -31,25 +31,36 @@ public class ProductServicesStub implements ProductServices{
     UserServices uService;
     
     public void updateCacheProduct(String userNickname){
-        if(pCache.containsAllProductsOfUserNickname(userNickname)){
+        if(pCache.containsAllProductsOfUserNicknameCache(userNickname)){
             //Actualizar
-            pCache.putUsuarioCache(userNickname, pPersistence.getAllProductsOfUserNickname(userNickname));            
+            pCache.putAllProductsOfUserNicknameCache(userNickname, pPersistence.getAllProductsOfUserNickname(userNickname));            
+        }
+        if(pCache.containsAllProductsCache(1)){
+            //Eliminar Cache
+            pCache.deleteAllProductsCache(1);
         }
     }
     
     @Override
     public List<Product> getAllProducts() {
-        return pPersistence.getAllProducts();
+        List<Product> ans;
+        if(pCache.containsAllProductsCache(1)){
+            ans = pCache.getAllProductsCache(1);
+        }else{
+            ans = pPersistence.getAllProducts();
+            pCache.putAllProductsCache(1, ans);
+        }
+        return ans;
     }
 
     @Override
     public List<Product> getAllProductsOfUserNickname(String userNickname) {
         List<Product> ans;
-        if(pCache.containsAllProductsOfUserNickname(userNickname)){
+        if(pCache.containsAllProductsOfUserNicknameCache(userNickname)){
             ans = pCache.getAllProductsOfUserNicknameCache(userNickname);
         }else{
             ans = pPersistence.getAllProductsOfUserNickname(userNickname);
-            pCache.putUsuarioCache(userNickname, ans);
+            pCache.putAllProductsOfUserNicknameCache(userNickname, ans);
         }
         return ans;
     }

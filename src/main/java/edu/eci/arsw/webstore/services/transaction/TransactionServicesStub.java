@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import edu.eci.arsw.webstore.model.Transaction;
+import edu.eci.arsw.webstore.model.User;
 import edu.eci.arsw.webstore.persistence.TransactionPersistence;
+import edu.eci.arsw.webstore.services.product.ProductServicesStub;
+import edu.eci.arsw.webstore.services.user.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,12 @@ public class TransactionServicesStub implements TransactionServices {
 
     @Autowired
     TransactionPersistence tPersistence;
+    
+    @Autowired
+    ProductServicesStub pServices;
+    
+    @Autowired
+    UserServices uService;
 
     @Override
     public List<Transaction> getAllTransactions() {
@@ -34,7 +43,8 @@ public class TransactionServicesStub implements TransactionServices {
     @Override
     public void createNewTransaction(Transaction tr) {
        tPersistence.createNewTransaction(tr);
-
+       User us = uService.getUserById(tr.getSeller());
+       pServices.updateCacheProduct(us.getUserNickname());
     }
 
     @Override
