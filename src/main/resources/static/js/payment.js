@@ -1,3 +1,19 @@
+amount.oninput = function () {
+
+    if (0 < amount.value.length && amount.value.length < 4) {
+        amountView.innerHTML = amount.value;
+    } else if (amount.value.length == 4) {
+        amountView.innerHTML = amount.value.substring(0, 1) + "." + amount.value.substring(1, amount.value.length)
+    } else if (amount.value.length == 5) {
+        amountView.innerHTML = amount.value.substring(0, 2) + "." + amount.value.substring(2, amount.value.length)
+    } else if (amount.value.length == 6) {
+        amountView.innerHTML = amount.value.substring(0, 3) + "." + amount.value.substring(3, amount.value.length)
+    } else {
+        amountView.innerHTML = "ERROR";
+    }
+
+};
+
 function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode
     if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -87,20 +103,22 @@ async function cargarSaldo() {
             await axios.put('/api/v1/users/' + localStorage.getItem('Actual') + '/' + document.getElementById('amount').value)
                 .then(function (response) {
                     console.log(response.data);
-                    var text = 'Cambio correcto';
+                    var text = 'Successful Deposit!';
                     alertify.success(text);
                     document.getElementById("closeModal").click();
+                    var pathname = window.location.pathname;
 
                     loadProfile();
+
                 })
                 .catch(function (error) {
-                    var alerta = ' error, no se hizo .';
+                    var alerta = 'Error depositing, please call your bank.';
                     console.log(error);
                     alertify.error(alerta);
                     verificado = false
 
                 })
-        }else{
+        } else {
             alertify.error("<b>Error, invalid dollar amount</b>");
         }
 

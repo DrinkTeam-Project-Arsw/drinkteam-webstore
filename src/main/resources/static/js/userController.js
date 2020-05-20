@@ -7,21 +7,7 @@ $(".custom-file-input").on("change", function () {
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
-amount.oninput = function () {
-    
-    if (1 < amount.value.length && amount.value.length < 4 ) {
-        amountView.innerHTML = amount.value;
-    } else if (amount.value.length == 4 ) {
-        amountView.innerHTML = amount.value.substring(0,1)+"."+amount.value.substring(1,amount.value.length)
-    } else if (amount.value.length == 5 ) {
-        amountView.innerHTML = amount.value.substring(0,2)+"."+amount.value.substring(2,amount.value.length)
-    } else if (amount.value.length == 6 ) {
-        amountView.innerHTML = amount.value.substring(0,3)+"."+amount.value.substring(3,amount.value.length)
-    } else {
-        amountView.innerHTML = "ERROR";
-    }
 
-};
 
 /**
  * @param {username} nickname del usuraio actual 
