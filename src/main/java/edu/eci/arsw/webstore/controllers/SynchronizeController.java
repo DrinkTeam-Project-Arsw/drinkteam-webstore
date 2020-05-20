@@ -27,8 +27,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
+@RestController
+@RequestMapping(value = "/api/v1")
 public class SynchronizeController {
 
     @Autowired
@@ -55,13 +58,12 @@ public class SynchronizeController {
     public ResponseEntity<?> getNotificationsByNickname(@PathVariable("nickname") String nickname) {
         try {
             System.out.println("Consultando Notificaciones del usuario "+nickname+ "...");
-            List<Notification> notifications = new ArrayList<>();
 
             String data = new Gson().toJson(nService.getNotificationsByNickname(nickname));
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar las notificaciones", HttpStatus.NOT_FOUND);
         }
     }
@@ -69,7 +71,7 @@ public class SynchronizeController {
     @RequestMapping(method = RequestMethod.POST, path = "notifications")
     public ResponseEntity<?> createNewNotification(@RequestBody String notification) {
         // Formato de json
-        // {"1":{}}
+        // {"1":{"notificationMessage":"sent you a message","notificationDate":"2020/05/20 17:25pm","notificationDestination":"david","notificationSend":"juan","notificationUrl":"/transaction.html?txnId=5eb8bf403d212a77e4de9bb3","notificationFunction":"newMessage","notificationViewed":false}}
         try {
             System.out.println("Creando una nueva notificacion...");
             // Pasar el String JSON a un Map
@@ -90,7 +92,7 @@ public class SynchronizeController {
             return new ResponseEntity<>(HttpStatus.CREATED);
             
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido guardar la notificacion", HttpStatus.NOT_FOUND);
         }
     }
@@ -112,7 +114,7 @@ public class SynchronizeController {
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se puede actualizar el estado de la notificacion", HttpStatus.NOT_FOUND);
         }
     }
@@ -125,7 +127,7 @@ public class SynchronizeController {
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido eliminar la notificacion: " + notificationId,
                     HttpStatus.FORBIDDEN);
         }

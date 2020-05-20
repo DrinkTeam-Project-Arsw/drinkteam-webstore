@@ -991,12 +991,10 @@ public class WebStoreDB {
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO notification (notificationid,notificationdestination,notificationmessage,notificationurl,notificationdate, notificationsend, notificationviewed, notificationfunction) "
+            String sql = "INSERT INTO notification "
                     + "VALUES ('" + noti.getNotificationId() + "',' " + noti.getNotificationDestination() + "','" 
                     + noti.getNotificationMessage() + "',' " + noti.getNotificationUrl() + "','" +
-                    noti.getNotificationDate() + "',' " + noti.getNotificationSend() + "','" +
-                    "false','" + noti.getNotificationFunction() + "');";
-
+                    noti.getNotificationDate() + "',' " + noti.getNotificationSend() + "', false ,'" + noti.getNotificationFunction() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -1007,47 +1005,76 @@ public class WebStoreDB {
     }
 
     /**
-     * Metodo que permite la consulta de un usuario por su userNickName.
-     * 
-     * @param Nickname Es el Nickname del usuario.
-     * @return Retorna las notificaciones correspondiente con el NickName 
+     * Metodo que permite consultar todas las notificaciones de un usuario
+     * @param nickname  Es el nickname del usario.
+     * @return  Retorna una lista con las notificaciones del usuario.
      */
-    public User getNotificationsByNickname(String nickname) {
+    public List<Notification> getNotificationsByNickname(String nickname) {
+        System.out.println(nickname);
+        ArrayList<Notification> allNotificationsByNickname= new ArrayList<Notification>();
         PreparedStatement pstmt = null;
         try {
-            // Class.forName("org.postgresql.Driver");
-            // getConnection();
-            // c.setAutoCommit(false);
-            // String sql = "Select * from notification where notificationDestination = ?";
-            // pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            // pstmt.setString(1, nickname);
-            // ResultSet rs = pstmt.executeQuery();
-            // c.close();
-            // if (rs.next()) {
-            //     n = new Notification();
-            //     
-            // }
-            //pstmt.close();
-            //rs.close();
-            return u;
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from notification where notificationdestination = ? ";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, nickname);
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            while (rs.next()) {
+                n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
+                        rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
+                n.setNotificationId(rs.getString("notificationid"));
+                allNotificationsByNickname.add(n);
+            }
+            pstmt.close();
+            rs.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
-
+        return allNotificationsByNickname;
     }
+    
 
     /**
      * Metodo que permite cambiar el estado de la notificacion, solo debe cambiar el estado de notificationViewed
+     * @param viewed    Es el nuevo valor de viewed
+     * @param notificationId    Es el id de la notificacion.
      */
     public void changeNotificationStatus(boolean viewed, String notificationId){
-
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "UPDATE notification SET notificationviewed = '" + viewed + "'  WHERE notificationid = '" + notificationId + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * Metodo que permite qur permite eliminar una notificaion
+     * @param notificationId    Es el id de la notificacion
      */
     public void deleteNotificationById(String notificationId){
-
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "DELETE FROM notification WHERE notificationid = '" + notificationId + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
