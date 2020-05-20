@@ -22,17 +22,17 @@ async function cargarSaldo() {
         alertify.success("American");
         verificado = true;
     }
-    else if(cardNumber.value.match(visa)){
+    else if (cardNumber.value.match(visa)) {
         //starting with 4, length 13 or 16 digits.
         alertify.success("Visa");
         verificado = true;
     }
-    else if(cardNumber.value.match(master)){
+    else if (cardNumber.value.match(master)) {
         //starting with 51 through 55, length 16 digits.
         alertify.success("MAstercard");
         verificado = true;
     }
-    else if(cardNumber.value.match(discover)){
+    else if (cardNumber.value.match(discover)) {
         //starting with 6011, length 16 digits or starting with 5, length 15 digits.
         alertify.success("Discover");
         verificado = true;
@@ -41,24 +41,24 @@ async function cargarSaldo() {
         alertify.error("<b>It is not a valid credit card number!</b>");
         alertify.error("<b>Remember that we only accept Visa, MasterCard, Discover and American Express</b>");
         verificado = false;
-        
+
     }
-    if(verificado===true){
+    if (verificado === true) {
         var date = document.getElementById("cardExpiry").value;
         date = date.split("/");
         nowDate = new Date();
-        if (date[1]==nowDate.getFullYear()%100){
-            if(date[0]>=nowDate.getMonth()){
+        if (date[1] == nowDate.getFullYear() % 100) {
+            if (date[0] >= nowDate.getMonth()) {
                 verificado = true;
             }
-            else{
+            else {
                 verificado = false;
             }
         }
-        else if(date[1]>nowDate.getFullYear()%100){
+        else if (date[1] > nowDate.getFullYear() % 100) {
             verificado = true;
         }
-        else{
+        else {
             verificado = false;
         }
     }
@@ -82,14 +82,15 @@ async function cargarSaldo() {
                 })
     }*/
 
-    if(verificado===true){
-        await axios.put('/api/v1/users/'+ localStorage.getItem('Actual') +'/'+ 50.00)
+    if (verificado === true) {
+        if (document.getElementById('amountView').textContent != "ERROR" && document.getElementById('amountView').textContent != '') {
+            await axios.put('/api/v1/users/' + localStorage.getItem('Actual') + '/' + document.getElementById('amount').value)
                 .then(function (response) {
                     console.log(response.data);
                     var text = 'Cambio correcto';
                     alertify.success(text);
                     document.getElementById("closeModal").click();
-                    
+
                     loadProfile();
                 })
                 .catch(function (error) {
@@ -99,9 +100,13 @@ async function cargarSaldo() {
                     verificado = false
 
                 })
+        }else{
+            alertify.error("<b>Error, invalid dollar amount</b>");
+        }
+
     }
-    else{
-        alertify.error("<b>Error, Verifique los datos</b>");
+    else {
+        alertify.error("<b>Error, Verify card details</b>");
     }
 
 
@@ -109,12 +114,12 @@ async function cargarSaldo() {
 
 /// Funcion para llamar las alertas de alertify
 
-function callAlert(text, web){
-    if(web!==null){
-        alertify.alert(text[0],text[1]).set('label', 'OK');
+function callAlert(text, web) {
+    if (web !== null) {
+        alertify.alert(text[0], text[1]).set('label', 'OK');
         location.href = web;
     } else {
-        alertify.alert(text[0],text[1]).set('label', 'OK');
+        alertify.alert(text[0], text[1]).set('label', 'OK');
     }
-    
+
 }

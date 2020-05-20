@@ -7,6 +7,21 @@ $(".custom-file-input").on("change", function () {
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
+amount.oninput = function () {
+    
+    if (1 < amount.value.length && amount.value.length < 4 ) {
+        amountView.innerHTML = amount.value;
+    } else if (amount.value.length == 4 ) {
+        amountView.innerHTML = amount.value.substring(0,1)+"."+amount.value.substring(1,amount.value.length)
+    } else if (amount.value.length == 5 ) {
+        amountView.innerHTML = amount.value.substring(0,2)+"."+amount.value.substring(2,amount.value.length)
+    } else if (amount.value.length == 6 ) {
+        amountView.innerHTML = amount.value.substring(0,3)+"."+amount.value.substring(3,amount.value.length)
+    } else {
+        amountView.innerHTML = "ERROR";
+    }
+
+};
 
 /**
  * @param {username} nickname del usuraio actual 
@@ -126,12 +141,12 @@ function registrarUsuario() {
             .catch(function (error) {
                 console.log(">>> ERROR REGISTRO");
                 console.log(error.message)
-                if(error.message == "Request failed with status code 406"){
+                if (error.message == "Request failed with status code 406") {
                     alertify.error("Email or Username are registered");
-                }else{
+                } else {
                     alertify.error("Server Error, try again later");
                 }
-                
+
             })
 
     } else {
@@ -220,7 +235,7 @@ async function updateAds() {
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
                     '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
-                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>'+
+                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>' +
                     '<button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
                 tbody.appendChild(filatr);
             }
@@ -397,7 +412,7 @@ function registrarProducto() {
                 document.getElementById('selectThirdImage').value = "";
                 document.getElementById('third-bar').setAttribute('aria-valuenow', 0);
                 document.getElementById('third-bar').style = ('width', 0);
-                sendRequest("newProduct","");
+                sendRequest("newProduct", "");
                 location.href = web;
 
             })
@@ -432,7 +447,7 @@ async function eliminarProducto(productId) {
         .then(function (response) {
             console.log(response.data);
             console.log("se elimino...");
-            sendRequest("deleteProduct","");
+            sendRequest("deleteProduct", "");
 
         });
 
