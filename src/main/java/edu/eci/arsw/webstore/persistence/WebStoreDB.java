@@ -7,6 +7,7 @@ package edu.eci.arsw.webstore.persistence;
 
 import edu.eci.arsw.webstore.model.Auction;
 import edu.eci.arsw.webstore.model.Message;
+import edu.eci.arsw.webstore.model.Notification;
 import edu.eci.arsw.webstore.model.Product;
 import edu.eci.arsw.webstore.model.Transaction;
 import edu.eci.arsw.webstore.model.User;
@@ -29,16 +30,18 @@ import java.util.logging.Logger;
 public class WebStoreDB {
 
     // Atributos
-    //Conexion Base de datos Heroku
+    // Conexion Base de datos Heroku
     private static final String urlDb = "jdbc:postgresql://ec2-34-200-116-132.compute-1.amazonaws.com:5432/dc5qsgdq0jgp20?user=gpyoydzjumspiy&password=a92e5891a1f575b00c5319227c7f2acbadf68c4ef2dc9e1d35e76aab02c4a277";
-    //Conexion Base de datos Aws
-    //private static final String urlDb = "jdbc:postgresql://arsw.cu0adiovages.us-east-1.rds.amazonaws.com:5432/arsw?user=arsw&password=arsw1234";
+    // Conexion Base de datos Aws
+    // private static final String urlDb =
+    // "jdbc:postgresql://arsw.cu0adiovages.us-east-1.rds.amazonaws.com:5432/arsw?user=arsw&password=arsw1234";
     private Connection c;
     private User u;
     private Product p;
     private Auction a;
     private Transaction t;
     private Message m;
+    private Notification n;
 
     /**
      * Metodo que permite generar la conexión con la base de datos.
@@ -125,7 +128,7 @@ public class WebStoreDB {
             pstmt.setString(1, userNickname);
             ResultSet rs = pstmt.executeQuery();
             c.close();
-            if (rs.next()){
+            if (rs.next()) {
                 u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
                 u.setIdUser(rs.getString("userid"));
                 u.setUserType(rs.getString("usertype"));
@@ -147,9 +150,9 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
-    
+
     public User getUserByEmail(String email) {
         PreparedStatement pstmt = null;
         try {
@@ -161,7 +164,7 @@ public class WebStoreDB {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
             c.close();
-            if (rs.next()){
+            if (rs.next()) {
                 u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
                 u.setIdUser(rs.getString("userid"));
                 u.setUserType(rs.getString("usertype"));
@@ -183,7 +186,7 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
 
     private String getUserNicknameByUserId(String userId) {
@@ -241,7 +244,7 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
 
     /**
@@ -317,7 +320,7 @@ public class WebStoreDB {
                         rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
                 p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
-                if(getTransactionByProductId(p.getProductId()) == null){
+                if (getTransactionByProductId(p.getProductId()) == null) {
                     allProduct.add(p);
                 }
             }
@@ -364,7 +367,7 @@ public class WebStoreDB {
         }
         return allProductUser;
     }
-    
+
     public List<Product> getAllProductsOfUserNicknameWithoutAuction(String userNickname) {
         String SQL = "SELECT * FROM product WHERE productuser = ? and productauction is null";
         List<Product> allProductUser = new ArrayList<Product>();
@@ -382,7 +385,7 @@ public class WebStoreDB {
                 p = new Product(rs.getString("productname"), rs.getString("productdescription"),
                         rs.getDouble("productprice"), rs.getString("productImage"));
                 p.setProductId(rs.getString("productid"));
-                if(getTransactionByProductId(p.getProductId()) == null){
+                if (getTransactionByProductId(p.getProductId()) == null) {
                     allProductUser.add(p);
                 }
             }
@@ -400,7 +403,7 @@ public class WebStoreDB {
         String SQL = "SELECT * FROM product WHERE productid = ?";
         Product product = null;
         try {
-            
+
             getConnection();
             PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -573,7 +576,7 @@ public class WebStoreDB {
             pstmt.setString(1, transactionId);
             ResultSet rs = pstmt.executeQuery();
             c.close();
-            if(rs.next()){
+            if (rs.next()) {
                 t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
                 t.setTransactionId(rs.getString("transactionid"));
                 t.setTransactionPrice(rs.getDouble("transactionprice"));
@@ -589,10 +592,10 @@ public class WebStoreDB {
         }
         return t;
     }
-    
+
     public Transaction getTransactionByProductId(String productId) {
         PreparedStatement pstmt = null;
-        t=null;
+        t = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -602,7 +605,7 @@ public class WebStoreDB {
             pstmt.setString(1, productId);
             ResultSet rs = pstmt.executeQuery();
             c.close();
-            if(rs.next()){
+            if (rs.next()) {
                 t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
                 t.setTransactionId(rs.getString("transactionid"));
                 t.setTransactionPrice(rs.getDouble("transactionprice"));
@@ -617,7 +620,7 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return t;
-        
+
     }
 
     /**
@@ -626,7 +629,7 @@ public class WebStoreDB {
      * @param userId id del usuario
      * @return lista de transacciones
      */
-    public List<Transaction> getTransactionsOfUserById(String userId){
+    public List<Transaction> getTransactionsOfUserById(String userId) {
         List<Transaction> allTransactions = new ArrayList<Transaction>();
         PreparedStatement pstmt = null;
         try {
@@ -656,7 +659,7 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
 
     /**
@@ -675,7 +678,8 @@ public class WebStoreDB {
             String sql = "INSERT INTO transaction (transactionid,transactionprice,transactiondate,transactiondateend,transactionactive,buyer,seller,product,transactionstate) "
                     + "VALUES ('" + tr.getTransactionId() + "','" + tr.getTransactionPrice() + "','"
                     + tr.getTransactionDate() + "','" + tr.getTransactionDateEnd() + "','" + tr.getTransactionActive()
-                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" + tr.getProduct() + "','" + tr.getTransactionState() + "');";
+                    + "', '" + tr.getBuyer() + "','" + tr.getSeller() + "','" + tr.getProduct() + "','"
+                    + tr.getTransactionState() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -704,11 +708,11 @@ public class WebStoreDB {
     /****/
     //// BASE DE DATOS - Consultas de Mensajes
     /****/
-    
+
     /**
      * 
      * @param transactionId
-     * @return 
+     * @return
      */
     public List<Message> getMessagesByTransactionId(String transactionId) {
         String SQL = "SELECT * FROM message WHERE messagetransaction = ?";
@@ -721,11 +725,12 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             c.close();
             while (rs.next()) {
-                m = new Message(rs.getString("messagetransaction"),rs.getString("messageuser"),rs.getString("messagedata"),rs.getString("messageuserimage"));
+                m = new Message(rs.getString("messagetransaction"), rs.getString("messageuser"),
+                        rs.getString("messagedata"), rs.getString("messageuserimage"));
                 allMessageTransaction.add(m);
             }
             // Se Agregan todos los mensajes a la transaccion.
-            //t.setMessages(allMessageTransaction);
+            // t.setMessages(allMessageTransaction);
             pstmt.close();
             rs.close();
         } catch (Exception ex) {
@@ -733,7 +738,7 @@ public class WebStoreDB {
         }
         return allMessageTransaction;
     }
-    
+
     /**
      * Metodo que permite registrar un nuevo mensaje en la base de datos.
      * 
@@ -748,10 +753,8 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO message (messageid,messagetransaction,messageuser,messagedata,messageuserimage) "
-                    + "VALUES ('" + msg.getId() + "','" + msg.getIdTransaction() + "','" + msg.getUser()
-                    + "','" + msg.getData()
-                    + "','" + msg.getUserImage()
-                    + "');";
+                    + "VALUES ('" + msg.getId() + "','" + msg.getIdTransaction() + "','" + msg.getUser() + "','"
+                    + msg.getData() + "','" + msg.getUserImage() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -760,14 +763,14 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /****/
     //// BASE DE DATOS - Consultas de Subastas
     /****/
-  
-    
+
     /**
      * Metodo que permite consultar todas las subastas de la pagina web.
+     * 
      * @return Retorna una lista con todas las subastas que hay en la pagina.
      */
     public List<Auction> getAllAuctions() {
@@ -781,7 +784,10 @@ public class WebStoreDB {
             ResultSet rs = stmt.executeQuery("SELECT * FROM auction;");
             c.close();
             while (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
+                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                        rs.getString("auctionstatus"), rs.getString("productname"));
                 a.setAuctionId(rs.getString("auctionid"));
                 a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
                 allAuctions.add(a);
@@ -793,7 +799,7 @@ public class WebStoreDB {
         }
         return allAuctions;
     }
-    
+
     public List<Auction> getAuctionsByUsername(String username) {
         List<Auction> allAuctionsByUsername = new ArrayList<Auction>();
         PreparedStatement pstmt = null;
@@ -807,7 +813,10 @@ public class WebStoreDB {
             ResultSet rs = pstmt.executeQuery();
             c.close();
             while (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
+                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                        rs.getString("auctionstatus"), rs.getString("productname"));
                 a.setAuctionId(rs.getString("auctionid"));
                 a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
                 allAuctionsByUsername.add(a);
@@ -819,9 +828,10 @@ public class WebStoreDB {
         }
         return allAuctionsByUsername;
     }
-    
+
     /**
      * Metodo que permite realizar la consulade de subasta por id.
+     * 
      * @param auctionId Es el id de la subasta.
      * @return Retorna la subasta correspondiente al id.
      */
@@ -837,8 +847,11 @@ public class WebStoreDB {
             pstmt.setString(1, auctionId);
             ResultSet rs = pstmt.executeQuery();
             c.close();
-            if(rs.next()){
-                a = new Auction(rs.getDouble("auctioninitprice"),rs.getString("auctiondate"),rs.getString("auctiondatefinal"),rs.getInt("auctiontimetowait"),rs.getInt("auctiontype"),rs.getBoolean("auctionactive"),rs.getString("seller"),rs.getString("product"),rs.getString("auctionstatus"),rs.getString("productname"));
+            if (rs.next()) {
+                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                        rs.getString("auctionstatus"), rs.getString("productname"));
                 a.setAuctionId(rs.getString("auctionid"));
                 a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
             }
@@ -848,11 +861,12 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
-        
+
     }
-    
+
     /**
      * Metodo que permite crear la subasta en la base de datos.
+     * 
      * @param au Es la subasta que se va a agregar a la base de datos.
      */
     public void createNewAuction(Auction au) {
@@ -863,9 +877,11 @@ public class WebStoreDB {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO auction (auctionid,auctioninitprice,auctioncurrentprice,auctionfinalprice,auctiondate,auctiondatefinal,auctiontimetowait,auctiontype,auctionactive,seller,product,auctionstatus,productname) "
-                    + "VALUES ('" + au.getAuctionId() + "','" + au.getAuctionInitPrice() + "','" + au.getAuctionCurrentPrice()
-                    + "','" + au.getAuctionFinalPrice() + "','" + au.getAuctionDate() + "','" + au.getAuctionDateFinal() + "','" + au.getAuctionTimeToWait() + "','" + au.getAuctionType() + "','" + au.isAuctionActive() + "','" + au.getSellerId() + "','" + au.getProductId() + "','" + au.getAuctionStatus()+ "','" + au.getProductName()
-                    + "');";
+                    + "VALUES ('" + au.getAuctionId() + "','" + au.getAuctionInitPrice() + "','"
+                    + au.getAuctionCurrentPrice() + "','" + au.getAuctionFinalPrice() + "','" + au.getAuctionDate()
+                    + "','" + au.getAuctionDateFinal() + "','" + au.getAuctionTimeToWait() + "','" + au.getAuctionType()
+                    + "','" + au.isAuctionActive() + "','" + au.getSellerId() + "','" + au.getProductId() + "','"
+                    + au.getAuctionStatus() + "','" + au.getProductName() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -874,9 +890,10 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Metodo que permite eliminar una subasta de la base de datos.
+     * 
      * @param auctionId Es el id de la subasta que se quiere eliminar.
      */
     public void deleteAuctionById(String auctionId) {
@@ -894,9 +911,10 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Metodo que permite eliminar todos los participantes en la subasta.
+     * 
      * @param auctionId Es el id de la subasta.
      */
     public void deleteBuyersInAuction(String auctionId) {
@@ -914,17 +932,15 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void addUsersInAuction(String auctionId, String userId){
+
+    public void addUsersInAuction(String auctionId, String userId) {
         Statement stmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            String sql = "INSERT INTO buyers (auction,buyer) "
-                    + "VALUES ('" + auctionId + "','" + userId
-                    + "');";
+            String sql = "INSERT INTO buyers (auction,buyer) " + "VALUES ('" + auctionId + "','" + userId + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
@@ -933,7 +949,7 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private List<User> getAllBuyersInAuction(String auctionId) {
         List<User> allUserInAuction = new ArrayList<User>();
         PreparedStatement pstmt = null;
@@ -956,5 +972,82 @@ public class WebStoreDB {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allUserInAuction;
+    }
+
+    // #########################
+    /// NOTIFICACIONES
+    // ##########################
+
+    /**
+     * Metodo que permite realizar la adición de una nueva notificacion en la base de
+     * datos.
+     * 
+     * @param noti Es la notificacion que se quiere agregar a la base de datos.
+     */
+    public void createNewNotification(Notification noti) {
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = "INSERT INTO notification (notificationid,notificationdestination,notificationmessage,notificationurl,notificationdate, notificationsend, notificationviewed, notificationfunction) "
+                    + "VALUES ('" + noti.getNotificationId() + "',' " + noti.getNotificationDestination() + "','" 
+                    + noti.getNotificationMessage() + "',' " + noti.getNotificationUrl() + "','" +
+                    noti.getNotificationDate() + "',' " + noti.getNotificationSend() + "','" +
+                    "false','" + noti.getNotificationFunction() + "');";
+
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.commit();
+            c.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Metodo que permite la consulta de un usuario por su userNickName.
+     * 
+     * @param Nickname Es el Nickname del usuario.
+     * @return Retorna las notificaciones correspondiente con el NickName 
+     */
+    public User getNotificationsByNickname(String nickname) {
+        PreparedStatement pstmt = null;
+        try {
+            // Class.forName("org.postgresql.Driver");
+            // getConnection();
+            // c.setAutoCommit(false);
+            // String sql = "Select * from notification where notificationDestination = ?";
+            // pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            // pstmt.setString(1, nickname);
+            // ResultSet rs = pstmt.executeQuery();
+            // c.close();
+            // if (rs.next()) {
+            //     n = new Notification();
+            //     
+            // }
+            //pstmt.close();
+            //rs.close();
+            return u;
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
+
+    /**
+     * Metodo que permite cambiar el estado de la notificacion, solo debe cambiar el estado de notificationViewed
+     */
+    public void changeNotificationStatus(boolean viewed, String notificationId){
+
+    }
+
+    /**
+     * Metodo que permite qur permite eliminar una notificaion
+     */
+    public void deleteNotificationById(String notificationId){
+
     }
 }
