@@ -21,7 +21,6 @@ public class InMemoryNotificationPersistence implements NotificationPersistence 
     @Override
     public List<Notification> getNotificationsByNickname(String nickname) {
         newDb();
-        System.out.println(nickname);
         return wsdb.getNotificationsByNickname(nickname);
     }
 
@@ -34,6 +33,7 @@ public class InMemoryNotificationPersistence implements NotificationPersistence 
     @Override
     public void changeNotificationStatus(boolean viewed, String notificationId) {
         newDb();
+        wsdb.changeNotificationStatus(viewed, notificationId);
     }
 
     @Override
@@ -41,6 +41,12 @@ public class InMemoryNotificationPersistence implements NotificationPersistence 
         newDb();
         wsdb.deleteNotificationById(notificationId);
 
+    }
+
+    @Override
+    public Notification getNotificationsById(String notificationId) {
+        newDb();
+        return wsdb.getNotificationsById(notificationId);
     }
     
 }

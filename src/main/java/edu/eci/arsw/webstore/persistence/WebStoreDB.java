@@ -1010,7 +1010,6 @@ public class WebStoreDB {
      * @return  Retorna una lista con las notificaciones del usuario.
      */
     public List<Notification> getNotificationsByNickname(String nickname) {
-        System.out.println(nickname);
         ArrayList<Notification> allNotificationsByNickname= new ArrayList<Notification>();
         PreparedStatement pstmt = null;
         try {
@@ -1036,6 +1035,35 @@ public class WebStoreDB {
         return allNotificationsByNickname;
     }
     
+    /**
+     * Metodo que permite realizar la consulta de una notificacion por ID
+     * @param notificationId    Es el id de la notificacion.
+     * @return  Retorna la notificacion correspondiente al id.
+     */
+    public Notification getNotificationsById(String notificationId) {
+        PreparedStatement pstmt = null;
+        n = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql = "Select * from notification where notificationid = ? ";
+            pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, notificationId);
+            ResultSet rs = pstmt.executeQuery();
+            c.close();
+            if(rs.next()) {
+                n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
+                        rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
+                n.setNotificationId(rs.getString("notificationid"));
+            }
+            pstmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
+    }
 
     /**
      * Metodo que permite cambiar el estado de la notificacion, solo debe cambiar el estado de notificationViewed

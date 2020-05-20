@@ -67,6 +67,20 @@ public class SynchronizeController {
             return new ResponseEntity<>("No se ha podido retornar las notificaciones", HttpStatus.NOT_FOUND);
         }
     }
+    
+    @RequestMapping(method = RequestMethod.GET, path = { "notification/{notificationId}" })
+    public ResponseEntity<?> getNotificationById(@PathVariable("notificationId") String notificationId) {
+        try {
+            System.out.println("Consultando la Notificacion con Id: "+notificationId+ "...");
+
+            String data = new Gson().toJson(nService.getNotificationsById(notificationId));
+
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido retornar las notificaciones", HttpStatus.NOT_FOUND);
+        }
+    }
 
     @RequestMapping(method = RequestMethod.POST, path = "notifications")
     public ResponseEntity<?> createNewNotification(@RequestBody String notification) {
@@ -97,20 +111,14 @@ public class SynchronizeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "notifications")
-    public ResponseEntity<?> changeNotificationStatus(@RequestBody String notification) {
+    @RequestMapping(method = RequestMethod.PUT, path = "notification/{notificationId}")
+    public ResponseEntity<?> changeNotificationStatus(@PathVariable("notificationId") String notificationId) {
         try {
-            System.out.println("Actualizando estado de notificacion: " + notification);
-            Type listType = new TypeToken<Map<Integer, Notification>>() {
-            }.getType();
-            Map<String, Notification> result = new Gson().fromJson(notification, listType);
+            System.out.println("Actualizando estado de notificacion: " + notificationId);
+            
+            Notification noti = nService.getNotificationsById(notificationId);
 
-            // Obtener las llaves del Map
-            Object[] nameKeys = result.keySet().toArray();
-
-            Notification noti = result.get(nameKeys[0]);
-
-            nService.changeNotificationStatus(noti.isNotificationViewed(), noti.getNotificationId());
+            nService.changeNotificationStatus(true, noti.getNotificationId());
 
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
