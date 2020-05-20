@@ -38,8 +38,8 @@
         </nav>
         <nav class="my-2 my-md-0 mr-md-3">
             <div class="btn-group dropleft">
-                <button type="button" class="btn btn-info" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span
                         class="badge badge-light"><span id="alertNotify">0</span></span>
                 </button>
@@ -197,10 +197,23 @@
                 </div>
 
                 <div class="modal-body">
+                    <div style="display: flex;  align-items: center;">
+                        <center>
+                            <div class="input-group mb-3 " style="width: 100%; ">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon3">How much do you want to
+                                        deposit?</span>
+                                </div>
+                                <input type="number" required class="form-control" id="amount"
+                                    aria-describedby="basic-addon3" placeholder="Dollars" style="height: 40px">
+                            </div>
+                        </center>
+                    </div>
                     <!-- >>>>> contenido modal<<<<< -->
                     <div class="panel panel-warning">
                         <div id="sectionList" class="panel-heading">
-                            <h3>You are going to add $ 50.00 usd</h3>
+                            <h3>You are going to add <b>$ <span id="amountView"></span> usd</b></h3>
                         </div>
                         <div class="panel-body">
                             <ul class="nav nav-tabs">
@@ -319,16 +332,18 @@
         ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/jquery.js"></script>
+    <!-- <script src="js/jquery.js"></script> -->
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
+    <script type="text/javascript" src="js/jquery-3.2.1.slim.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
     <script src="js/realTime.js"></script>
     <script src="js/dashboardController.js"></script>
     <script src="js/payment.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script> -->
 
     <script src="js/AlertifyJS/alertify.js" type="text/javascript"></script>
     <script src="js/AlertifyJS/alertify.min.js" type="text/javascript"></script>

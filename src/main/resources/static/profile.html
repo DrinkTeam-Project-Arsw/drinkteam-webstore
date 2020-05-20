@@ -36,8 +36,8 @@
         </nav>
         <nav class="my-2 my-md-0 mr-md-3">
             <div class="btn-group dropleft">
-                <button type="button" class="btn btn-info" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-info" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span
                         class="badge badge-light"><span id="alertNotify">0</span></span>
                 </button>
@@ -127,9 +127,10 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                <div class="panel panel-success">
+                <div id="divPanel" class="panel panel-success">
                     <div id="sectionList" class="panel-heading">
-                        <h3>Your account is online. You are ready to buy or sell products</h3>
+                        <span id="textAnuncio"></span>
+                        
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
@@ -162,7 +163,7 @@
                 </div>
 
 
-                <div class="panel panel-info">
+                <div id="divProduct" class="panel panel-info">
                     <div id="sectionNewProduct" class="panel-heading">Do you want to sell any product? Publish it:
                     </div>
                     <div class="panel-body">
@@ -285,7 +286,7 @@
                 </div>
 
 
-                <div class="well">
+                <div id="divComments" class="well">
                     <p><span class="badge">2</span> Comments:</p><br>
                     <div class="row">
                         <div class="col-sm-2 text-center">
@@ -349,9 +350,24 @@
 
                 <div class="modal-body">
                     <!-- >>>>> contenido modal<<<<< -->
+                    <div style="display: flex;  align-items: center;">
+                        <center>
+                            <div class="input-group mb-3 " style="width: 100%; ">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon3">How much do you want to
+                                        deposit?</span>
+                                </div>
+                                <input type="number" required class="form-control" id="amount"
+                                    aria-describedby="basic-addon3" placeholder="Dollars" style="height: 40px">
+                            </div>
+                        </center>
+                    </div>
                     <div class="panel panel-warning">
+
+
                         <div id="sectionList" class="panel-heading">
-                            <h3>You are going to add $ 50.00 usd</h3>
+                            <h3>You are going to add <b>$ <span id="amountView"></span> usd</b></h3>
                         </div>
                         <div class="panel-body">
                             <ul class="nav nav-tabs">

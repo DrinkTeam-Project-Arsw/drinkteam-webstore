@@ -8,6 +8,7 @@ $(".custom-file-input").on("change", function () {
 });
 
 
+
 /**
  * @param {username} nickname del usuraio actual 
  * @returns {undefined}
@@ -126,12 +127,12 @@ function registrarUsuario() {
             .catch(function (error) {
                 console.log(">>> ERROR REGISTRO");
                 console.log(error.message)
-                if(error.message == "Request failed with status code 406"){
+                if (error.message == "Request failed with status code 406") {
                     alertify.error("Email or Username are registered");
-                }else{
+                } else {
                     alertify.error("Server Error, try again later");
                 }
-                
+
             })
 
     } else {
@@ -184,6 +185,21 @@ function loadProfile() {
                 ul.appendChild(li);
             }
 
+            // Texto anuncio verificar
+            if (response.data["userActive"]) {
+                document.getElementById("textAnuncio").innerHTML = '<h3>Your account is online. You are ready to buy or sell products</h3>'
+                document.getElementById("divPanel").className = 'panel panel-success';
+
+            } else {
+                document.getElementById("textAnuncio").innerHTML = '<h3> Your account is not verified. <b> You can only buy intangible ' +
+                    'products</b>.<br>Complete your registration, <a href="update.html">click here</a></h3> ';
+                document.getElementById("divPanel").className = 'panel panel-danger';
+                document.getElementById("divProduct").style.visibility = 'hidden';
+                document.getElementById("divProduct").style.height = "0px";
+                document.getElementById("divComments").style.visibility = 'hidden';
+                document.getElementById("divComments").style.height = "0px";
+            }
+
             //document.getElementById("feedbackView").appendChild(' <li><a href="#"><img src="./img/star.png" style="width: 50px; top: -7px; position: relative; filter: drop-shadow(2px 2px 6px #444);"></i></a></li>');
 
 
@@ -220,7 +236,7 @@ async function updateAds() {
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
                     '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
-                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>'+
+                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>' +
                     '<button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
                 tbody.appendChild(filatr);
             }
@@ -397,7 +413,7 @@ function registrarProducto() {
                 document.getElementById('selectThirdImage').value = "";
                 document.getElementById('third-bar').setAttribute('aria-valuenow', 0);
                 document.getElementById('third-bar').style = ('width', 0);
-                sendRequest("newProduct","");
+                sendRequest("newProduct", "");
                 location.href = web;
 
             })
@@ -432,7 +448,7 @@ async function eliminarProducto(productId) {
         .then(function (response) {
             console.log(response.data);
             console.log("se elimino...");
-            sendRequest("deleteProduct","");
+            sendRequest("deleteProduct", "");
 
         });
 
