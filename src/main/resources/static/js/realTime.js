@@ -32,6 +32,8 @@ function disconnect() {
 
 async function sendRequest(funcion, seller) {
     alertify.success("Enviando solicitud...");
+    console.log(funcion);
+    console.log("SI ENTRO ----------------------------------------------------------!");
     await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion, "seller": seller }));
 }
 
@@ -55,6 +57,16 @@ function showMessage(message) {
                 document.getElementById("divAllProducts").innerHTML = "";
                 agregarProductos({});
             }
+        }
+    } else if (message.function == "editProduct") {
+        if (pathname == '/dashboard.html') {
+            document.getElementById("divAllProducts").innerHTML = "";
+            agregarProductos({});
+        }
+    } else if (message.function == "auctionProduct") {
+        if (pathname == '/dashboard.html') {
+            document.getElementById("divAllProducts").innerHTML = "";
+            agregarProductos({});
         }
     } else if (message.function == "deleteProduct") {
         if (message.userNickname == localStorage.Actual) {

@@ -69,6 +69,7 @@ async function crearSubasta() {
                     var web = "profile.html";
                     //alertify.success(text[0]);
                     //alert(text[1]);
+                    sendRequest("auctionProduct", "");
                     alertify.alert(text[0], text[1]).set('label', 'OK');
                     alert(text[1]);
                     callAlert(text, web);

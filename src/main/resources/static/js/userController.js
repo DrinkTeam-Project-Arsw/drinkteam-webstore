@@ -435,6 +435,7 @@ async function goToAuction(auctionId) {
 }
 
 function editarProducto(productId) {
+    console.log("Dejame ver el id del Producto: " + productId);
     window.location.href = "updateProduct.html";
     localStorage.setItem('Product', productId);
 }
@@ -448,8 +449,7 @@ async function eliminarProducto(productId) {
         .then(function (response) {
             console.log(response.data);
             console.log("se elimino...");
-            sendRequest("deleteProduct", "");
-
+            sendRequest("editProduct", "");
         });
 
 

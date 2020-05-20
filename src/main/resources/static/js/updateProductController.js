@@ -70,7 +70,7 @@ async function actualizarProducto() {
                     alertify.success(text);
                     document.getElementById("upPassword").value = ""
                     document.getElementById("upPassword2").value = ""
-                    
+                    sendRequest("editProduct", "");
                     setTimeout(window.location.href = "profile.html",4000);
                     
                     //callAlert(text, web);
