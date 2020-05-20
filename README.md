@@ -7,7 +7,7 @@
 
 ### Introducción
 
-- IncogniTrade, es un sitio web que ofrece compra y venta de todo tipo de productos y subastas de los mismos en tiempo real de manera incógnita y segura, los datos de los usuarios nunca se verán comprometidos ni compartidos con otros usuarios. Esta aplicación busca que los productos sean accesibles para todos, sin necesidad de intermediarios, mitigando los posibles fraudes. la idea de esta aplicación es que los usuarios sean compradores o vendedores de sus propios productos creando anuncios (de forma directa con otro usuario o subastando) donde ellos coloquen el precio pero siempre estando en un margen lógico. Habrá un sistema de SCRUM donde se hará un depósito de garantía mientras se cumple el trato o acuerdo de la venta o compra del producto, la cual los usuarios de la transacción deben confirmar y dar su visto bueno, esto asegurará que todos nuestros usuarios interactúen con la aplicación de manera confiable y sin riesgo alguno
+-  IncogniTrade, es un sitio web que ofrece compra y venta de todo tipo de productos y subastas de los mismos en tiempo real de manera incógnita y segura, los datos de los usuarios nunca se verán comprometidos ni compartidos con otros usuarios. Esta aplicación busca que los productos sean accesibles para todos, sin necesidad de intermediarios, mitigando los posibles fraudes. la idea de esta aplicación es que los usuarios sean compradores o vendedores de sus propios productos creando anuncios (de forma directa con otro usuario o subastando) donde ellos coloquen el precio pero siempre estando en un margen lógico. Habrá un sistema de SCRUM donde se hará un depósito de garantía mientras se cumple el trato o acuerdo de la venta o compra del producto, la cual los usuarios de la transacción deben confirmar y dar su visto bueno, esto asegurará que todos nuestros usuarios interactúen con la aplicación de manera confiable y sin riesgo alguno
 
 ### Instrucciones de uso
 
@@ -47,7 +47,7 @@ Al dirigirse al boton de Dashboard podrá ver todos los productos que se estan v
 
 ### Implementación
 
-- En esta aplicación web al utilizará las peticiones REST usando Spring, el cual nos ofrece los métodos necesarios e interfaces para generar las peticiones necesarias para nuestra aplicación web; la conexión con la base de datos se hará por medio de base de datos PotsgreSQL montada en Heroku donde se guardaran cada una de las entidades sin tener problemas en las relaciones o llaves. Las entidades que usamos son Usuarios, Productos, Transacciones y Subasta (cada una tiene implementado su respectivo controlador, modelo, persistencia y servicios) permitiendo así la extensivildad del codigo. Mediante este modelo se obtendrán sus verbos y recursos de manera eficiente, usando JSON para el trato de datos, esto generará una extensión de código o funcionalidades extras que puedan existir en un futuro.
+-  En esta aplicación web al utilizará las peticiones REST usando Spring, el cual nos ofrece los métodos necesarios e interfaces para generar las peticiones necesarias para nuestra aplicación web; la conexión con la base de datos se hará por medio de base de datos PotsgreSQL montada en Heroku donde se guardaran cada una de las entidades sin tener problemas en las relaciones o llaves. Las entidades que usamos son Usuarios, Productos, Transacciones y Subasta (cada una tiene implementado su respectivo controlador, modelo, persistencia y servicios) permitiendo así la extensivildad del codigo. Mediante este modelo se obtendrán sus verbos y recursos de manera eficiente, usando JSON para el trato de datos, esto generará una extensión de código o funcionalidades extras que puedan existir en un futuro.
 
 En la interfaz gráfica utilizaremos bootstrap, lo usaremos para que el usuario tenga una experiencia amigable con nuestro sitio web, Y por último para la conexión entre los controladores de la API y el back end del aplicativo usaremos Axios, que permite una comunicación libre y sencilla trabajando  los datos en formato json (haciendo peticiones REST).
 
@@ -62,7 +62,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ### Extensibilidad
 
-   TODO
+   Se diseñó y organizo el codigo para facilitar la extensibilidad mediante la utilizacion de diferentes capas como lo son: cache, controladores, modelo, persistencia y servicios. Esto permite tener los elementos desacoplados permitiendo tener un codigo mucho mas extendible para posibles funcionalidades futuras que se pretendan implementar. 
 
 
 ### Diagramas
