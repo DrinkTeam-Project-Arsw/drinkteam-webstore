@@ -1,8 +1,35 @@
-# Drinkteam-webstore
+# Drinkteam - IncogniTrade - ARSW 
+
+## Integrantes
+  - Juan David Navarro Jimenez
+  - Eduardo Ocampo Arellano
+  - Juan Manuel Villate Isaza
 
 ### Introducción
 
-- WebStore, es un sitio web el cual ofrece compra y venta de productos universitarios y subastas de los mismos en tiempo real de manera incógnita y segura, los datos de los usuarios nunca se verán comprometidos ni compartidos con otros usuarios. Esta aplicación busca que los productos universitarios sean accesibles para todos, sin necesidad de intermediarios, mitigando los posibles fraudes. la idea de esta aplicación es que los usuarios sean compradores o vendedores de sus propios productos creando anuncios (de forma directa con otro usuario o subastando) donde ellos coloquen el precio pero siempre estando en un margen lógico. Habrá un sistema de SCRUM donde se hará un depósito de garantía mientras se cumple el trato o acuerdo de la venta o compra del producto, la cual los usuarios de la transacción deben confirmen su visto bueno, esto asegurar que todos nuestros usuarios interactúen con la aplicación de manera confiable y sin riesgo alguno
+-  IncogniTrade, es un sitio web que ofrece compra y venta de todo tipo de productos y subastas de los mismos en tiempo real de manera incógnita y segura, los datos de los usuarios nunca se verán comprometidos ni compartidos con otros usuarios. Esta aplicación busca que los productos sean accesibles para todos, sin necesidad de intermediarios, mitigando los posibles fraudes. la idea de esta aplicación es que los usuarios sean compradores o vendedores de sus propios productos creando anuncios (de forma directa con otro usuario o subastando) donde ellos coloquen el precio pero siempre estando en un margen lógico. Habrá un sistema de SCRUM donde se hará un depósito de garantía mientras se cumple el trato o acuerdo de la venta o compra del producto, la cual los usuarios de la transacción deben confirmar y dar su visto bueno, esto asegurará que todos nuestros usuarios interactúen con la aplicación de manera confiable y sin riesgo alguno
+
+### Instrucciones de uso
+
+Nuestra aplicacion es muy sencilla de utilizar, al dirigirse al link del despliegue de Heroku en la parte inferior de este repositorio, será dirigido a la siguiente pagina. 
+
+![Index](https://user-images.githubusercontent.com/53972469/82475588-57f81400-9a92-11ea-8cdd-eb29c223868f.png)
+
+Acá puede registrarse poniendo click en el boton Sign Up Now! Este boton lo dirigirá al siguiente formulario donde necesita llenar la información para luego poder entrar con su usuario respectivo.
+
+![SignUp](https://user-images.githubusercontent.com/53972469/82475733-8bd33980-9a92-11ea-85f9-29ae28bbea9c.png)
+
+Despues de registrarse, puede loguearse llenando los siguientes campos.
+
+![Login](https://user-images.githubusercontent.com/53972469/82476169-3f3c2e00-9a93-11ea-972c-f6d4e2b2d133.png)
+
+Al entrar, la pagina lo llevara a su perfil donde podrá ver los productos que ya ha publicado y la opcion de revisar sus subastas, transacciones en proceso e historial de compras. En esta pagina tambien se pueden agregar productos nuevos para poner a la venta, agregar creditos dentro de la cuenta y editar la informacion del perfil. 
+
+![profile](https://user-images.githubusercontent.com/53972469/82476711-15cfd200-9a94-11ea-88f1-155910cb86b7.png)
+
+Al dirigirse al boton de Dashboard podrá ver todos los productos que se estan vendiendo al igual que las subastas en curso.
+
+![Dashboard](https://user-images.githubusercontent.com/53972469/82477988-d4d8bd00-9a95-11ea-8bdb-607bc1c34cfc.png)
 
 ### Conceptos generales
 
@@ -20,9 +47,9 @@
 
 ### Implementación
 
-- En esta aplicación web al utilizar las peticiones REST usamos Spring el cual nos ofrece los métodos necesarios e interfaces para generar las peticiones necesarias para nuestra aplicación web; la conexión con la base de datos se hará por medio de base de datos No-SQL (mongoDB) donde se guardaran cada una de las entidades sin tener problemas en las relaciones o llaves. las entidades que usamos son Usuarios, Productos y transacciones (cada una tiene implementado su respectivo controlador, modelo, persistencia y servicios) donde se obtendrán sus verbos y recursos de manera eficiente, usando JSON para el trato de datos, esto generará una extensión de código o funcionalidades extras que puedan existir en un futuro.
+-  En esta aplicación web al utilizará las peticiones REST usando Spring, el cual nos ofrece los métodos necesarios e interfaces para generar las peticiones necesarias para nuestra aplicación web; la conexión con la base de datos se hará por medio de base de datos PotsgreSQL montada en Heroku donde se guardaran cada una de las entidades sin tener problemas en las relaciones o llaves. Las entidades que usamos son Usuarios, Productos, Transacciones y Subasta (cada una tiene implementado su respectivo controlador, modelo, persistencia y servicios) permitiendo así la extensivildad del codigo. Mediante este modelo se obtendrán sus verbos y recursos de manera eficiente, usando JSON para el trato de datos, esto generará una extensión de código o funcionalidades extras que puedan existir en un futuro.
 
-En la interfaz gráfica utilizaremos bootstrap, usaremos para que el usuario tenga una experiencia amigable con nuestro sitio web, Y por último para la conexión entre los controladores de la API y el back end del aplicativo usaremos Axios, que permite una comunicación libre y sencilla trabajando  los datos en formato json ( haciendo peticiones REST)
+En la interfaz gráfica utilizaremos bootstrap, lo usaremos para que el usuario tenga una experiencia amigable con nuestro sitio web, Y por último para la conexión entre los controladores de la API y el back end del aplicativo usaremos Axios, que permite una comunicación libre y sencilla trabajando  los datos en formato json (haciendo peticiones REST).
 
 ### Alcance
 
@@ -35,7 +62,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ### Extensibilidad
 
-   TODO
+   Se diseñó y organizo el codigo para facilitar la extensibilidad mediante la utilizacion de diferentes capas como lo son: cache, controladores, modelo, persistencia y servicios. Esto permite tener los elementos desacoplados permitiendo tener un codigo mucho mas extendible para posibles funcionalidades futuras que se pretendan implementar. 
 
 
 ### Diagramas
@@ -46,7 +73,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 #### Modelo E-R.
 
-![DB](https://user-images.githubusercontent.com/53972469/81290269-66274880-902d-11ea-83e5-0f8286be82d4.png)
+![DB](https://user-images.githubusercontent.com/53972469/82473577-65f86580-9a8f-11ea-8ceb-84f1f6de4c34.png)
 
 #### Caso de uso
 
@@ -54,7 +81,7 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 ### Diagrama de componentes
 
-![Componentes](https://user-images.githubusercontent.com/53972469/81290231-514ab500-902d-11ea-9da4-b8068d6b9860.png)
+![Componentes](https://user-images.githubusercontent.com/53972469/82473811-b96ab380-9a8f-11ea-95db-6b258ffa26e4.png)
 
 ### Diagrama de despliegue
 
@@ -81,7 +108,4 @@ En las transacciones se tendrá el sistema SCRUM (depósito de garantía) donde 
 
 **Enlace:** [`project-arsw-webstore.herokuapp.com`](https://project-arsw-webstore.herokuapp.com)
 
-## Integrantes
-  - Juan David Navarro Jimenez
-  - Eduardo Ocampo Arellano
-  - Juan Manuel Villate Isaza
+

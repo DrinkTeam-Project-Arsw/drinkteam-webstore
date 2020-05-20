@@ -8,10 +8,11 @@ usserPassword VARCHAR(50) NOT NULL,
 usserImage VARCHAR(50) NOT NULL,
 usserNickName VARCHAR(50) NOT NULL,
 usserCode VARCHAR(50) NOT NULL,
-userPhone bigint NOT NULL,
+userPhone VARCHAR(50) NOT NULL,
 userBalance NUMERIC NOT NULL,
 userFeedBack bigint NOT NULL,
 userActive BOOLEAN NOT NULL,
+userAddress VARCHAR(50),
 PRIMARY KEY (userId)
 );
 
@@ -22,8 +23,8 @@ productName VARCHAR(50) NOT NULL,
 productDescription VARCHAR(100) NOT NULL,
 productPrice NUMERIC NOT NULL,
 productUser VARCHAR(50) NOT NULL,
-productAuction VARCHAR(50) NOT NULL,
-productImage VARCHAR NOT NULL,
+productAuction VARCHAR(50),
+productImage VARCHAR(50),
 PRIMARY KEY (productId)
 );
 
@@ -45,8 +46,8 @@ PRIMARY KEY (transactionId)
 CREATE TABLE AUCTION
 (auctionId VARCHAR(50) NOT NULL,
 auctionInitPrice NUMERIC NOT NULL,
-auctionCurrentPrice NUMERIC NOT NULL,
-auctionFinalPrice NUMERIC NOT NULL,
+auctionCurrentPrice NUMERIC,
+auctionFinalPrice NUMERIC,
 auctionDate VARCHAR(50) NOT NULL,
 auctionDateFinal VARCHAR(50),
 auctionTimeToWait integer NOT NULL,
@@ -54,6 +55,7 @@ auctionType integer NOT NULL,
 auctionActive BOOLEAN NOT NULL,
 seller VARCHAR(50) NOT NULL,
 product VARCHAR(50) NOT NULL,
+auctionStatus VARCHAR(50),
 PRIMARY KEY (auctionId)
 );
 
@@ -69,5 +71,17 @@ messageTransaction VARCHAR(50) NOT NULL,
 messageUser VARCHAR(50) NOT NULL,
 messageData VARCHAR(500) NOT NULL,
 messageDate VARCHAR(50),
+messageUserImage VARCHAR(50),
 PRIMARY KEY (messageId)
+);
+
+CREATE TABLE NOTIFICATION
+(notificationId VARCHAR(50) NOT NULL,
+notificationDestination VARCHAR(50) NOT NULL,
+notificationMessage VARCHAR(200) NOT NULL,
+notificationUrl VARCHAR(50) NOT NULL,
+norificationDate VARCHAR(50) NOT NULL,
+notificationSend VARCHAR(50) NOT NULL,
+notificationViewed BOOLEAN NOT NULL,
+PRIMARY KEY (notificationId)
 );
