@@ -13,19 +13,19 @@
 
 Nuestra aplicacion es muy sencilla de utilizar, al dirigirse al link del despliegue de Heroku en la parte inferior de este repositorio, será dirigido a la siguiente pagina. 
 
-![Index](https://user-images.githubusercontent.com/53972469/82475588-57f81400-9a92-11ea-8cdd-eb29c223868f.png)
+![Index](https://user-images.githubusercontent.com/53972469/82520219-3b3afb00-9ae9-11ea-95b5-ae5ed1367544.png)
 
 Acá puede registrarse poniendo click en el boton Sign Up Now! Este boton lo dirigirá al siguiente formulario donde necesita llenar la información para luego poder entrar con su usuario respectivo.
 
-![SignUp](https://user-images.githubusercontent.com/53972469/82475733-8bd33980-9a92-11ea-85f9-29ae28bbea9c.png)
+![SignUp](https://user-images.githubusercontent.com/53972469/82520266-59086000-9ae9-11ea-8ab4-f19e4357953a.png)
 
 Despues de registrarse, puede loguearse llenando los siguientes campos.
 
-![Login](https://user-images.githubusercontent.com/53972469/82476169-3f3c2e00-9a93-11ea-972c-f6d4e2b2d133.png)
+![Login](https://user-images.githubusercontent.com/53972469/82520305-7806f200-9ae9-11ea-8149-5da91b84ae6a.png)
 
 Al entrar, la pagina lo llevara a su perfil donde podrá ver los productos que ya ha publicado y la opcion de revisar sus subastas, transacciones en proceso e historial de compras. En esta pagina tambien se pueden agregar productos nuevos para poner a la venta, agregar creditos dentro de la cuenta y editar la informacion del perfil. 
 
-![profile](https://user-images.githubusercontent.com/53972469/82476711-15cfd200-9a94-11ea-88f1-155910cb86b7.png)
+![profile](https://user-images.githubusercontent.com/53972469/82520412-b56b7f80-9ae9-11ea-8508-3a703655c626.png)
 
 Al dirigirse al boton de Dashboard podrá ver todos los productos que se estan vendiendo al igual que las subastas en curso.
 
