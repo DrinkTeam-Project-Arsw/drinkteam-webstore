@@ -238,9 +238,9 @@ async function updateAds() {
                     '<td>' + response.data[x]["productName"] + '</td>' +
                     '<td>' + response.data[x]["productDescription"] + '</td>' +
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
-                    '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
-                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>' +
-                    '<button onclick="updateModalConfirm(' + textDelete + ',' + textFuncion + ',' + productId + ')" data-toggle="modal" data-target="#Modalconfirm" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
+                    '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
+                    '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" title="Create Auction" aria-hidden="true"></span></button>' +
+                    '<button onclick="updateModalConfirm(' + textDelete + ',' + textFuncion + ',' + productId + ')" data-toggle="modal" data-target="#Modalconfirm" class="btn btn-danger" title="Delete"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
 
                 tbody.appendChild(filatr);
             }
