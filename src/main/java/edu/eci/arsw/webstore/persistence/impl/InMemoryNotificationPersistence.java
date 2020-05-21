@@ -27,7 +27,6 @@ public class InMemoryNotificationPersistence implements NotificationPersistence 
     @Override
     public void createNewNotification(Notification notification) {
         newDb();
-        System.out.println("Entro a in memory");
         wsdb.createNewNotification(notification);
     }
 

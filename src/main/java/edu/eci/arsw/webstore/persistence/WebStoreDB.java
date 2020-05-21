@@ -986,16 +986,15 @@ public class WebStoreDB {
      */
     public void createNewNotification(Notification noti) {
         Statement stmt = null;
-        System.out.println("Entro a clase db");
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO notification "
-                    + "VALUES ('" + noti.getNotificationId() + "',' " + noti.getNotificationDestination() + "','" 
-                    + noti.getNotificationMessage() + "',' " + noti.getNotificationUrl() + "','" +
-                    noti.getNotificationDate() + "',' " + noti.getNotificationSend() + "', false ,'" + noti.getNotificationFunction() + "');";
+                    + "VALUES ('" + noti.getNotificationId() + "','" + noti.getNotificationDestination() + "','" 
+                    + noti.getNotificationMessage() + "','" + noti.getNotificationUrl() + "','" +
+                    noti.getNotificationDate() + "','" + noti.getNotificationSend() + "', false ,'" + noti.getNotificationFunction() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();

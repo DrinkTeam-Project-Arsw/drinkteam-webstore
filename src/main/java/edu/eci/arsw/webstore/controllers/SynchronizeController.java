@@ -26,6 +26,8 @@ import edu.eci.arsw.webstore.services.notification.NotificationServices;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.google.gson.reflect.TypeToken;
+
+import java.io.Console;
 import java.lang.reflect.Type;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,10 +58,13 @@ public class SynchronizeController {
             // System.out.println(notiWeb);
 
             // Guardar notificacion en base de datos
-            ObjectId newObjectIdNotification = new ObjectId(new Date());
-            noti.setNotificationId(newObjectIdNotification.toHexString());
-            nService.createNewNotification(notification);
-
+            if (noti.getNotificationFunction().equals("newMessage") || noti.getNotificationFunction().equals("newTransaction")) {
+                System.out.println(">> es notificacion a guardar");
+                
+                ObjectId newObjectIdNotification = new ObjectId(new Date());
+                noti.setNotificationId(newObjectIdNotification.toHexString());
+                nService.createNewNotification(notification);
+            }
             return new Notification(HtmlUtils.htmlEscape(notification.getNotificationMessage()),
                     HtmlUtils.htmlEscape(notification.getNotificationDate()),
                     HtmlUtils.htmlEscape(notification.getNotificationDestination()),
@@ -87,7 +92,7 @@ public class SynchronizeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = { "notification/{notificationId}" })
+    @RequestMapping(method = RequestMethod.GET, path = { "notifications/user/{notificationId}" })
     public ResponseEntity<?> getNotificationById(@PathVariable("notificationId") String notificationId) {
         try {
             System.out.println("Consultando la Notificacion con Id: " + notificationId + "...");
@@ -132,7 +137,7 @@ public class SynchronizeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "notification/{notificationId}")
+    @RequestMapping(method = RequestMethod.PUT, path ={ "notifications/{notificationId}"})
     public ResponseEntity<?> changeNotificationStatus(@PathVariable("notificationId") String notificationId) {
         try {
             System.out.println("Actualizando estado de notificacion: " + notificationId);
@@ -148,7 +153,7 @@ public class SynchronizeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = { "notification/{notificationId}" })
+    @RequestMapping(method = RequestMethod.DELETE, path = { "notifications/{notificationId}" })
     public ResponseEntity<?> deleteNotificationById(@PathVariable("notificationId") String notificationId) {
         try {
             System.out.println("Eliminando Notificacion: " + notificationId);
