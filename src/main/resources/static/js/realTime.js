@@ -30,46 +30,55 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-async function sendRequest(funcion, seller) {
+async function sendRequest(message, date, destination, send, url, funcion, viewed) {
     alertify.success("Enviando solicitud...");
-    console.log(funcion);
+    
     console.log("SI ENTRO ----------------------------------------------------------!");
-    await stompClient.send("/webStore/upgrade", {}, JSON.stringify({ 'userNickname': localStorage.Actual, "function": funcion, "seller": seller }));
+    // enviar el usuario que lo envia, el usuario destino, de que funcion, fecha, url, vista: false,
+    var notificacion = { 'notificationMessage': message,
+        "notificationDate": date, 
+        "notificationDestination": destination,
+        "notificationSend": send,
+        "notificationUrl": url,
+        "notificationFunction": funcion,
+        "notificationViewed": viewed,
+    };
+    console.log(notificacion);
+    await stompClient.send("/webStore/upgrade", {}, JSON.stringify(notificacion));
 }
 
-function showMessage(message) {
+function showMessage(noti) {
     console.log("Recibiendo Solicitud...");
     alertify.success("Recibiendo Solicitud...");
-    //alertify.success(message.userNickname + '-' + message.function);
 
-    console.log('Mensaje guardado ');
+    console.log(noti);
 
-    console.log("retrona: " + message.function + " - " + message.seller);
+    
     var pathname = window.location.pathname;
-    if (message.function == "newProduct") {
-        if (message.userNickname == localStorage.Actual) {
+    if (noti.notificationFunction == "newProduct") {
+        if (noti.notificationSend == localStorage.Actual) {
             document.getElementById("tableYourAds").innerHTML = "";
             updateAds();
             alertify.success("Success, Registered Product");
         } else {
-            alertify.message("User <b>" + message.userNickname + "</b> has published a new product!");
+            alertify.message("<b>" + noti.notificationSend + "</b> "+ noti.notificationMessage +"!");
             if (pathname == '/dashboard.html') {
                 document.getElementById("divAllProducts").innerHTML = "";
                 agregarProductos({});
             }
         }
-    } else if (message.function == "editProduct") {
+    } else if (noti.notificationFunction == "editProduct") {
         if (pathname == '/dashboard.html') {
             document.getElementById("divAllProducts").innerHTML = "";
             agregarProductos({});
         }
-    } else if (message.function == "auctionProduct") {
+    } else if (noti.notificationFunction == "auctionProduct") {
         if (pathname == '/dashboard.html') {
             document.getElementById("divAllProducts").innerHTML = "";
             agregarProductos({});
         }
-    } else if (message.function == "deleteProduct") {
-        if (message.userNickname == localStorage.Actual) {
+    } else if (noti.notificationFunction == "deleteProduct") {
+        if (noti.notificationSend == localStorage.Actual) {
             document.getElementById("tableYourAds").innerHTML = "";
             updateAds();
             alertify.success("Success, Deleted Product");
@@ -80,30 +89,34 @@ function showMessage(message) {
             }
         }
 
-    } else if (message.function == "newTransaction") {
-        if (message.seller == localStorage.Actual) {
+    } else if (noti.notificationFunction == "newTransaction") {
+        if (noti.notificationDestination == localStorage.Actual) {
 
             if (pathname == '/profile.html') {
                 document.getElementById("tableInProcessSeller").innerHTML = "";
                 document.getElementById("tableHistorySeller").innerHTML = "";
                 updateOthersTablesSeller();
             }
-            document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + message.userNickname + '</b> wants to buy a product!</a>';
+            document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + noti.notificationSend + '</b> '+ noti.notificationMessage +'!</a>';
             var notificaiones = document.getElementById('alertNotify').innerHTML
             document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
-            alertify.success("<b>" + message.userNickname + "</b> wants to buy a product!");
+            alertify.success("<b>" + noti.notificationSend + "</b> wants to buy a product!");
         }
-    } else if (message.function == "newMessage") {
-        if (message.seller == localStorage.Actual) {
+    } else if (noti.notificationFunction == "newMessage") {
+        if (noti.notificationDestination == localStorage.Actual) {
             if (pathname != '/transaction.html') {
-                alertify.success("<b>" + message.userNickname + "</b> wrote to you in one of your sales!");
-                document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + message.userNickname + '</b> wrote to you in one of your sales!</a>';
+                alertify.success("<b>" + noti.notificationSend + "</b> "+ noti.notificationMessage +"!");
+                document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="'+ noti.notificationUrl +'"><b>' + noti.notificationSend + '</b> '+ noti.notificationMessage +'!</a>';
                 var notificaiones = document.getElementById('alertNotify').innerHTML
                 document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
             }
         }
 
     }
+}
+
+function consultarNotificaiones(){
+    // debe consultar y mostrar a usuario sus notificaciones
 }
 
 

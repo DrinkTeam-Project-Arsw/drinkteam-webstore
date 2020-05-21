@@ -294,7 +294,16 @@ async function comprar(productoId, vendedorId, sellerNickname) {
             var text = "Successm, Registered Product";
             var web = "transaction.html?txnId="+response.data;
             alertify.success(text);
-            sendRequest("newTransaction",sellerNickname);
+
+            //############# enviar datos a servidor
+            var message = 'wants to buy you a product';
+            var date = '';
+            var destination = sellerNickname;
+            var send = localStorage.Actual;
+            var url = web;
+            var funcion = 'newTransaction';
+
+            sendRequest(message, date, destination, send, url, funcion, false)
             location.href = web;
 
         })

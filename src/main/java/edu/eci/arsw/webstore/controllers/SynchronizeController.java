@@ -40,24 +40,43 @@ public class SynchronizeController {
     @MessageMapping("/upgrade")
     @SendTo("/topic/syncup")
     public Notification synchronize(Notification notification) throws Exception {
-        System.out.println(">>> 3) suscripto...");
-        Thread.sleep(1000); // simulated delay
-        // recibe: envio, destino, funcion, fecha, url, visto:falso, mensaje
+        try {
+            System.out.println(">>> 3) suscripto...");
+            Thread.sleep(1000); // simulated delay
+            // recibe: envio, destino, funcion, fecha, url, visto:falso, mensaje
+            Notification noti = notification;
+            // Notification notiWeb = HtmlUtils.htmlEscape(notification);
+            System.out.println(noti.getNotificationDestination());
+            System.out.println(noti.getNotificationMessage());
+            System.out.println(noti.getNotificationDate());
+            System.out.println(noti.getNotificationSend());
+            System.out.println(noti.getNotificationUrl());
+            System.out.println(noti.getNotificationFunction());
+            System.out.println(noti.isNotificationViewed());
+            // System.out.println(notiWeb);
 
-        // Guardar notificacion en base de datos
+            // Guardar notificacion en base de datos
+            ObjectId newObjectIdNotification = new ObjectId(new Date());
+            noti.setNotificationId(newObjectIdNotification.toHexString());
+            nService.createNewNotification(notification);
 
-
-        return new Notification(HtmlUtils.htmlEscape(notification.getNotificationMessage()),
-        HtmlUtils.htmlEscape(notification.getNotificationDate()), HtmlUtils.htmlEscape(notification.getNotificationDestination()),
-        HtmlUtils.htmlEscape(notification.getNotificationSend()), HtmlUtils.htmlEscape(notification.getNotificationUrl()),
-        HtmlUtils.htmlEscape(notification.getNotificationFunction()), false);
+            return new Notification(HtmlUtils.htmlEscape(notification.getNotificationMessage()),
+                    HtmlUtils.htmlEscape(notification.getNotificationDate()),
+                    HtmlUtils.htmlEscape(notification.getNotificationDestination()),
+                    HtmlUtils.htmlEscape(notification.getNotificationSend()),
+                    HtmlUtils.htmlEscape(notification.getNotificationUrl()),
+                    HtmlUtils.htmlEscape(notification.getNotificationFunction()), false);
+        } catch (Exception ex) {
+            Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
+            return new Notification();
+        }
 
     }
 
     @RequestMapping(method = RequestMethod.GET, path = { "notifications/{nickname}" })
     public ResponseEntity<?> getNotificationsByNickname(@PathVariable("nickname") String nickname) {
         try {
-            System.out.println("Consultando Notificaciones del usuario "+nickname+ "...");
+            System.out.println("Consultando Notificaciones del usuario " + nickname + "...");
 
             String data = new Gson().toJson(nService.getNotificationsByNickname(nickname));
 
@@ -67,11 +86,11 @@ public class SynchronizeController {
             return new ResponseEntity<>("No se ha podido retornar las notificaciones", HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, path = { "notification/{notificationId}" })
     public ResponseEntity<?> getNotificationById(@PathVariable("notificationId") String notificationId) {
         try {
-            System.out.println("Consultando la Notificacion con Id: "+notificationId+ "...");
+            System.out.println("Consultando la Notificacion con Id: " + notificationId + "...");
 
             String data = new Gson().toJson(nService.getNotificationsById(notificationId));
 
@@ -85,7 +104,9 @@ public class SynchronizeController {
     @RequestMapping(method = RequestMethod.POST, path = "notifications")
     public ResponseEntity<?> createNewNotification(@RequestBody String notification) {
         // Formato de json
-        // {"1":{"notificationMessage":"sent you a message","notificationDate":"2020/05/20 17:25pm","notificationDestination":"david","notificationSend":"juan","notificationUrl":"/transaction.html?txnId=5eb8bf403d212a77e4de9bb3","notificationFunction":"newMessage","notificationViewed":false}}
+        // {"1":{"notificationMessage":"sent you a
+        // message","notificationDate":"2020/05/20
+        // 17:25pm","notificationDestination":"david","notificationSend":"juan","notificationUrl":"/transaction.html?txnId=5eb8bf403d212a77e4de9bb3","notificationFunction":"newMessage","notificationViewed":false}}
         try {
             System.out.println("Creando una nueva notificacion...");
             // Pasar el String JSON a un Map
@@ -104,7 +125,7 @@ public class SynchronizeController {
             noti.setNotificationViewed(false);
             nService.createNewNotification(noti);
             return new ResponseEntity<>(HttpStatus.CREATED);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(SynchronizeController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido guardar la notificacion", HttpStatus.NOT_FOUND);
@@ -115,7 +136,7 @@ public class SynchronizeController {
     public ResponseEntity<?> changeNotificationStatus(@PathVariable("notificationId") String notificationId) {
         try {
             System.out.println("Actualizando estado de notificacion: " + notificationId);
-            
+
             Notification noti = nService.getNotificationsById(notificationId);
 
             nService.changeNotificationStatus(true, noti.getNotificationId());
