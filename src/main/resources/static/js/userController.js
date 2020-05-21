@@ -343,6 +343,7 @@ async function updateOthersTablesSeller() {
 }
 
 function registrarProducto() {
+    
     var nullAlert = false;
     //document.getElementById("alertDiv").innerHTML = "";
     var alerta;
@@ -389,6 +390,8 @@ function registrarProducto() {
     }
 
     console.log("imagenes: " + imagenes);
+    document.getElementById("bRegisterProduct").disabled = true
+    document.getElementById("bRegisterProduct").textContent = "Loading..."
 
     if (!nullAlert) {
         axios.post('/api/v1/products/', {
@@ -441,6 +444,9 @@ function registrarProducto() {
 
                 sendRequest(message, date, destination, send, url, funcion, false)
 
+                document.getElementById("bRegisterProduct").disabled = false
+                document.getElementById("bRegisterProduct").textContent = "Publish"
+
                 location.href = web;
 
             })
@@ -483,9 +489,10 @@ async function eliminarProducto(productId) {
             var destination = 'all';
             var send = localStorage.Actual;
             var url = window.location.pathname;
-            var funcion = 'editProduct';
+            var funcion = 'deleteProduct';
 
             sendRequest(message, date, destination, send, url, funcion, false)
+            document.getElementById("closeModalConfirm").click();
         });
 
 

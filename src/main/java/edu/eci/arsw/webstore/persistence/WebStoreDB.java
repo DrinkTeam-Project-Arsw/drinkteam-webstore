@@ -985,17 +985,17 @@ public class WebStoreDB {
      * @param noti Es la notificacion que se quiere agregar a la base de datos.
      */
     public void createNewNotification(Notification noti) {
-        Statement stmt;
-        System.out.println("Entro a clase db");
+        Statement stmt = null;
+
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
             String sql = "INSERT INTO notification "
-                    + "VALUES ('" + noti.getNotificationId() + "',' " + noti.getNotificationDestination() + "','" 
-                    + noti.getNotificationMessage() + "',' " + noti.getNotificationUrl() + "','" +
-                    noti.getNotificationDate() + "',' " + noti.getNotificationSend() + "', false ,'" + noti.getNotificationFunction() + "');";
+                    + "VALUES ('" + noti.getNotificationId() + "','" + noti.getNotificationDestination() + "','" 
+                    + noti.getNotificationMessage() + "','" + noti.getNotificationUrl() + "','" +
+                    noti.getNotificationDate() + "','" + noti.getNotificationSend() + "', false ,'" + noti.getNotificationFunction() + "');";
             stmt.executeUpdate(sql);
             stmt.close();
             c.commit();
