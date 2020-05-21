@@ -986,6 +986,7 @@ public class WebStoreDB {
      */
     public void createNewNotification(Notification noti) {
         Statement stmt = null;
+        System.out.println("Entro a clase db");
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();

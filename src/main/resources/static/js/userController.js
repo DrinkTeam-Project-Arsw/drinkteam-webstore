@@ -250,9 +250,9 @@ async function updateAds() {
 function updateModalConfirm(name, funcion, data) {
     if (name == "Delete") {
         var productId = "'" + String(data) + "'";
-        document.getElementById('botonConfirm').innerHTML = '<button onclick="'+funcion+'(' + productId + ')" class="btn btn-primary">Confirm</button>';;
+        document.getElementById('botonConfirm').innerHTML = '<button onclick="' + funcion + '(' + productId + ')" class="btn btn-primary">Confirm</button>';;
         document.getElementById('titleConfirm').innerHTML = 'DELETE PRODUCT';
-        document.getElementById('messageConfirm').innerHTML = 'Product to remove: <b>'+data+'</b><br>'+
+        document.getElementById('messageConfirm').innerHTML = 'Product to remove: <b>' + data + '</b><br>' +
             'You are about to delete a product, confirm if you want to continue';
     }
     console.log(name);
@@ -430,7 +430,17 @@ function registrarProducto() {
                 document.getElementById('selectThirdImage').value = "";
                 document.getElementById('third-bar').setAttribute('aria-valuenow', 0);
                 document.getElementById('third-bar').style = ('width', 0);
-                sendRequest("newProduct", "");
+
+                //############# enviar datos a servidor
+                var message = 'has published a new product';
+                var date = '';
+                var destination = 'all';
+                var send = localStorage.Actual;
+                var url = window.location.pathname;
+                var funcion = 'newProduct';
+
+                sendRequest(message, date, destination, send, url, funcion, false)
+
                 location.href = web;
 
             })
@@ -466,7 +476,16 @@ async function eliminarProducto(productId) {
         .then(function (response) {
             console.log(response.data);
             console.log("se elimino...");
-            sendRequest("editProduct", "");
+
+            //############# enviar datos a servidor
+            var message = 'none';
+            var date = '';
+            var destination = 'all';
+            var send = localStorage.Actual;
+            var url = window.location.pathname;
+            var funcion = 'editProduct';
+
+            sendRequest(message, date, destination, send, url, funcion, false)
         });
 
 

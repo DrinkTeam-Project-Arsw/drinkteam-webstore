@@ -114,7 +114,7 @@ public class TransactionController {
             String userId = user.getIdUser();
 
             transactions = tService.getTransactionsOfUserById(userId);
-            System.out.println(transactions);
+            // System.out.println(transactions);
             User buyer = null;
             User seller = null;
             Product product = null;

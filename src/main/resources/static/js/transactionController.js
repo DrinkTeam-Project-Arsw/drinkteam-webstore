@@ -289,7 +289,16 @@ function registrarMensaje() {
                 var text = "Success, message";
                 var web = "#sectionList";
                 alertify.success(text);
-                sendRequest('newMessage',contraTransaction);
+
+                //############# enviar datos a servidor
+                var message = 'sent you a message';
+                var date = '';
+                var destination = contraTransaction;
+                var send = localStorage.Actual;
+                var url = "transaction.html?txnId=" + txnId;
+                var funcion = 'newMessage';
+
+                sendRequest(message, date, destination, send, url, funcion, false)
             })
         var mensaje = new Message(txnId, localStorage.Actual, $("#mensaje").val(), localStorage.avatarActual);
         $("#mensaje").val("");

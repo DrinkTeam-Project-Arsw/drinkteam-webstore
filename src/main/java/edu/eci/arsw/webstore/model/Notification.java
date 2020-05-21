@@ -15,6 +15,8 @@ public class Notification {
     private String notificationFunction;
     private boolean notificationViewed;
 
+    public Notification(){}
+
     public Notification(String notificationMessage, String notificationDate,
             String notificationDestination, String notificationSend, String notificationUrl,
             String notificationFunction, boolean notificationViewed) {
