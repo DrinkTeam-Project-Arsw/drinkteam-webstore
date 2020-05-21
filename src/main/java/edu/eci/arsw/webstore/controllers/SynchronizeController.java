@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import org.bson.types.ObjectId;
+import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import edu.eci.arsw.webstore.model.Notification;
 import edu.eci.arsw.webstore.services.notification.NotificationServices;
+import edu.eci.arsw.webstore.services.transaction.TransactionServices;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +31,9 @@ import java.io.Console;
 import java.lang.reflect.Type;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
 @Controller
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -36,6 +41,9 @@ public class SynchronizeController {
 
     @Autowired
     NotificationServices nService;
+
+    @Autowired
+    TransactionServices tService;
 
     @MessageMapping("/upgrade")
     @SendTo("/topic/syncup")
@@ -46,14 +54,23 @@ public class SynchronizeController {
             // recibe: envio, destino, funcion, fecha, url, visto:falso, mensaje
             Notification noti = notification;
             // Notification notiWeb = HtmlUtils.htmlEscape(notification);
-            System.out.println(noti.getNotificationDestination());
+            // System.out.println(noti.getNotificationDestination());
             System.out.println(noti.getNotificationMessage());
             System.out.println(noti.getNotificationDate());
-            System.out.println(noti.getNotificationSend());
-            System.out.println(noti.getNotificationUrl());
-            System.out.println(noti.getNotificationFunction());
-            System.out.println(noti.isNotificationViewed());
-            // System.out.println(notiWeb);
+            // System.out.println(noti.getNotificationSend());
+            // System.out.println(noti.getNotificationUrl());
+            // System.out.println(noti.getNotificationFunction());
+            // System.out.println(noti.isNotificationViewed());
+            // guardar fecha
+            String dateColombia = tService.getDateColombia();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime myDateObj = LocalDateTime.parse(dateColombia.substring(0, 19), formatter);
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String formattedDate = myDateObj.format(myFormatObj);
+            // System.out.println("After formatting: " + formattedDate);
+            noti.setNotificationDate(formattedDate);
+
+
 
             // Guardar notificacion en base de datos
             if (noti.getNotificationFunction().equals("newMessage") || noti.getNotificationFunction().equals("newTransaction")) {

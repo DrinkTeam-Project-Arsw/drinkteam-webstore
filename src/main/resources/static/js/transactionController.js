@@ -131,7 +131,7 @@ async function loadTransaction() {
         var transaction = response.data[0];
         //Colocar datos
         /// Transacccion
-        document.title = "Transaction #" + transaction['transactionId'];
+        document.title = "Transaction";
 
         /// Producto
         document.getElementById("productName").value = product["productName"];

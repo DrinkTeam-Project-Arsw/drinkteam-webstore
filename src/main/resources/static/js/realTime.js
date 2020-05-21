@@ -135,7 +135,8 @@ async function consultarNotificaiones() {
                     var url = "'" + String(noti[x]["notificationUrl"]) + "'";
                     document.getElementById('notifications').innerHTML += '<a class="dropdown-item btn btn-info"' +
                         'onclick="goToLink(' + notificationId + ',' + url +')"' +
-                        '"><b>' + noti[x]["notificationSend"] + '</b> ' + noti[x]["notificationMessage"] + '!</a>';
+                        '"><b>' + noti[x]["notificationSend"] + '</b> ' + noti[x]["notificationMessage"] + '! <sup>' 
+                        + noti[x]["notificationDate"] + '</sup></a>';
                     nNoti += 1
                 }
             }
