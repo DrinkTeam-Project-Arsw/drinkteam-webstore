@@ -164,8 +164,9 @@ function loadData() {
     var alertDiv = document.getElementById("alertDiv");
     var alertMust = '<a class="panel-close close" data-dismiss="alert">×</a>' +
         '<span class="glyphicon glyphicon-user" aria-hidden="true"></span>' +
-        'You must fill out <strong>personal information</strong> in order to' +
-        '<strong>sell</strong> products.';
+        'You must fill out your <strong>personal information</strong> in order to <strong>sell</strong> any product. '+
+        'Remember that the information cannot be modified once uploaded. '+
+        'If you want to modify it, you must contact customer service by email. ';
     var alertChange = ' <a class="panel-close close" data-dismiss="alert">×</a>' +
         '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' +
         'If you want to change any personal information, <strong>please click here</strong>.';

@@ -4,6 +4,12 @@
   - Juan David Navarro Jimenez
   - Eduardo Ocampo Arellano
   - Juan Manuel Villate Isaza
+  
+### Usuario de sustentación
+
+UserId: sebastian
+
+password: sebastian
 
 ### Introducción
 
@@ -18,6 +24,16 @@ La usabilidad es uno de los dos escenarios a los que apuntamos con nuestra aplic
 #### Rendimiento
 
 El rendimiento fue el segundo escenario al que apuntamos en nuestra aplicacion. Para poder dar un mejor rendimiento se utiliza la memoria cache, que nos permite no tener que consultar la información de la base de datos cada vez que se requiere, sino recurrir al cache para agilizar el proceso de obtención de informacion. La aplicacion primero revisa si la informacion que necesita puede sacarla de la memoria cache y en caso de que no la encuentre, recurre a la base de datos y actualiza el cache para futuras ocasiones.
+
+En la siguiente imagen se puede ver cuanto se demora en cargar la pantalla de Dashboard cuando la informacion no está en cache
+
+![NoCache](https://user-images.githubusercontent.com/53972469/82526510-d50aa400-9af9-11ea-8fd8-66e254b3dc4e.png)
+
+Al haber ya cargado esta informacion, se encuentra en cache y al volver a recargarse se demora mucho menos.
+
+![Cache](https://user-images.githubusercontent.com/53972469/82526599-02efe880-9afa-11ea-8620-b4ec6dfed421.png)
+
+Esta consulta es una de las mas pesadas al necesitar cargar mucha informacion en una misma pagina, demorandose 1355ms cargando sin cache y 89ms con cache.
 
 ### Instrucciones de uso
 
