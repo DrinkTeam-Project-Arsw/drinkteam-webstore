@@ -230,6 +230,9 @@ async function updateAds() {
 
                 var productId = "'" + String(response.data[x]["productId"]) + "'";
                 var numeroFila = parseInt(x) + 1;
+                var textDelete = "'" + String("Delete") + "'";
+                var textFuncion = "'" + String("eliminarProducto") + "'";
+                var buttonDelete = '<button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';;
                 filatr.innerHTML = '<td>' + numeroFila + '</td>' +
                     '<td id="productId' + response.data[x]["productId"] + '">' + response.data[x]["productId"] + '</td>' +
                     '<td>' + response.data[x]["productName"] + '</td>' +
@@ -237,10 +240,24 @@ async function updateAds() {
                     '<td>$' + response.data[x]["productPrice"] + ' USD</td>' +
                     '<td> <div class="btn-group"><button onclick="editarProducto(' + productId + ')" class="btn btn-primary"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> ' +
                     '<button onclick="crearSubasta(' + productId + ')" class="btn btn-success"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>' +
-                    '<button onclick="eliminarProducto(' + productId + ')" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
+                    '<button onclick="updateModalConfirm(' + textDelete + ',' + textFuncion + ',' + productId + ')" data-toggle="modal" data-target="#Modalconfirm" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button></div> </td>';
+
                 tbody.appendChild(filatr);
             }
         })
+}
+
+function updateModalConfirm(name, funcion, data) {
+    if (name == "Delete") {
+        var productId = "'" + String(data) + "'";
+        document.getElementById('botonConfirm').innerHTML = '<button onclick="'+funcion+'(' + productId + ')" class="btn btn-primary">Confirm</button>';;
+        document.getElementById('titleConfirm').innerHTML = 'DELETE PRODUCT';
+        document.getElementById('messageConfirm').innerHTML = 'Product to remove: <b>'+data+'</b><br>'+
+            'You are about to delete a product, confirm if you want to continue';
+    }
+    console.log(name);
+    console.log(funcion);
+    console.log(data);
 }
 
 async function updateOthersTablesSeller() {

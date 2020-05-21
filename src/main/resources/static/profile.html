@@ -81,6 +81,7 @@
                             <h2><span style="text-shadow: 2px 2px 2px black;" id="usernameP"></span></h2>
                         </div>
                         <div class="panel-body">
+
                             <div class="container">
                                 <div class="img-container">
                                     <img id="userImageP">
@@ -149,7 +150,7 @@
                 <div id="divPanel" class="panel panel-success">
                     <div id="sectionList" class="panel-heading">
                         <span id="textAnuncio"></span>
-                        
+
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
@@ -158,6 +159,31 @@
                             <li><a data-toggle="tab" href="#inProcess">In Process</a></li>
                             <li><a data-toggle="tab" href="#history">History</a></li>
                         </ul>
+                        <!-- modal confirm delete and new productor auction -->
+                        <!-- Button trigger modal -->
+                        <!-- Modal confirm -->
+                        <div class="modal fade" id="Modalconfirm" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"><span id="titleConfirm"></span></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span id="messageConfirm"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancel</button>
+                                        <div id="botonConfirm"></div>
+                                        <!-- <button id="botonConfirm" type="button" class="btn btn-primary">Confirm</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="tab-content">
                             <div id="yourAds" class="tab-pane fade in active">
 
