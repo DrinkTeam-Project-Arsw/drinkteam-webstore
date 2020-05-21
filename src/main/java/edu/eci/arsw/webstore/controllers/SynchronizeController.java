@@ -55,7 +55,7 @@ public class SynchronizeController {
             Notification noti = notification;
             // Notification notiWeb = HtmlUtils.htmlEscape(notification);
             // System.out.println(noti.getNotificationDestination());
-            System.out.println(noti.getNotificationMessage());
+            //System.out.println(noti.getNotificationMessage());
             System.out.println(noti.getNotificationDate());
             // System.out.println(noti.getNotificationSend());
             // System.out.println(noti.getNotificationUrl());
@@ -69,13 +69,14 @@ public class SynchronizeController {
             String formattedDate = myDateObj.format(myFormatObj);
             // System.out.println("After formatting: " + formattedDate);
             noti.setNotificationDate(formattedDate);
-
-
+            notification.setNotificationDate(formattedDate);
 
             // Guardar notificacion en base de datos
-            if (noti.getNotificationFunction().equals("newMessage") || noti.getNotificationFunction().equals("newTransaction")) {
+            if (noti.getNotificationFunction().equals("newMessage")
+                    || noti.getNotificationFunction().equals("newTransaction")
+                    || noti.getNotificationFunction().equals("editTransaction")) {
                 System.out.println(">> es notificacion a guardar");
-                
+
                 ObjectId newObjectIdNotification = new ObjectId(new Date());
                 noti.setNotificationId(newObjectIdNotification.toHexString());
                 nService.createNewNotification(notification);
@@ -152,7 +153,7 @@ public class SynchronizeController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path ={ "notifications/{notificationId}"})
+    @RequestMapping(method = RequestMethod.PUT, path = { "notifications/{notificationId}" })
     public ResponseEntity<?> changeNotificationStatus(@PathVariable("notificationId") String notificationId) {
         try {
             System.out.println("Actualizando estado de notificacion: " + notificationId);

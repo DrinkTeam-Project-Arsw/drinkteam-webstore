@@ -67,7 +67,8 @@ public class InMemoryTransactionPersistence implements TransactionPersistence {
 
     @Override
     public void updateTransaction(Transaction tr) {
-        // TODO Auto-generated method stub
+        newDb();
+        wsdb.updateTransaction(tr);
 
     }
 

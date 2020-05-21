@@ -107,7 +107,7 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.GET, path = { "transactions/user/{nickname}" })
     public ResponseEntity<?> getTransactionsOfUserById(@PathVariable("nickname") String nickname) {
         try {
-            System.out.println("Consultando Transacciones del usuario: "+nickname);
+            System.out.println("Consultando Transacciones del usuario: " + nickname);
             List<Transaction> transactions = new ArrayList<>();
             User user = uService.getUserByUserNickname(nickname);
             String userId = user.getIdUser();
@@ -118,43 +118,40 @@ public class TransactionController {
             User seller;
             Product product;
 
-            Map<String,String> idsUsers= new HashMap<>();
+            Map<String, String> idsUsers = new HashMap<>();
             // Agregamos el suario actual
-            idsUsers.put(userId,nickname);
+            idsUsers.put(userId, nickname);
 
             for (Transaction t : transactions) {
                 System.out.println(t.getTransactionId());
 
                 // Consultar Comprador
-                if(idsUsers.get(t.getBuyer())!=null){
+                if (idsUsers.get(t.getBuyer()) != null) {
                     t.setBuyer(idsUsers.get(t.getBuyer()));
-                }else{
+                } else {
                     buyer = uService.getUserById(t.getBuyer());
                     t.setBuyer(buyer.getUserNickname());
-                    idsUsers.put(buyer.getIdUser(),buyer.getUserNickname());
-                    System.out.println("Se ha anadido el comprador: "+ buyer.getUserNickname());
+                    idsUsers.put(buyer.getIdUser(), buyer.getUserNickname());
+                    System.out.println("Se ha anadido el comprador: " + buyer.getUserNickname());
                 }
-                
 
                 // Consultar Vendedor
-                if(idsUsers.get(t.getSeller())!=null){
+                if (idsUsers.get(t.getSeller()) != null) {
                     t.setSeller(idsUsers.get(t.getSeller()));
-                }else{
+                } else {
                     seller = uService.getUserById(t.getSeller());
                     t.setSeller(seller.getUserNickname());
-                    idsUsers.put(seller.getIdUser(),seller.getUserNickname());
-                    System.out.println("Se ha anadido el vendedor: "+ seller.getUserNickname());
+                    idsUsers.put(seller.getIdUser(), seller.getUserNickname());
+                    System.out.println("Se ha anadido el vendedor: " + seller.getUserNickname());
                 }
-                
+
                 // Consultar producto
                 product = pService.getProductByIdOfUserNickname(t.getProduct());
 
                 // modificar ids a nicknames y nombre producto
                 t.setProduct(product.getProductName());
                 t.setTransactionPrice(product.getProductPrice());
-                
-                
-                
+
             }
 
             String data = new Gson().toJson(transactions);
@@ -172,7 +169,7 @@ public class TransactionController {
     public ResponseEntity<?> createNewTransaction(@RequestBody String transaction) {
         // Formato de json {"1":{"buyer":"0","seller":"2","product":"4"}}
         try {
-            System.out.println("Actualizando transaccion: " + transaction);
+            System.out.println("Creando transaccion: " + transaction);
             // Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Transaction>>() {
             }.getType();
@@ -212,6 +209,40 @@ public class TransactionController {
             System.out.println("Transaccion: " + tr.getTransactionId());
 
             tService.createNewTransaction(tr);
+
+            return new ResponseEntity<>(tr.getTransactionId(), HttpStatus.CREATED);
+
+        } catch (Exception ex) {
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("No se ha podido registrar la transaction", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "transactions")
+    public ResponseEntity<?> updateTransaction(@RequestBody String transaction) {
+        // Formato de json {"1":{"buyer":"0","seller":"2","product":"4"}}
+        try {
+            System.out.println("Actualizando transaccion: " + transaction);
+            // Pasar el String JSON a un Map
+            Type listType = new TypeToken<Map<Integer, Transaction>>() {
+            }.getType();
+            Map<String, Transaction> result = new Gson().fromJson(transaction, listType);
+            // Obtener las llaves del Map
+            Object[] nameKeys = result.keySet().toArray();
+            Transaction tr = result.get(nameKeys[0]);
+
+            if (tr.getTransactionActive()) {
+                // Crear fecha de inicio de transaccion
+                String dateColombia = tService.getDateColombia();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                LocalDateTime myDateObj = LocalDateTime.parse(dateColombia.substring(0, 19), formatter);
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDate = myDateObj.format(myFormatObj);
+                // System.out.println("After formatting: " + formattedDate);
+                tr.setTransactionDateEnd(formattedDate);
+            }
+
+            tService.updateTransaction(tr);
 
             return new ResponseEntity<>(tr.getTransactionId(), HttpStatus.CREATED);
 

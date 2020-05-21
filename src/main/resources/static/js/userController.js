@@ -250,7 +250,7 @@ async function updateAds() {
 function updateModalConfirm(name, funcion, data) {
     if (name == "Delete") {
         var productId = "'" + String(data) + "'";
-        document.getElementById('botonConfirm').innerHTML = '<button onclick="' + funcion + '(' + productId + ')" class="btn btn-primary">Confirm</button>';;
+        document.getElementById('botonConfirm').innerHTML = '<button id="confirmButton" onclick="' + funcion + '(' + productId + ')" class="btn btn-primary">Confirm</button>';;
         document.getElementById('titleConfirm').innerHTML = 'DELETE PRODUCT';
         document.getElementById('messageConfirm').innerHTML = 'Product to remove: <b>' + data + '</b><br>' +
             'You are about to delete a product, confirm if you want to continue';
@@ -343,7 +343,7 @@ async function updateOthersTablesSeller() {
 }
 
 function registrarProducto() {
-    
+
     var nullAlert = false;
     //document.getElementById("alertDiv").innerHTML = "";
     var alerta;
@@ -478,6 +478,13 @@ function crearSubasta(productId) {
 }
 
 async function eliminarProducto(productId) {
+    document.getElementById("closeModalConfirm").disabled = true
+    document.getElementById("closeModalConfirm").textContent = "Loading..."
+
+    document.getElementById("confirmButton").disabled = true
+    document.getElementById("confirmButton").textContent = "Loading..."
+
+
     await axios.delete('api/v1/products/' + localStorage.getItem('Actual') + '/' + productId)
         .then(function (response) {
             console.log(response.data);
@@ -492,7 +499,12 @@ async function eliminarProducto(productId) {
             var funcion = 'deleteProduct';
 
             sendRequest(message, date, destination, send, url, funcion, false)
+            document.getElementById("closeModalConfirm").disabled = false
+            document.getElementById("closeModalConfirm").textContent = "Cancel"
             document.getElementById("closeModalConfirm").click();
+            
+            document.getElementById("confirmButton").disabled = false
+            document.getElementById("confirmButton").textContent = "Confirm"
         });
 
 
