@@ -7,7 +7,6 @@ package edu.eci.arsw.webstore.persistence.impl;
 
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ import java.util.logging.Logger;
 @Service
 public class InMemoryTransactionPersistence implements TransactionPersistence {
 
-    private String uriTimeApi = "http://worldtimeapi.org/api/timezone/America/Bogota";
+    private final String uriTimeApi = "http://worldtimeapi.org/api/timezone/America/Bogota";
 
     //Atributos
     WebStoreDB wsdb;

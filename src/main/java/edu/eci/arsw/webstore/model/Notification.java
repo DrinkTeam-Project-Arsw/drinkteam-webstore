@@ -91,7 +91,5 @@ public class Notification {
 
     public void setNotificationFunction(String notificationFunction) {
         this.notificationFunction = notificationFunction;
-    }
-    
-    
+    } 
 }

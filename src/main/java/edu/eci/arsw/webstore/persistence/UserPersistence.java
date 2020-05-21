@@ -24,7 +24,7 @@ public interface UserPersistence {
     /**
      * Este metodo permite la creacion de un nuevo usuario
      *
-     * @param us
+     * @param us Es el nuevo usuario a crear.
      */
     public void createNewUser(User us);
 

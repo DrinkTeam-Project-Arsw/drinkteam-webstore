@@ -40,7 +40,7 @@ public class MessageController {
     @RequestMapping(method = RequestMethod.GET, path = {"messages/{transactionId}"})
     public ResponseEntity<?> getMessagesByTransactionId(@PathVariable("transactionId") String transactionId) {
         try {
-            System.err.println("EN controller MK");
+            System.out.println("Consultando mensajes de la transaccion: "+transactionId);
             List<Message> messages = new ArrayList<>();
 
             messages = mService.getMessagesByTransactionId(transactionId);
@@ -50,7 +50,7 @@ public class MessageController {
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
             
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MessageController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar los mensajes de la transacción: " + transactionId, HttpStatus.NOT_FOUND);
         }
     }
@@ -59,7 +59,7 @@ public class MessageController {
     public ResponseEntity<?> createNewMessage(@RequestBody String message ) {
         //Formato de json {"1":{"idTransaction":"5eb2fcac7db0440004cfd5a3","user":"2","data":"Respuesta"}}
         try {
-            System.out.println("Consiltando mensaje: "+message);
+            System.out.println("Agregando mensaje: "+message);
             //Pasar el String JSON a un Map
             Type listType = new TypeToken<Map<Integer, Message>>() {
             }.getType();
@@ -78,7 +78,7 @@ public class MessageController {
             return new ResponseEntity<>(HttpStatus.CREATED);
             
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MessageController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar el mensaje", HttpStatus.FORBIDDEN);
         }
     }

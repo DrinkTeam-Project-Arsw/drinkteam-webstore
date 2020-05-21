@@ -64,22 +64,22 @@ public class WebStoreDB {
      * @return Retorna una lista de usuarios registrados en la base de datos.
      */
     public List<User> getAllUsers() {
-        List<User> allUsers = new ArrayList<User>();
-        Statement stmt = null;
+        List<User> allUsers = new ArrayList<>();
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM usr;");
-            c.close();
-            while (rs.next()) {
-                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-                allUsers.add(u);
+            try (ResultSet rs = stmt.executeQuery("SELECT * FROM usr;")) {
+                c.close();
+                while (rs.next()) {
+                    u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                    allUsers.add(u);
+                }
+                stmt.close();
             }
-            stmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allUsers;
@@ -92,7 +92,7 @@ public class WebStoreDB {
      * @param us Es el usuario el cual se quiere agregar a la base de datos.
      */
     public void createNewUser(User us) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -105,7 +105,7 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -118,7 +118,7 @@ public class WebStoreDB {
      *         encuentra un usuario con ese nickName.
      */
     public User getUserByUserNickname(String userNickname) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -126,27 +126,27 @@ public class WebStoreDB {
             String sql = "Select * from usr where ussernickname = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, userNickname);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if (rs.next()) {
-                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-                u.setIdUser(rs.getString("userid"));
-                u.setUserType(rs.getString("usertype"));
-                u.setUserName(rs.getString("username"));
-                u.setUserLastName(rs.getString("userlastname"));
-                u.setUserImage(rs.getString("usserimage"));
-                u.setCodeCountry(rs.getString("ussercode"));
-                u.setUserPhone(rs.getString("userphone"));
-                u.setUserBalance(rs.getDouble("userbalance"));
-                u.setUserFeedback(rs.getInt("userfeedback"));
-                u.setUserActive(rs.getBoolean("useractive"));
-                u.setUserAddress(rs.getString("useraddress"));
-                getAllProductsOfUserNickname(userNickname);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if (rs.next()) {
+                    u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                    u.setIdUser(rs.getString("userid"));
+                    u.setUserType(rs.getString("usertype"));
+                    u.setUserName(rs.getString("username"));
+                    u.setUserLastName(rs.getString("userlastname"));
+                    u.setUserImage(rs.getString("usserimage"));
+                    u.setCodeCountry(rs.getString("ussercode"));
+                    u.setUserPhone(rs.getString("userphone"));
+                    u.setUserBalance(rs.getDouble("userbalance"));
+                    u.setUserFeedback(rs.getInt("userfeedback"));
+                    u.setUserActive(rs.getBoolean("useractive"));
+                    u.setUserAddress(rs.getString("useraddress"));
+                    getAllProductsOfUserNickname(userNickname);
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
             return u;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -154,7 +154,7 @@ public class WebStoreDB {
     }
 
     public User getUserByEmail(String email) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -162,27 +162,27 @@ public class WebStoreDB {
             String sql = "Select * from usr where useremail = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if (rs.next()) {
-                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-                u.setIdUser(rs.getString("userid"));
-                u.setUserType(rs.getString("usertype"));
-                u.setUserName(rs.getString("username"));
-                u.setUserLastName(rs.getString("userlastname"));
-                u.setUserImage(rs.getString("usserimage"));
-                u.setCodeCountry(rs.getString("ussercode"));
-                u.setUserPhone(rs.getString("userphone"));
-                u.setUserBalance(rs.getDouble("userbalance"));
-                u.setUserFeedback(rs.getInt("userfeedback"));
-                u.setUserActive(rs.getBoolean("useractive"));
-                u.setUserAddress(rs.getString("useraddress"));
-                getAllProductsOfUserNickname(u.getUserNickname());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if (rs.next()) {
+                    u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                    u.setIdUser(rs.getString("userid"));
+                    u.setUserType(rs.getString("usertype"));
+                    u.setUserName(rs.getString("username"));
+                    u.setUserLastName(rs.getString("userlastname"));
+                    u.setUserImage(rs.getString("usserimage"));
+                    u.setCodeCountry(rs.getString("ussercode"));
+                    u.setUserPhone(rs.getString("userphone"));
+                    u.setUserBalance(rs.getDouble("userbalance"));
+                    u.setUserFeedback(rs.getInt("userfeedback"));
+                    u.setUserActive(rs.getBoolean("useractive"));
+                    u.setUserAddress(rs.getString("useraddress"));
+                    getAllProductsOfUserNickname(u.getUserNickname());
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
             return u;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -190,7 +190,7 @@ public class WebStoreDB {
     }
 
     private String getUserNicknameByUserId(String userId) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         String ans = "";
         try {
             Class.forName("org.postgresql.Driver");
@@ -199,21 +199,21 @@ public class WebStoreDB {
             String sql = "Select * from usr where userid = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            ans = rs.getString("ussernickname");
-            c.close();
-            pstmt.close();
-            rs.close();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                rs.next();
+                ans = rs.getString("ussernickname");
+                c.close();
+                pstmt.close();
+            }
             return ans;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ans;
     }
 
     public User getUserById(String id) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -221,26 +221,26 @@ public class WebStoreDB {
             String sql = "Select * from usr where userid = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            c.close();
-            u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
-            u.setIdUser(rs.getString("userid"));
-            u.setUserType(rs.getString("usertype"));
-            u.setUserName(rs.getString("username"));
-            u.setUserLastName(rs.getString("userlastname"));
-            u.setUserImage(rs.getString("usserimage"));
-            u.setCodeCountry(rs.getString("ussercode"));
-            u.setUserPhone(rs.getString("userphone"));
-            u.setUserBalance(rs.getDouble("userbalance"));
-            u.setUserFeedback(rs.getInt("userfeedback"));
-            u.setUserActive(rs.getBoolean("useractive"));
-            u.setUserAddress(rs.getString("useraddress"));
-            getAllProductsOfUserNickname(rs.getString("ussernickname"));
-            pstmt.close();
-            rs.close();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                rs.next();
+                c.close();
+                u = new User(rs.getString("useremail"), rs.getString("usserpassword"), rs.getString("ussernickname"));
+                u.setIdUser(rs.getString("userid"));
+                u.setUserType(rs.getString("usertype"));
+                u.setUserName(rs.getString("username"));
+                u.setUserLastName(rs.getString("userlastname"));
+                u.setUserImage(rs.getString("usserimage"));
+                u.setCodeCountry(rs.getString("ussercode"));
+                u.setUserPhone(rs.getString("userphone"));
+                u.setUserBalance(rs.getDouble("userbalance"));
+                u.setUserFeedback(rs.getInt("userfeedback"));
+                u.setUserActive(rs.getBoolean("useractive"));
+                u.setUserAddress(rs.getString("useraddress"));
+                getAllProductsOfUserNickname(rs.getString("ussernickname"));
+                pstmt.close();
+            }
             return u;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -253,7 +253,7 @@ public class WebStoreDB {
      * @param user Es el objeto del usuario.
      */
     public void updateUser(User user) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -268,7 +268,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -279,7 +279,7 @@ public class WebStoreDB {
      * @param userNickname Es el nickName del usuario el cual se quiere eliminar.
      */
     public void deleteUserByUserNickname(String userNickname) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             u = getUserByUserNickname(userNickname);
             deleteAllProductByIdOfUserNickname(u.getIdUser());
@@ -290,7 +290,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -306,27 +306,27 @@ public class WebStoreDB {
      * @return Retorna una lista de productos.
      */
     public List<Product> getAllProducts() {
-        List<Product> allProduct = new ArrayList<Product>();
-        Statement stmt = null;
+        List<Product> allProduct = new ArrayList<>();
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM product where productauction is null ;");
-            c.close();
-            while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
-                        rs.getDouble("productprice"), rs.getString("productImage"));
-                p.setProductId(rs.getString("productid"));
-                p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
-                if (getTransactionByProductId(p.getProductId()) == null) {
-                    allProduct.add(p);
+            try (ResultSet rs = stmt.executeQuery("SELECT * FROM product where productauction is null ;")) {
+                c.close();
+                while (rs.next()) {
+                    p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                            rs.getDouble("productprice"), rs.getString("productImage"));
+                    p.setProductId(rs.getString("productid"));
+                    p.setProductUser(getUserNicknameByUserId(rs.getString("productuser")));
+                    if (getTransactionByProductId(p.getProductId()) == null) {
+                        allProduct.add(p);
+                    }
                 }
+                stmt.close();
             }
-            stmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allProduct;
@@ -340,27 +340,27 @@ public class WebStoreDB {
      */
     public List<Product> getAllProductsOfUserNickname(String userNickname) {
         String SQL = "SELECT * FROM product WHERE productuser = ?";
-        List<Product> allProductUser = new ArrayList<Product>();
+        List<Product> allProductUser = new ArrayList<>();
         try {
             if (u == (null)) {
                 u = getUserByUserNickname(userNickname);
             }
             getConnection();
-            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, u.getIdUser());
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
-                        rs.getDouble("productprice"), rs.getString("productImage"));
-                p.setProductId(rs.getString("productid"));
-
-                allProductUser.add(p);
+            ResultSet rs;
+            try (PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE)) {
+                pstmt.setString(1, u.getIdUser());
+                rs = pstmt.executeQuery();
+                c.close();
+                while (rs.next()) {
+                    p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                            rs.getDouble("productprice"), rs.getString("productImage"));
+                    p.setProductId(rs.getString("productid"));
+                    
+                    allProductUser.add(p);
+                }   // Se Agregan todos los productos al usuario.
+                u.setProducts(allProductUser);
             }
-            // Se Agregan todos los productos al usuario.
-            u.setProducts(allProductUser);
-            pstmt.close();
             rs.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,28 +370,28 @@ public class WebStoreDB {
 
     public List<Product> getAllProductsOfUserNicknameWithoutAuction(String userNickname) {
         String SQL = "SELECT * FROM product WHERE productuser = ? and productauction is null";
-        List<Product> allProductUser = new ArrayList<Product>();
+        List<Product> allProductUser = new ArrayList<>();
         try {
             if (u == (null)) {
                 u = getUserByUserNickname(userNickname);
             }
             getConnection();
-            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, u.getIdUser());
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
-                        rs.getDouble("productprice"), rs.getString("productImage"));
-                p.setProductId(rs.getString("productid"));
-                if (getTransactionByProductId(p.getProductId()) == null) {
-                    allProductUser.add(p);
-                }
+            ResultSet rs;
+            try (PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE)) {
+                pstmt.setString(1, u.getIdUser());
+                rs = pstmt.executeQuery();
+                c.close();
+                while (rs.next()) {
+                    p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                            rs.getDouble("productprice"), rs.getString("productImage"));
+                    p.setProductId(rs.getString("productid"));
+                    if (getTransactionByProductId(p.getProductId()) == null) {
+                        allProductUser.add(p);
+                    }
+                }   // Se Agregan todos los productos al usuario.
+                u.setProducts(allProductUser);
             }
-            // Se Agregan todos los productos al usuario.
-            u.setProducts(allProductUser);
-            pstmt.close();
             rs.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -405,19 +405,20 @@ public class WebStoreDB {
         try {
 
             getConnection();
-            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                p = new Product(rs.getString("productname"), rs.getString("productdescription"),
-                        rs.getDouble("productprice"), rs.getString("productImage"));
-                p.setProductId(rs.getString("productid"));
-
-                product = p;
+            ResultSet rs;
+            try (PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE)) {
+                pstmt.setString(1, id);
+                rs = pstmt.executeQuery();
+                c.close();
+                while (rs.next()) {
+                    p = new Product(rs.getString("productname"), rs.getString("productdescription"),
+                            rs.getDouble("productprice"), rs.getString("productImage"));
+                    p.setProductId(rs.getString("productid"));
+                    
+                    product = p;
+                }
             }
-            pstmt.close();
             rs.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -432,7 +433,7 @@ public class WebStoreDB {
      * 
      */
     public void createNewProduct(Product pd) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -446,7 +447,7 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -458,7 +459,7 @@ public class WebStoreDB {
      * @param pd        Es el producto.
      */
     public void editProductById(String productId, Product pd) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -470,7 +471,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -482,7 +483,7 @@ public class WebStoreDB {
      * @param idUser Id del usuario.
      */
     public void deleteProductByIdOfUserNickname(String id, String idUser) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -492,7 +493,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -503,7 +504,7 @@ public class WebStoreDB {
      * @param idUser Es el id del usuario
      */
     private void deleteAllProductByIdOfUserNickname(String idUser) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -514,7 +515,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -530,28 +531,28 @@ public class WebStoreDB {
      * @return Retorna una lista de transacciones registradas en la base de datos.
      */
     public List<Transaction> getAllTransactions() {
-        List<Transaction> allTransactions = new ArrayList<Transaction>();
-        Statement stmt = null;
+        List<Transaction> allTransactions = new ArrayList<>();
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM transaction;");
-            c.close();
-            while (rs.next()) {
-                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-                t.setTransactionId(rs.getString("transactionid"));
-                t.setTransactionPrice(rs.getDouble("transactionprice"));
-                t.setTransactionDate(rs.getString("transactiondate"));
-                t.setTransactionActive(rs.getBoolean("transactionactive"));
-                t.setTransactionDateEnd(rs.getString("transactiondateend"));
-                t.setTransactionState(rs.getString("transactionstate"));
-                allTransactions.add(t);
+            try (ResultSet rs = stmt.executeQuery("SELECT * FROM transaction;")) {
+                c.close();
+                while (rs.next()) {
+                    t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                    t.setTransactionId(rs.getString("transactionid"));
+                    t.setTransactionPrice(rs.getDouble("transactionprice"));
+                    t.setTransactionDate(rs.getString("transactiondate"));
+                    t.setTransactionActive(rs.getBoolean("transactionactive"));
+                    t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                    t.setTransactionState(rs.getString("transactionstate"));
+                    allTransactions.add(t);
+                }
+                stmt.close();
             }
-            stmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allTransactions;
@@ -565,7 +566,7 @@ public class WebStoreDB {
      *         encuentra la transaccion con ese Id.
      */
     public Transaction getTransactionById(String transactionId) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         t = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -574,27 +575,27 @@ public class WebStoreDB {
             String sql = "Select * from transaction where transactionid = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, transactionId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if (rs.next()) {
-                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-                t.setTransactionId(rs.getString("transactionid"));
-                t.setTransactionPrice(rs.getDouble("transactionprice"));
-                t.setTransactionDate(rs.getString("transactiondate"));
-                t.setTransactionActive(rs.getBoolean("transactionactive"));
-                t.setTransactionDateEnd(rs.getString("transactiondateend"));
-                t.setTransactionState(rs.getString("transactionstate"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if (rs.next()) {
+                    t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                    t.setTransactionId(rs.getString("transactionid"));
+                    t.setTransactionPrice(rs.getDouble("transactionprice"));
+                    t.setTransactionDate(rs.getString("transactiondate"));
+                    t.setTransactionActive(rs.getBoolean("transactionactive"));
+                    t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                    t.setTransactionState(rs.getString("transactionstate"));
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return t;
     }
 
     public Transaction getTransactionByProductId(String productId) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         t = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -603,20 +604,20 @@ public class WebStoreDB {
             String sql = "Select * from transaction where product = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, productId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if (rs.next()) {
-                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-                t.setTransactionId(rs.getString("transactionid"));
-                t.setTransactionPrice(rs.getDouble("transactionprice"));
-                t.setTransactionDate(rs.getString("transactiondate"));
-                t.setTransactionActive(rs.getBoolean("transactionactive"));
-                t.setTransactionDateEnd(rs.getString("transactiondateend"));
-                t.setTransactionState(rs.getString("transactionstate"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if (rs.next()) {
+                    t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                    t.setTransactionId(rs.getString("transactionid"));
+                    t.setTransactionPrice(rs.getDouble("transactionprice"));
+                    t.setTransactionDate(rs.getString("transactiondate"));
+                    t.setTransactionActive(rs.getBoolean("transactionactive"));
+                    t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                    t.setTransactionState(rs.getString("transactionstate"));
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return t;
@@ -630,8 +631,8 @@ public class WebStoreDB {
      * @return lista de transacciones
      */
     public List<Transaction> getTransactionsOfUserById(String userId) {
-        List<Transaction> allTransactions = new ArrayList<Transaction>();
-        PreparedStatement pstmt = null;
+        List<Transaction> allTransactions = new ArrayList<>();
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -640,22 +641,22 @@ public class WebStoreDB {
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, userId);
             pstmt.setString(2, userId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
-                t.setTransactionId(rs.getString("transactionid"));
-                t.setTransactionPrice(rs.getDouble("transactionprice"));
-                t.setTransactionDate(rs.getString("transactiondate"));
-                t.setTransactionActive(rs.getBoolean("transactionactive"));
-                t.setTransactionDateEnd(rs.getString("transactiondateend"));
-                t.setTransactionState(rs.getString("transactionstate"));
-                allTransactions.add(t);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                while (rs.next()) {
+                    t = new Transaction(rs.getString("buyer"), rs.getString("seller"), rs.getString("product"));
+                    t.setTransactionId(rs.getString("transactionid"));
+                    t.setTransactionPrice(rs.getDouble("transactionprice"));
+                    t.setTransactionDate(rs.getString("transactiondate"));
+                    t.setTransactionActive(rs.getBoolean("transactionactive"));
+                    t.setTransactionDateEnd(rs.getString("transactiondateend"));
+                    t.setTransactionState(rs.getString("transactionstate"));
+                    allTransactions.add(t);
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
             return allTransactions;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -669,7 +670,7 @@ public class WebStoreDB {
      * @param tr Es la transaccion el cual se quiere agregar a la base de datos.
      */
     public void createNewtransaction(Transaction tr) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -684,13 +685,13 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void deleteTransactionById(String transactionId) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -700,7 +701,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -716,22 +717,21 @@ public class WebStoreDB {
      */
     public List<Message> getMessagesByTransactionId(String transactionId) {
         String SQL = "SELECT * FROM message WHERE messagetransaction = ?";
-        List<Message> allMessageTransaction = new ArrayList<Message>();
+        List<Message> allMessageTransaction = new ArrayList<>();
         try {
             getConnection();
-            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            pstmt.setString(1, transactionId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                m = new Message(rs.getString("messagetransaction"), rs.getString("messageuser"),
-                        rs.getString("messagedata"), rs.getString("messageuserimage"));
-                allMessageTransaction.add(m);
+            ResultSet rs;
+            try (PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE)) {
+                pstmt.setString(1, transactionId);
+                rs = pstmt.executeQuery();
+                c.close();
+                while (rs.next()) {
+                    m = new Message(rs.getString("messagetransaction"), rs.getString("messageuser"),
+                            rs.getString("messagedata"), rs.getString("messageuserimage"));
+                    allMessageTransaction.add(m);
+                }
             }
-            // Se Agregan todos los mensajes a la transaccion.
-            // t.setMessages(allMessageTransaction);
-            pstmt.close();
             rs.close();
         } catch (Exception ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -746,7 +746,7 @@ public class WebStoreDB {
      * 
      */
     public void createNewMessage(Message msg) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -759,7 +759,7 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -774,35 +774,35 @@ public class WebStoreDB {
      * @return Retorna una lista con todas las subastas que hay en la pagina.
      */
     public List<Auction> getAllAuctions() {
-        List<Auction> allAuctions = new ArrayList<Auction>();
-        Statement stmt = null;
+        List<Auction> allAuctions = new ArrayList<>();
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM auction;");
-            c.close();
-            while (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
-                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
-                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
-                        rs.getString("auctionstatus"), rs.getString("productname"));
-                a.setAuctionId(rs.getString("auctionid"));
-                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
-                allAuctions.add(a);
+            try (ResultSet rs = stmt.executeQuery("SELECT * FROM auction;")) {
+                c.close();
+                while (rs.next()) {
+                    a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                            rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                            rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                            rs.getString("auctionstatus"), rs.getString("productname"));
+                    a.setAuctionId(rs.getString("auctionid"));
+                    a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+                    allAuctions.add(a);
+                }
+                stmt.close();
             }
-            stmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allAuctions;
     }
 
     public List<Auction> getAuctionsByUsername(String username) {
-        List<Auction> allAuctionsByUsername = new ArrayList<Auction>();
-        PreparedStatement pstmt = null;
+        List<Auction> allAuctionsByUsername = new ArrayList<>();
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -810,20 +810,20 @@ public class WebStoreDB {
             String sql = "Select * from auction where seller = ? ";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
-                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
-                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
-                        rs.getString("auctionstatus"), rs.getString("productname"));
-                a.setAuctionId(rs.getString("auctionid"));
-                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
-                allAuctionsByUsername.add(a);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                while (rs.next()) {
+                    a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                            rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                            rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                            rs.getString("auctionstatus"), rs.getString("productname"));
+                    a.setAuctionId(rs.getString("auctionid"));
+                    a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+                    allAuctionsByUsername.add(a);
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allAuctionsByUsername;
@@ -836,7 +836,7 @@ public class WebStoreDB {
      * @return Retorna la subasta correspondiente al id.
      */
     public Auction getAuctionById(String auctionId) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         a = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -845,19 +845,19 @@ public class WebStoreDB {
             String sql = "Select * from auction where auctionid = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, auctionId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if (rs.next()) {
-                a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
-                        rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
-                        rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
-                        rs.getString("auctionstatus"), rs.getString("productname"));
-                a.setAuctionId(rs.getString("auctionid"));
-                a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if (rs.next()) {
+                    a = new Auction(rs.getDouble("auctioninitprice"), rs.getString("auctiondate"),
+                            rs.getString("auctiondatefinal"), rs.getInt("auctiontimetowait"), rs.getInt("auctiontype"),
+                            rs.getBoolean("auctionactive"), rs.getString("seller"), rs.getString("product"),
+                            rs.getString("auctionstatus"), rs.getString("productname"));
+                    a.setAuctionId(rs.getString("auctionid"));
+                    a.setBuyers(getAllBuyersInAuction(a.getAuctionId()));
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return a;
@@ -870,7 +870,7 @@ public class WebStoreDB {
      * @param au Es la subasta que se va a agregar a la base de datos.
      */
     public void createNewAuction(Auction au) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -886,7 +886,7 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -897,7 +897,7 @@ public class WebStoreDB {
      * @param auctionId Es el id de la subasta que se quiere eliminar.
      */
     public void deleteAuctionById(String auctionId) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -907,7 +907,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -918,7 +918,7 @@ public class WebStoreDB {
      * @param auctionId Es el id de la subasta.
      */
     public void deleteBuyersInAuction(String auctionId) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -928,13 +928,13 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void addUsersInAuction(String auctionId, String userId) {
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -945,14 +945,14 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private List<User> getAllBuyersInAuction(String auctionId) {
-        List<User> allUserInAuction = new ArrayList<User>();
-        PreparedStatement pstmt = null;
+        List<User> allUserInAuction = new ArrayList<>();
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -960,15 +960,15 @@ public class WebStoreDB {
             String sql = "Select * from buyers where auction = ?";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, auctionId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                u = getUserById(rs.getString("buyer"));
-                allUserInAuction.add(u);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                while (rs.next()) {
+                    u = getUserById(rs.getString("buyer"));
+                    allUserInAuction.add(u);
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allUserInAuction;
@@ -986,6 +986,7 @@ public class WebStoreDB {
      */
     public void createNewNotification(Notification noti) {
         Statement stmt = null;
+
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -999,7 +1000,7 @@ public class WebStoreDB {
             stmt.close();
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1010,8 +1011,8 @@ public class WebStoreDB {
      * @return  Retorna una lista con las notificaciones del usuario.
      */
     public List<Notification> getNotificationsByNickname(String nickname) {
-        ArrayList<Notification> allNotificationsByNickname= new ArrayList<Notification>();
-        PreparedStatement pstmt = null;
+        ArrayList<Notification> allNotificationsByNickname= new ArrayList<>();
+        PreparedStatement pstmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -1019,17 +1020,17 @@ public class WebStoreDB {
             String sql = "Select * from notification where notificationdestination = ? ";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, nickname);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            while (rs.next()) {
-                n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
-                        rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
-                n.setNotificationId(rs.getString("notificationid"));
-                allNotificationsByNickname.add(n);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                while (rs.next()) {
+                    n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
+                            rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
+                    n.setNotificationId(rs.getString("notificationid"));
+                    allNotificationsByNickname.add(n);
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allNotificationsByNickname;
@@ -1041,7 +1042,7 @@ public class WebStoreDB {
      * @return  Retorna la notificacion correspondiente al id.
      */
     public Notification getNotificationsById(String notificationId) {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         n = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -1050,16 +1051,16 @@ public class WebStoreDB {
             String sql = "Select * from notification where notificationid = ? ";
             pstmt = c.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             pstmt.setString(1, notificationId);
-            ResultSet rs = pstmt.executeQuery();
-            c.close();
-            if(rs.next()) {
-                n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
-                        rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
-                n.setNotificationId(rs.getString("notificationid"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                c.close();
+                if(rs.next()) {
+                    n = new Notification(rs.getString("notificationmessage"),rs.getString("norificationdate"), rs.getString("notificationdestination"),
+                            rs.getString("notificationsend"), rs.getString("notificationurl"), rs.getString("notificationfunction"), rs.getBoolean("notificationviewed"));
+                    n.setNotificationId(rs.getString("notificationid"));
+                }
+                pstmt.close();
             }
-            pstmt.close();
-            rs.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return n;
@@ -1071,7 +1072,7 @@ public class WebStoreDB {
      * @param notificationId    Es el id de la notificacion.
      */
     public void changeNotificationStatus(boolean viewed, String notificationId){
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -1081,7 +1082,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1091,7 +1092,7 @@ public class WebStoreDB {
      * @param notificationId    Es el id de la notificacion
      */
     public void deleteNotificationById(String notificationId){
-        Statement stmt = null;
+        Statement stmt;
         try {
             Class.forName("org.postgresql.Driver");
             getConnection();
@@ -1101,7 +1102,7 @@ public class WebStoreDB {
             stmt.executeUpdate(sql1);
             c.commit();
             c.close();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

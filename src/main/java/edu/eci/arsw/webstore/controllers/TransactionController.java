@@ -56,14 +56,13 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.GET, path = "transactions")
     public ResponseEntity<?> getAllTransactions() {
         try {
-            List<Transaction> transactions = new ArrayList<>();
             System.out.println("Consultando Transacciones...");
 
             String data = new Gson().toJson(tService.getAllTransactions());
 
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar las Transacciones", HttpStatus.NOT_FOUND);
         }
     }
@@ -100,7 +99,7 @@ public class TransactionController {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar la transaccion: " + id, HttpStatus.NOT_FOUND);
         }
     }
@@ -115,9 +114,9 @@ public class TransactionController {
 
             transactions = tService.getTransactionsOfUserById(userId);
             // System.out.println(transactions);
-            User buyer = null;
-            User seller = null;
-            Product product = null;
+            User buyer;
+            User seller;
+            Product product;
 
             Map<String,String> idsUsers= new HashMap<>();
             // Agregamos el suario actual
@@ -163,7 +162,7 @@ public class TransactionController {
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
 
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido retornar las transacciones del usuario: " + nickname,
                     HttpStatus.NOT_FOUND);
         }
@@ -217,7 +216,7 @@ public class TransactionController {
             return new ResponseEntity<>(tr.getTransactionId(), HttpStatus.CREATED);
 
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido registrar la transaction", HttpStatus.FORBIDDEN);
         }
     }
@@ -229,7 +228,7 @@ public class TransactionController {
             tService.deleteTransactionById(transactionid);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TransactionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No se ha podido eliminar la transaccion: " + transactionid,
                     HttpStatus.NOT_FOUND);
         }
