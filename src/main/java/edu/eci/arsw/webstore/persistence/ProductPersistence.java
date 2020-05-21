@@ -32,7 +32,7 @@ public interface ProductPersistence {
     /**
      * este metodo permite crear un producto de un usuario especifico
      * 
-     * @param pr
+     * @param pr    Es el producto a crear.
      */
     public void createNewProduct(Product pr);
 
@@ -47,15 +47,15 @@ public interface ProductPersistence {
     /**
      * Este metodo permite eliminar un producto de un usuario
      *
-     * @param id
-     * @param idUser
+     * @param id    Es el id de producto
+     * @param idUser    Es el id del usuario
      */
     public void deleteProductByIdOfUserNickname(String id, String idUser);
     
     /**
      * Este metodo permite modificar un producto del usuario.
-     * @param productId
-     * @param pd
+     * @param productId Es el id del producto
+     * @param pd    Es el producto a editar.
      */
     public void editProductById(String productId, Product pd);
 }

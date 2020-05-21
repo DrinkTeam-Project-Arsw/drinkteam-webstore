@@ -33,7 +33,7 @@ public interface ProductServices {
     /**
      * este metodo permite crear un producto de un usuario especifico
      * 
-     * @param pr
+     * @param pr Es el nuevo producto que se agregara.
      */
     public void createNewProduct(Product pr);
 
@@ -48,15 +48,15 @@ public interface ProductServices {
     /**
      * Este metodo permite eliminar un producto de un usuario
      *
-     * @param id
-     * @param idUser
+     * @param id    Es el id del producto que se va a eliminar
+     * @param idUser    Es el id del usuario dueño del producto.
      */
     public void deleteProductByIdOfUserNickname(String id, String idUser);
     
     /**
      * Este metodo permite modificar un producto del usuario.
-     * @param productId
-     * @param pd
+     * @param productId Es el id del producto   
+     * @param pd    Es el producto que se va a editar.
      */
     public void editProductById(String productId, Product pd);
     

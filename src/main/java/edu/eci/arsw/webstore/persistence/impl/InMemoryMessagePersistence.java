@@ -26,7 +26,6 @@ public class InMemoryMessagePersistence implements MessagePersistence{
     
     @Override
     public List<Message> getMessagesByTransactionId(String transactionId) {
-        System.err.println("EN persitence MK");
         newDb();
         return wsdb.getMessagesByTransactionId(transactionId);
     }

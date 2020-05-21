@@ -1,8 +1,6 @@
 package edu.eci.arsw.webstore.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;

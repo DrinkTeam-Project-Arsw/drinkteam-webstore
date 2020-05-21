@@ -47,7 +47,7 @@ public interface NotificationServices {
     /**
      * Este metodo permite eliminar una notificacion
      * 
-     * @param notificationId
+     * @param notificationId Es el id de la notificacion.
      */
     public void deleteNotificationById(String notificationId);
     

@@ -65,6 +65,8 @@ public interface TransactionPersistence {
      * Este metodo permite obtener la fecha y hora actual de Colombia
      *
      * @return datos de tiempo zona horaria, etc de Colombia
+     * @throws java.net.MalformedURLException
+     * @throws java.net.ProtocolException
      */
     public String getDateColombia() throws MalformedURLException, ProtocolException, IOException;
 }
