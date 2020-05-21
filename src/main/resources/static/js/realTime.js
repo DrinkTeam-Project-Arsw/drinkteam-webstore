@@ -3,10 +3,10 @@ var stompClient = null;
 function setConnected(connected) {
 
     if (connected) {
-        alertify.success("Conectado al servidor...");
+        alertify.success("Connecting to server...");
     }
     else {
-        alertify.error("Desconectado del servidor...");
+        alertify.error("Disconnecting from server...");
     }
 }
 
@@ -32,7 +32,7 @@ function disconnect() {
 }
 
 async function sendRequest(message, date, destination, send, url, funcion, viewed) {
-    alertify.success("Enviando solicitud...");
+    alertify.success("Sending request...");
 
     console.log("SI ENTRO ----------------------------------------------------------!");
     // enviar el usuario que lo envia, el usuario destino, de que funcion, fecha, url, vista: false,
@@ -51,7 +51,7 @@ async function sendRequest(message, date, destination, send, url, funcion, viewe
 
 function showMessage(noti) {
     console.log("Recibiendo Solicitud...");
-    alertify.success("Recibiendo Solicitud...");
+    alertify.success("Receiving request...");
 
     console.log(noti);
 
