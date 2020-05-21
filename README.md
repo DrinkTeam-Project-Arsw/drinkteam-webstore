@@ -9,6 +9,16 @@
 
 -  IncogniTrade, es un sitio web que ofrece compra y venta de todo tipo de productos y subastas de los mismos en tiempo real de manera incógnita y segura, los datos de los usuarios nunca se verán comprometidos ni compartidos con otros usuarios. Esta aplicación busca que los productos sean accesibles para todos, sin necesidad de intermediarios, mitigando los posibles fraudes. la idea de esta aplicación es que los usuarios sean compradores o vendedores de sus propios productos creando anuncios (de forma directa con otro usuario o subastando) donde ellos coloquen el precio pero siempre estando en un margen lógico. Habrá un sistema de SCRUM donde se hará un depósito de garantía mientras se cumple el trato o acuerdo de la venta o compra del producto, la cual los usuarios de la transacción deben confirmar y dar su visto bueno, esto asegurará que todos nuestros usuarios interactúen con la aplicación de manera confiable y sin riesgo alguno
 
+### Atributos no funcionales 
+
+#### Usabilidad
+
+La usabilidad es uno de los dos escenarios a los que apuntamos con nuestra aplicación, basados en las 10 heuristicas de usabilidad de Jakob Nielsen. Para poderlas cumplir mantenemos informado al usuario de los procesos dentro de la aplicación brindando solo la información que es relevante para ellos, ademas la aplicacion da libertad y facilidad de navegacion al ser sencilla e intuitiva. Para realizar los procesos el usuario no tiene necesidad de acceder a paginas diferentes para encontrar informacion adicional, esta informacion siempre la brinda la pagina. La aplicacion hace manejo de errores mediante excepciones, comunicando al usuario en caso de que se presente un error fatal.
+
+#### Rendimiento
+
+El rendimiento fue el segundo escenario al que apuntamos en nuestra aplicacion. Para poder dar un mejor rendimiento se utiliza la memoria cache, que nos permite no tener que consultar la información de la base de datos cada vez que se requiere, sino recurrir al cache para agilizar el proceso de obtención de informacion. La aplicacion primero revisa si la informacion que necesita puede sacarla de la memoria cache y en caso de que no la encuentre, recurre a la base de datos y actualiza el cache para futuras ocasiones.
+
 ### Instrucciones de uso
 
 Nuestra aplicacion es muy sencilla de utilizar, al dirigirse al link del despliegue de Heroku en la parte inferior de este repositorio, será dirigido a la siguiente pagina. 
