@@ -125,7 +125,7 @@ async function agregarVendedor(productos) {
                     '<img src="' + CLOUDINARY_URL_PREVIEW + vendedor['userImage'] + '" class="rounded-circle mr-5" width="35%"  alt="avatar">' +
                     '<div>' +
                     '<h4 class="card-title font-weight-bold mb-2">' + vendedor['userNickname'] + '</h4>' +
-                    '<div>' + images + '</div>'+
+                    '<div>' + images + '</div>' +
                     '</div>' +
                     '</div>' +
                     '<hr>' +
@@ -134,7 +134,7 @@ async function agregarVendedor(productos) {
                     '<div class="card-body">' +
                     '<p>' + producto["productDescription"] + '</p>' +
                     '<p class="price">$' + producto["productPrice"] + '</p>' +
-                    '<button class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + "," + vendedorNick + ')">buy</button>' +
+                    '<button id="comorarProducto" class="btn btn-success" onclick="comprar(' + productId + "," + vendedorId + "," + vendedorNick + ')">buy</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -206,7 +206,7 @@ async function updateOthersTablesBuyer() {
     await axios.get('/api/v1/auctions')
         .then(function (response) {
             for (var x in response.data) {
-                if (response.data[x]["sellerId"] != localStorage.Actual){
+                if (response.data[x]["sellerId"] != localStorage.Actual) {
                     if (response.data[x]["auctionActive"] == true) {
                         var filatr = document.createElement("tr");
                         var auctionID = "'" + String(response.data[x]["auctionId"]) + "'";
@@ -220,7 +220,7 @@ async function updateOthersTablesBuyer() {
                             '</div> </td>';
                         tbodySubasta.appendChild(filatr);
                     }
-                }    
+                }
             }
         })
 
@@ -242,7 +242,7 @@ async function updateOthersTablesBuyer() {
 
             for (var x in response.data) {
                 if (response.data[x]["buyer"] == localStorage.Actual) {
-                    if (response.data[x]["transactionActive"]==true) {
+                    if (response.data[x]["transactionActive"] == true) {
                         //alert(response.data[x]['productName']);
                         var filatr = document.createElement("tr");
 
@@ -283,6 +283,8 @@ async function updateOthersTablesBuyer() {
 
 async function comprar(productoId, vendedorId, sellerNickname) {
     //crear trasnaccion
+    document.getElementById("comorarProducto").disabled = true
+    document.getElementById("comorarProducto").textContent = "Loading..."
     await axios.post('/api/v1/transactions/', {
         "1": {
             buyer: localStorage.Actual,
@@ -292,7 +294,7 @@ async function comprar(productoId, vendedorId, sellerNickname) {
     })
         .then(function (response) {
             var text = "Successm, Registered Product";
-            var web = "transaction.html?txnId="+response.data;
+            var web = "transaction.html?txnId=" + response.data;
             alertify.success(text);
 
             //############# enviar datos a servidor
@@ -300,7 +302,7 @@ async function comprar(productoId, vendedorId, sellerNickname) {
             var date = '';
             var destination = sellerNickname;
             var send = localStorage.Actual;
-            var url = web;
+            var url = "/"+web;
             var funcion = 'newTransaction';
 
             sendRequest(message, date, destination, send, url, funcion, false)

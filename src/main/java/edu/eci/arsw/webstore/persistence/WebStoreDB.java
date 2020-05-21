@@ -690,6 +690,24 @@ public class WebStoreDB {
         }
     }
 
+    public void updateTransaction(Transaction tr){
+        Statement stmt;
+        try {
+            Class.forName("org.postgresql.Driver");
+            getConnection();
+            c.setAutoCommit(false);
+            String sql1 = "UPDATE transaction SET transactionstate = '" + tr.getTransactionState() + "', transactionactive = '"
+            + tr.getTransactionActive() +"' , transactionDateEnd = '"
+            + tr.getTransactionDateEnd() +"'  WHERE transactionid = '" + tr.getTransactionId() + "'";
+            stmt = c.createStatement();
+            stmt.executeUpdate(sql1);
+            c.commit();
+            c.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(WebStoreDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void deleteTransactionById(String transactionId) {
         Statement stmt;
         try {

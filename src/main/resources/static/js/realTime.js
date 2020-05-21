@@ -103,9 +103,25 @@ function showMessage(noti) {
             document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + noti.notificationSend + '</b> ' + noti.notificationMessage + '!</a>';
             var notificaiones = document.getElementById('alertNotify').innerHTML
             document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
-            alertify.success("<b>" + noti.notificationSend + "</b> wants to buy a product!");
+            alertify.success("<b>" + noti.notificationSend + "</b>  " + noti.notificationMessage + "!");
         }
-    } else if (noti.notificationFunction == "newMessage") {
+    } else if (noti.notificationFunction == "editTransaction") {
+        if (noti.notificationDestination == localStorage.Actual) {
+            console.log(pathname);
+            if (pathname == '/transaction.html') {
+                loadTransaction();
+            }
+            document.getElementById('notifications').innerHTML += '<a class="dropdown-item" href="#"><b>' + noti.notificationSend + '</b> ' + noti.notificationMessage + '!</a>';
+            var notificaiones = document.getElementById('alertNotify').innerHTML
+            document.getElementById('alertNotify').innerHTML = parseInt(notificaiones) + 1;
+            alertify.success("<b>" + noti.notificationSend + "</b>  " + noti.notificationMessage + "!");
+        } else if(noti.notificationSend == localStorage.Actual){
+            if (pathname == '/transaction.html') {
+                loadTransaction();
+            }
+        }
+    } 
+    else if (noti.notificationFunction == "newMessage") {
         if (noti.notificationDestination == localStorage.Actual) {
             if (pathname != '/transaction.html') {
                 alertify.success("<b>" + noti.notificationSend + "</b> " + noti.notificationMessage + "!");
