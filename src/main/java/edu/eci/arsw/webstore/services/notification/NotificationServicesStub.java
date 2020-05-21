@@ -44,6 +44,11 @@ public class NotificationServicesStub implements NotificationServices {
         nPersistence.deleteNotificationById(notificationId);
 
     }
+
+    @Override
+    public Notification getNotificationsById(String notificationId) {
+        return nPersistence.getNotificationsById(notificationId);
+    }
     
     
 

@@ -10,31 +10,43 @@ import edu.eci.arsw.webstore.persistence.NotificationPersistence;
 
 @Service
 public class InMemoryNotificationPersistence implements NotificationPersistence {
-
+    
+    //Atributos
     WebStoreDB wsdb;
+
+    private void newDb() {
+        wsdb = new WebStoreDB();
+    }
 
     @Override
     public List<Notification> getNotificationsByNickname(String nickname) {
-        // TODO Auto-generated method stub
-        return null;
+        newDb();
+        return wsdb.getNotificationsByNickname(nickname);
     }
 
     @Override
     public void createNewNotification(Notification notification) {
-        // TODO Auto-generated method stub
-
+        newDb();
+        wsdb.createNewNotification(notification);
     }
 
     @Override
     public void changeNotificationStatus(boolean viewed, String notificationId) {
-        // TODO Auto-generated method stub
-
+        newDb();
+        wsdb.changeNotificationStatus(viewed, notificationId);
     }
 
     @Override
     public void deleteNotificationById(String notificationId) {
-        // TODO Auto-generated method stub
+        newDb();
+        wsdb.deleteNotificationById(notificationId);
 
+    }
+
+    @Override
+    public Notification getNotificationsById(String notificationId) {
+        newDb();
+        return wsdb.getNotificationsById(notificationId);
     }
     
 }

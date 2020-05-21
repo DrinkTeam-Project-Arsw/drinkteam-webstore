@@ -13,6 +13,13 @@ public interface NotificationPersistence {
     public List<Notification> getNotificationsByNickname(String nickname);
     
     /**
+     * Metodo que permite consultar una notificacion por su id.
+     * @param notificationId    Es el id de la notificacion
+     * @return  Retorna una notificacion.
+     */
+    public Notification getNotificationsById(String notificationId);
+    
+    /**
      * este metodo permite crear una notificacion.
      * 
      * @param notification Es notificacion a guardar

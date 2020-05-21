@@ -23,7 +23,6 @@ public class MessageServicesStub implements MessageServices{
     
     @Override
     public List<Message> getMessagesByTransactionId(String transactionId) {
-        System.err.println("EN service MK");
         return mPersistence.getMessagesByTransactionId(transactionId);
     }
 
